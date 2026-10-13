@@ -28,6 +28,8 @@
         summary.addEventListener('click', event => {
           event.preventDefault();
           toggleAnswer(details, answer);
+          // A mouse click leaves no focus ring; Enter and Space from the keyboard keep it.
+          if (event.detail > 0) summary.blur();
         });
         return details;
       }));
@@ -52,47 +54,26 @@
     animation.onfinish = () => { if (!opening) details.open = false; };
   }
 
-  // The walkthrough is a real recording. Its steps say when each one starts and where its
-  // click lands, so the caption, the step bar and a ring on each click follow the video.
+  // The walkthrough is a real recording that loops. Its steps say when each one starts and
+  // where its click lands, so the step bubble and a ring on each click follow the video.
   function startTour(texts) {
     const root = document.getElementById('tour');
     if (!root) return;
     const video = root.querySelector('video');
     const mark = root.querySelector('.click-mark');
     const bubble = root.querySelector('.bubble');
-    const caption = root.querySelector('.tour-caption');
-    const count = root.querySelector('.tour-count');
-    const fillBar = root.querySelector('.fill');
-    const dots = root.querySelector('.dots');
-    const playButton = root.querySelector('[data-tour=play]');
-    const playLabel = root.querySelector('.play-label');
     let steps = [];
-    let duration = 1;
     let current = -1;
     let lastTime = 0;
-    let pausedByVisitor = reducedMotion;
-
-    function stepAt(time) {
-      let index = 0;
-      steps.forEach((step, position) => { if (step.start <= time + 0.05) index = position; });
-      return index;
-    }
 
     function showStep(index) {
       if (index === current) return;
       current = index;
-      const text = texts[steps[index].caption] || '';
-      caption.textContent = text;
       bubble.querySelector('.bubble-number').textContent = index + 1;
-      bubble.querySelector('.bubble-text').textContent = text;
+      bubble.querySelector('.bubble-text').textContent = texts[steps[index].caption] || '';
       bubble.classList.remove('show');
       void bubble.offsetWidth;
       bubble.classList.add('show');
-      count.textContent = `Step ${index + 1} of ${steps.length}`;
-      dots.querySelectorAll('button').forEach((dot, position) => {
-        dot.classList.toggle('done', position < index);
-        dot.classList.toggle('current', position === index);
-      });
     }
 
     function showClick(click) {
@@ -105,9 +86,10 @@
 
     function update() {
       const time = video.currentTime;
-      fillBar.style.transform = `scaleX(${Math.min(1, time / duration)})`;
-      showStep(stepAt(time));
-      // A ring on every click the video passed since the last update, but not after a jump.
+      let index = 0;
+      steps.forEach((step, position) => { if (step.start <= time + 0.05) index = position; });
+      showStep(index);
+      // A ring on each click passed since the last frame; none when the video starts over.
       if (time >= lastTime && time - lastTime < 0.5) {
         steps.forEach(step => {
           if (step.click && step.click.time > lastTime && step.click.time <= time) {
@@ -116,78 +98,30 @@
         });
       }
       lastTime = time;
+      if (!video.paused) requestAnimationFrame(update);
     }
 
-    function tick() {
-      update();
-      if (!video.paused) requestAnimationFrame(tick);
-    }
-
-    function setPlaying(playing) {
-      root.classList.toggle('paused', !playing);
-      playLabel.textContent = texts[playing ? 'tour.pause' : 'tour.play'] || '';
-      playButton.setAttribute('aria-pressed', String(!playing));
-    }
-
-    function seek(index) {
-      const step = steps[(index + steps.length) % steps.length];
-      video.currentTime = step.start;
-      lastTime = step.start;
-      current = -1;
-      update();
-    }
-
-    video.addEventListener('play', () => { setPlaying(true); requestAnimationFrame(tick); });
-    video.addEventListener('pause', () => setPlaying(false));
-    video.addEventListener('seeked', update);
-
-    playButton.addEventListener('click', () => {
-      if (video.paused) {
-        pausedByVisitor = false;
-        video.play();
-      } else {
-        pausedByVisitor = true;
-        video.pause();
-      }
-    });
-    root.querySelector('[data-tour=next]').addEventListener('click', () => seek(current + 1));
-    root.querySelector('[data-tour=previous]').addEventListener('click', () => seek(current - 1));
-    root.querySelector('[data-tour=restart]').addEventListener('click', () => {
-      seek(0);
-      pausedByVisitor = false;
-      video.play();
-    });
+    video.addEventListener('play', () => requestAnimationFrame(update));
 
     fetch('images/walkthrough/walkthrough.json', { cache: 'no-cache' })
       .then(response => response.json())
       .then(walkthrough => {
         steps = walkthrough.steps;
-        duration = walkthrough.duration;
-        dots.replaceChildren(...steps.map((step, index) => {
-          const dot = makeDot(index);
-          dot.style.left = `${(step.start / duration) * 100}%`;
-          dot.addEventListener('click', () => seek(index));
-          return dot;
-        }));
-        setPlaying(false);
         update();
-        // Play while the walkthrough is on screen, unless the visitor paused it.
+        // Visitors who turned motion down get the player's own controls instead.
+        if (reducedMotion) {
+          video.controls = true;
+          return;
+        }
+        // Play only while the walkthrough is on screen.
         new IntersectionObserver(entries => {
           entries.forEach(entry => {
-            if (entry.isIntersecting && !pausedByVisitor) video.play().catch(() => {});
-            if (!entry.isIntersecting && !video.paused) video.pause();
+            if (entry.isIntersecting) video.play().catch(() => {});
+            else video.pause();
           });
-        }, { threshold: 0.4 }).observe(video);
+        }, { threshold: 0.3 }).observe(video);
       })
       .catch(() => { root.hidden = true; });
-
-    function makeDot(index) {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'dot';
-      dot.setAttribute('aria-label', `Step ${index + 1}`);
-      return dot;
-    }
   }
 
   // no-cache asks the server whether the file changed, so new text shows at once.

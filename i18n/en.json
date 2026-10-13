@@ -82,10 +82,5 @@
   "tour.hdr": "The main display is already picked. Set HDR to On.",
   "tour.save": "Check the summary, then select Add rule.",
   "tour.done": "Done. HDR turns on when Space Arena opens, and the display goes back when it closes.",
-  "tour.play": "Play",
-  "tour.pause": "Pause",
-  "tour.previous": "Back",
-  "tour.nextStep": "Next",
-  "tour.restart": "Start over",
   "footer.text": "SceneShift is made by PHUICMT."
 }

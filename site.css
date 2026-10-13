@@ -185,116 +185,16 @@ h3 { font-size: 18px; margin: 0 0 8px; }
   background: var(--accent);
 }
 
-.tour-caption {
-  min-height: 1.65em;
-  margin: 16px 0 0;
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid var(--stroke);
-  background: var(--card);
-}
-
-.tour-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-
-.control {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 18px;
-  font: inherit;
-  font-weight: 600;
-  color: var(--text);
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s var(--ease),
-    box-shadow 0.2s;
-}
-
-.control svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform 0.25s var(--ease);
-}
-
-.control:hover { background: var(--card-hover); border-color: var(--stroke-hover); transform: translateY(-1px); }
-.control:active { transform: translateY(0) scale(0.96); }
-.control[data-tour=previous]:hover svg { transform: translateX(-3px); }
-.control[data-tour=next]:hover svg { transform: translateX(3px); }
-.control[data-tour=restart]:hover svg { transform: rotate(-200deg); }
-
-.control--main {
-  min-width: 128px;
-  color: var(--on-accent);
-  background: var(--accent);
-  border-color: transparent;
-}
-
-.control--main:hover {
-  background: var(--accent-hover);
-  border-color: transparent;
-  box-shadow: 0 6px 20px rgba(96, 205, 255, 0.35);
-}
-
-/* Pause and play icons sit on top of each other and swap with a turn and a fade. */
-.icon-swap { position: relative; width: 18px; height: 18px; }
-.icon-swap svg { position: absolute; inset: 0; transition: opacity 0.2s, transform 0.3s var(--ease); }
-.icon-play { fill: currentColor !important; stroke-width: 1.5 !important; opacity: 0; transform: rotate(-90deg) scale(0.6); }
-.tour.paused .icon-pause { opacity: 0; transform: rotate(90deg) scale(0.6); }
-.tour.paused .icon-play { opacity: 1; transform: none; }
-
-.progress { position: relative; display: flex; align-items: center; gap: 16px; margin-top: 18px; }
-.track { position: relative; flex: 1; height: 4px; border-radius: 2px; background: var(--stroke); }
-
-.fill {
-  position: absolute;
-  inset: 0;
-  border-radius: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.dots { position: absolute; left: 0; right: calc(16px + var(--count-width, 96px)); top: 50%; }
-
-.dot {
-  position: absolute;
-  top: 0;
-  width: 14px;
-  height: 14px;
-  margin: -7px 0 0 -7px;
-  padding: 0;
-  border-radius: 50%;
-  border: 2px solid var(--text-muted);
-  background: var(--page);
-  cursor: pointer;
-  transition: transform 0.2s var(--ease), background 0.2s, border-color 0.2s;
-}
-
-.dot:hover { transform: scale(1.35); border-color: var(--text); }
-.dot.done { border-color: var(--accent); background: var(--accent); }
-.dot.current { border-color: var(--accent); background: var(--text); transform: scale(1.3); }
-
-.tour-count {
-  flex: none;
-  width: var(--count-width, 96px);
-  text-align: right;
-  color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
-}
-
 @media (max-width: 560px) {
-  .bubble { display: none; }
-  .control { padding: 0 14px; }
-  .control span:not(.icon-swap) { display: none; }
-  .control--main { min-width: 0; }
+  .bubble {
+    bottom: 4%;
+    gap: 8px;
+    max-width: 92%;
+    padding: 6px 12px 6px 6px;
+    font-size: 13px;
+  }
+
+  .bubble-number { width: 22px; height: 22px; }
 }
 
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
