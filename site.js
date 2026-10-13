@@ -1,4 +1,4 @@
-// Fills the pages from i18n/en.json and plays the walkthrough video.
+// Fills the pages from i18n/en.json and plays the demo while it is on screen.
 (function () {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -54,83 +54,80 @@
     animation.onfinish = () => { if (!opening) details.open = false; };
   }
 
-  // The walkthrough is a real recording that loops. Its steps say when each one starts and
-  // where its click lands, so the step bubble and a ring on each click follow the video.
-  function startTour(texts) {
-    const root = document.getElementById('tour');
-    if (!root) return;
-    const video = root.querySelector('video');
-    const mark = root.querySelector('.click-mark');
-    const bubble = root.querySelector('.bubble');
-    let steps = [];
-    let current = -1;
-    let lastTime = 0;
-
-    function showStep(index) {
-      if (index === current) return;
-      current = index;
-      bubble.querySelector('.bubble-number').textContent = index + 1;
-      bubble.querySelector('.bubble-text').textContent = texts[steps[index].caption] || '';
-      bubble.classList.remove('show');
-      void bubble.offsetWidth;
-      bubble.classList.add('show');
-    }
-
-    function showClick(click) {
-      mark.style.left = `${click.x * 100}%`;
-      mark.style.top = `${click.y * 100}%`;
-      mark.classList.remove('pop');
-      void mark.offsetWidth;
-      mark.classList.add('pop');
-    }
-
-    function update() {
-      const time = video.currentTime;
-      let index = 0;
-      steps.forEach((step, position) => { if (step.start <= time + 0.05) index = position; });
-      showStep(index);
-      // A ring on each click passed since the last frame; none when the video starts over.
-      if (time >= lastTime && time - lastTime < 0.5) {
-        steps.forEach(step => {
-          if (step.click && step.click.time > lastTime && step.click.time <= time) {
-            showClick(step.click);
-          }
-        });
-      }
-      lastTime = time;
-      if (!video.paused) requestAnimationFrame(update);
-    }
-
-    video.addEventListener('play', () => requestAnimationFrame(update));
-
-    fetch('images/walkthrough/walkthrough.json', { cache: 'no-cache' })
-      .then(response => response.json())
-      .then(walkthrough => {
-        steps = walkthrough.steps;
-        update();
-        // Visitors who turned motion down get the player's own controls instead.
-        if (reducedMotion) {
-          video.controls = true;
-          return;
-        }
-        // Play only while the walkthrough is on screen.
-        new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) video.play().catch(() => {});
-            else video.pause();
-          });
-        }, { threshold: 0.3 }).observe(video);
-      })
-      .catch(() => { root.hidden = true; });
+  // The demo plays by itself inside its frame. It runs only while it is on screen, so it costs
+  // nothing elsewhere on the page. The frame loads lazily, so it hears the state again on load.
+  function watchDemo() {
+    const frame = document.querySelector('.demo-frame');
+    if (!frame) return;
+    let visible = false;
+    const tell = () => {
+      if (frame.contentWindow) frame.contentWindow.postMessage({ type: visible ? 'play' : 'pause' }, location.origin);
+    };
+    frame.addEventListener('load', tell);
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => { visible = entry.isIntersecting; });
+      tell();
+    }, { threshold: 0.3 }).observe(frame);
   }
+
+  // Sections rise in once as they come into view (the styles live in site.css).
+  function revealSections() {
+    if (reducedMotion) return;
+    document.documentElement.classList.add('motion');
+    const sections = document.querySelectorAll('main > section:not(.hero)');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('shown');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    sections.forEach(section => observer.observe(section));
+  }
+
+  // The menu underlines the section in the middle of the screen, and a section reached from
+  // the menu flashes its heading.
+  function followSections() {
+    const links = [...document.querySelectorAll('nav a[href^="#"]')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href')));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach((link, index) => {
+          link.classList.toggle('current', sections[index] === entry.target);
+        });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(section => { if (section) observer.observe(section); });
+
+    links.forEach((link, index) => {
+      link.addEventListener('click', () => {
+        const section = sections[index];
+        if (!section) return;
+        section.classList.add('shown');
+        section.classList.remove('arrived');
+        // Flash once the smooth scroll has stopped, or after a moment where scrollend is
+        // not supported.
+        let flashed = false;
+        const flash = () => {
+          if (flashed) return;
+          flashed = true;
+          section.classList.add('arrived');
+        };
+        addEventListener('scrollend', flash, { once: true });
+        setTimeout(flash, 900);
+      });
+    });
+  }
+
+  revealSections();
+  followSections();
+  watchDemo();
 
   // no-cache asks the server whether the file changed, so new text shows at once.
   fetch('i18n/en.json', { cache: 'no-cache' })
     .then(response => response.json())
-    .then(texts => {
-      fill(texts);
-      startTour(texts);
-    })
+    .then(fill)
     .catch(() => {
       // The text already in the page stays when the file cannot load.
     });

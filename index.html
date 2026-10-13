@@ -6,7 +6,7 @@
   <title>SceneShift</title>
   <meta name="description" content="SceneShift turns HDR on while your movie player or game is open, and puts the display back when it closes.">
   <link rel="icon" href="images/icon.png">
-  <link rel="stylesheet" href="site.css?v=4">
+  <link rel="stylesheet" href="site.css?v=6">
 </head>
 <body>
   <header class="top">
@@ -25,15 +25,12 @@
       <p class="badge" data-i18n="hero.store">Coming soon to the Microsoft Store</p>
     </section>
 
-    <!-- A screen recording of the app in demo mode. images/walkthrough/walkthrough.json says
-         when each step starts and where each click lands, for the step bubble and click marks. -->
+    <!-- The app's window drawn in HTML, so it stays sharp at any size. demo/ clicks through
+         adding an app by itself; site.js tells it to pause while it is off screen. -->
     <section id="tour" class="tour">
       <h2 data-i18n="tour.title">Adding an app, step by step</h2>
       <div class="stage">
-        <video class="video" src="images/walkthrough/walkthrough.mp4?v=4"
-               poster="images/walkthrough/poster.jpg?v=4" muted playsinline loop preload="auto"></video>
-        <span class="click-mark" aria-hidden="true"></span>
-        <p class="bubble" aria-live="polite"><span class="bubble-number"></span><span class="bubble-text"></span></p>
+        <iframe class="demo-frame" src="demo/?v=6" title="Demo of adding an app in SceneShift" loading="lazy"></iframe>
       </div>
     </section>
 
@@ -86,6 +83,6 @@
   </main>
 
   <footer><p data-i18n="footer.text">SceneShift is made by PHUICMT.</p></footer>
-  <script src="site.js?v=4"></script>
+  <script src="site.js?v=6"></script>
 </body>
 </html>

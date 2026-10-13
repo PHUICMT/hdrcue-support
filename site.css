@@ -17,6 +17,54 @@
 
 * { box-sizing: border-box; }
 
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  /* Moving between this page and the privacy policy: the header stays put while the page
+     under it fades out and the new one rises in. Browsers without this change pages as usual. */
+  @view-transition { navigation: auto; }
+  .top { view-transition-name: top; }
+  ::view-transition-old(root) { animation: page-out 0.18s ease-in both; }
+  ::view-transition-new(root) { animation: page-in 0.42s var(--ease) both; }
+
+  /* The opening of each page rises in, one piece after another. */
+  .hero > *, .document > * { animation: rise 0.6s var(--ease) both; }
+  .hero > :nth-child(2), .document > :nth-child(2) { animation-delay: 0.08s; }
+  .hero > :nth-child(3), .document > :nth-child(3) { animation-delay: 0.16s; }
+  .document > :nth-child(n+4) { animation-delay: 0.24s; }
+
+  /* Sections further down rise in as they scroll into view. site.js adds .motion to the page
+     first, so without it nothing is ever hidden. */
+  .motion main > section:not(.hero) {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+
+  .motion main > section.shown { opacity: 1; transform: none; }
+
+  /* A section reached from the menu flashes its heading, to show where the page landed. */
+  section.arrived h2 { animation: arrived 1.2s var(--ease); }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes page-out { to { opacity: 0; } }
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes arrived {
+  0% { color: var(--text); }
+  25% { color: var(--accent); transform: translateX(6px); }
+  100% { color: var(--text); transform: none; }
+}
+
 body {
   margin: 0;
   font-family: var(--font);
@@ -80,8 +128,8 @@ nav a::after {
   transition: transform 0.25s var(--ease);
 }
 
-nav a:hover { color: var(--text); }
-nav a:hover::after { transform: scaleX(1); }
+nav a:hover, nav a.current { color: var(--text); }
+nav a:hover::after, nav a.current::after { transform: scaleX(1); }
 
 main { max-width: 1040px; margin: 0 auto; padding: 0 16px 48px; }
 section { padding: 48px 0 8px; scroll-margin-top: 56px; }
@@ -112,7 +160,7 @@ section { padding: 48px 0 8px; scroll-margin-top: 56px; }
 h2 { font-size: 28px; margin: 0 0 20px; }
 h3 { font-size: 18px; margin: 0 0 8px; }
 
-/* The walkthrough player. */
+/* The demo of adding an app. Its frame keeps the window's own shape at any width. */
 .tour { padding-top: 32px; }
 .tour h2 { text-align: center; }
 
@@ -123,79 +171,10 @@ h3 { font-size: 18px; margin: 0 0 8px; }
   border: 1px solid var(--stroke);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   aspect-ratio: 1344 / 850;
-  background: #202020;
+  background: #1c2029;
 }
 
-.video { display: block; width: 100%; height: 100%; }
-
-.click-mark {
-  position: absolute;
-  width: 56px;
-  height: 56px;
-  margin: -28px 0 0 -28px;
-  border-radius: 50%;
-  border: 3px solid var(--accent);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.click-mark.pop { animation: click-ring 0.7s ease-out; }
-
-@keyframes click-ring {
-  from { transform: scale(0.3); opacity: 1; }
-  to { transform: scale(1.3); opacity: 0; }
-}
-
-.bubble {
-  position: absolute;
-  left: 50%;
-  bottom: 6%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: min(80%, 620px);
-  margin: 0;
-  padding: 10px 18px 10px 10px;
-  border-radius: 12px;
-  border: 1px solid rgba(96, 205, 255, 0.45);
-  background: rgba(8, 12, 30, 0.88);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.4;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.bubble.show { animation: bubble-in 0.45s var(--ease); }
-
-@keyframes bubble-in {
-  from { opacity: 0; transform: translate(-50%, 12px) scale(0.96); }
-  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
-}
-
-.bubble-number {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  color: var(--on-accent);
-  background: var(--accent);
-}
-
-@media (max-width: 560px) {
-  .bubble {
-    bottom: 4%;
-    gap: 8px;
-    max-width: 92%;
-    padding: 6px 12px 6px 6px;
-    font-size: 13px;
-  }
-
-  .bubble-number { width: 22px; height: 22px; }
-}
+.demo-frame { display: block; width: 100%; height: 100%; border: 0; }
 
 .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
 

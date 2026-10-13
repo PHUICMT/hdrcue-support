@@ -16,7 +16,8 @@ A static page served by GitHub Pages from this branch. The text lives in `i18n/e
 `site.js` fills the pages from it. Screenshots in `images/screens/` come from the app's own
 repository (`docs/store/screenshots`).
 
-`images/walkthrough/` holds a screen recording of adding an app in demo mode, made by the app
-repository's `tools/store/record-walkthrough.ps1`. Its `walkthrough.json` says when each step
-starts and where each click lands, and the page shows the step captions and click marks from
-it.
+`demo/` draws the app's window in HTML and CSS and clicks through adding an app by itself, so
+it stays sharp at any size. It is laid out at the window's own size (1344 x 850) and scaled to
+fit its frame. The step captions are the `tour.*` texts in `i18n/en.json`. It loops, pauses
+while it is off screen or the tab is hidden, and shows only the first step to visitors who
+ask for reduced motion.
