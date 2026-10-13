@@ -1,0 +1,80 @@
+{
+  "meta.title": "SceneShift",
+  "meta.description": "SceneShift turns HDR on while your movie player or game is open, and puts the display back when it closes.",
+  "nav.guide": "Guide",
+  "nav.help": "Help",
+  "nav.feedback": "Feedback",
+  "nav.privacy": "Privacy",
+  "hero.title": "HDR when you need it, back to normal when you're done",
+  "hero.text": "SceneShift switches HDR on or off for the apps you choose. Open your movie player and the display turns HDR on. Close it and the display goes back to how it was.",
+  "hero.store": "Coming soon to the Microsoft Store",
+  "steps.title": "How it works",
+  "steps.1.title": "Pick an app",
+  "steps.1.text": "Choose from the apps you have open, or browse for any .exe file.",
+  "steps.2.title": "Pick a display",
+  "steps.2.text": "Click the display on a map laid out like your desk, and choose HDR on or off.",
+  "steps.3.title": "Use the app as usual",
+  "steps.3.text": "SceneShift changes the display when the app opens and puts it back when it closes.",
+  "guide.title": "Guide",
+  "guide.rules.title": "The rules page",
+  "guide.rules.text": "Right now shows what each display is doing. Below it, each app you set up has a card with its status, a switch to turn the rule off, and a menu to edit or delete it.",
+  "guide.rules.status": [
+    "Active: the app is open and its rule is in effect.",
+    "Waiting: the rule is ready and the app is not open.",
+    "Off: you switched the rule off. It stays saved.",
+    "Paused: every rule is paused from the tray or the window.",
+    "Display not connected: the rule starts working again once that display is back."
+  ],
+  "guide.add.title": "Adding an app",
+  "guide.add.text": "Select Add app, pick the app, then the display and what HDR should do. Each app has one rule, so picking an app that already has one opens that rule instead.",
+  "guide.tray.title": "The tray icon",
+  "guide.tray.text": "Click the icon to see each display, switch HDR by hand, pause every rule, or open SceneShift. Right-click it for a short menu with Restore all displays now and Exit.",
+  "guide.restore.title": "Putting displays back",
+  "guide.restore.text": "SceneShift remembers how each display was before it changed it. When the app closes, the display goes back to that, so HDR you turned on yourself stays on. If the PC restarts or SceneShift closes unexpectedly, the displays are put back the next time it starts.",
+  "guide.settings.title": "Settings",
+  "guide.settings.text": "Start with Windows, animations, accent color and language. You can also restore every display from here.",
+  "help.title": "Help",
+  "help.items": [
+    {
+      "question": "The HDR choice is greyed out",
+      "answer": "Windows reports that this display doesn't support HDR. Check Settings > System > Display > HDR in Windows. If HDR can't be turned on there, SceneShift can't turn it on either."
+    },
+    {
+      "question": "My app isn't in the list",
+      "answer": "The first tab shows apps with a window open. Open the app first, look in the All apps tab, or use Browse for .exe."
+    },
+    {
+      "question": "A display stayed in HDR or SDR",
+      "answer": "Open SceneShift and choose Restore all displays now in Settings, or from the tray menu."
+    },
+    {
+      "question": "HDR keeps switching on and off",
+      "answer": "Another program may be switching HDR for the same app. Close it, or turn off its rule for that app."
+    },
+    {
+      "question": "Uninstalling",
+      "answer": "Uninstall SceneShift from Start or Settings > Apps. Its settings are removed with it."
+    }
+  ],
+  "feedback.title": "Feedback",
+  "feedback.text": "Found a problem or have an idea? Open an issue on GitHub. English or Thai are both fine.",
+  "feedback.bug": "Report a problem",
+  "feedback.idea": "Suggest an idea",
+  "privacy.title": "Privacy policy",
+  "privacy.updated": "Last updated: 13 October 2026",
+  "privacy.intro": "SceneShift works entirely on your PC.",
+  "privacy.reads.title": "What SceneShift reads",
+  "privacy.reads": [
+    "Running apps: which programs are running and where their executable files are, to know when an app with a rule opens or closes. It does not read what those apps show or contain.",
+    "Displays: each display's name, size, refresh rate and HDR state, to show them and to switch HDR.",
+    "Installed apps: the apps in your Start menu, listed when you add a rule."
+  ],
+  "privacy.stores.title": "What SceneShift stores",
+  "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, and a small log of errors, in SceneShift's own folder on your PC. Uninstalling the app removes them.",
+  "privacy.sends.title": "What SceneShift sends",
+  "privacy.sends": "Nothing. SceneShift does not connect to the internet, has no telemetry, and shares no data with anyone.",
+  "privacy.contact.title": "Contact",
+  "privacy.contact": "For questions about this policy, open an issue on GitHub.",
+  "footer.text": "SceneShift is made by PHUICMT.",
+  "language.switch": "ไทย"
+}

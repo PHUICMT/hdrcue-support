@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SceneShift</title>
+  <meta name="description" content="SceneShift turns HDR on while your movie player or game is open, and puts the display back when it closes.">
+  <link rel="icon" href="images/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="./"><img src="images/icon.png" alt="" width="28" height="28">SceneShift</a>
+    <nav>
+      <a href="#guide" data-i18n="nav.guide">Guide</a>
+      <a href="#help" data-i18n="nav.help">Help</a>
+      <a href="#feedback" data-i18n="nav.feedback">Feedback</a>
+      <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
+      <button class="language" type="button" data-i18n="language.switch">Thai</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 data-i18n="hero.title">HDR when you need it, back to normal when you're done</h1>
+      <p data-i18n="hero.text"></p>
+      <p class="badge" data-i18n="hero.store">Coming soon to the Microsoft Store</p>
+      <img class="shot" data-shot="01-rules.png" alt="">
+    </section>
+
+    <section>
+      <h2 data-i18n="steps.title">How it works</h2>
+      <div class="steps">
+        <article><span class="number">1</span><h3 data-i18n="steps.1.title"></h3><p data-i18n="steps.1.text"></p></article>
+        <article><span class="number">2</span><h3 data-i18n="steps.2.title"></h3><p data-i18n="steps.2.text"></p></article>
+        <article><span class="number">3</span><h3 data-i18n="steps.3.title"></h3><p data-i18n="steps.3.text"></p></article>
+      </div>
+    </section>
+
+    <section id="guide">
+      <h2 data-i18n="guide.title">Guide</h2>
+      <div class="guide">
+        <article>
+          <h3 data-i18n="guide.rules.title"></h3>
+          <p data-i18n="guide.rules.text"></p>
+          <ul data-i18n-list="guide.rules.status"></ul>
+        </article>
+        <article>
+          <h3 data-i18n="guide.add.title"></h3>
+          <p data-i18n="guide.add.text"></p>
+          <img class="shot small" data-shot="02-choose-app.png" alt="">
+          <img class="shot small" data-shot="03-display.png" alt="">
+        </article>
+        <article><h3 data-i18n="guide.tray.title"></h3><p data-i18n="guide.tray.text"></p></article>
+        <article><h3 data-i18n="guide.restore.title"></h3><p data-i18n="guide.restore.text"></p></article>
+        <article>
+          <h3 data-i18n="guide.settings.title"></h3>
+          <p data-i18n="guide.settings.text"></p>
+          <img class="shot small" data-shot="05-settings.png" alt="">
+        </article>
+      </div>
+    </section>
+
+    <section id="help">
+      <h2 data-i18n="help.title">Help</h2>
+      <div class="questions" data-i18n-questions="help.items"></div>
+    </section>
+
+    <section id="feedback" class="feedback">
+      <h2 data-i18n="feedback.title">Feedback</h2>
+      <p data-i18n="feedback.text"></p>
+      <div class="buttons">
+        <a class="button primary" href="https://github.com/PHUICMT/sceneshift-support/issues/new?template=problem.yml" data-i18n="feedback.bug">Report a problem</a>
+        <a class="button" href="https://github.com/PHUICMT/sceneshift-support/issues/new?template=idea.yml" data-i18n="feedback.idea">Suggest an idea</a>
+      </div>
+    </section>
+  </main>
+
+  <footer><p data-i18n="footer.text">SceneShift is made by PHUICMT.</p></footer>
+  <script src="site.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+name: Report a problem
+description: Something in SceneShift doesn't work as it should.
+labels: ["problem"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time. English or Thai are both fine.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: displays
+    attributes:
+      label: Your displays
+      description: How many displays, which one should switch HDR, and whether HDR can be turned on in Windows Settings > System > Display.
+  - type: input
+    id: app
+    attributes:
+      label: The app the rule is for
+      description: For example a video player or a game.
+  - type: input
+    id: versions
+    attributes:
+      label: SceneShift and Windows versions
+      description: SceneShift's version is in Settings > About. Windows' version is in Settings > System > About.
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Optional. In SceneShift, Settings > About > Open data folder, then attach log.txt. It holds only error messages, no personal data.
