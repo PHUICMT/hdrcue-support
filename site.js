@@ -88,8 +88,13 @@
   // The menu underlines the section in the middle of the screen, and a section reached from
   // the menu flashes its heading.
   function followSections() {
-    const links = [...document.querySelectorAll('nav a[href^="#"]')];
+    const links = [...document.querySelectorAll('.top nav a[href^="#"]')];
     const sections = links.map(link => document.querySelector(link.getAttribute('href')));
+    // Links in the footer lead to the same sections and flash them too.
+    document.querySelectorAll('.bottom-links a[href^="#"]').forEach(link => {
+      const index = links.findIndex(other => other.hash === link.hash);
+      if (index >= 0) link.addEventListener('click', () => links[index].click());
+    });
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;

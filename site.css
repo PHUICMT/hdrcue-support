@@ -278,12 +278,49 @@ details.opening summary::after { transform: rotate(225deg); }
 .document h2 { font-size: 20px; margin: 32px 0 8px; }
 .muted { color: var(--text-muted); }
 
-footer {
-  padding: 24px 16px 40px;
-  text-align: center;
+.bottom {
+  margin-top: 32px;
+  padding: 32px max(16px, calc((100% - 1040px) / 2)) 28px;
   color: var(--text-muted);
   border-top: 1px solid var(--stroke);
+  background: rgba(8, 10, 28, 0.35);
 }
+
+.bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px 40px;
+}
+
+.bottom-brand p { margin: 6px 0 0; font-size: 14px; }
+.bottom-links { gap: 8px 24px; font-size: 15px; }
+
+.copyright {
+  margin: 28px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--stroke);
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  .bottom-row { flex-direction: column; }
+}
+
+/* A slim scrollbar in the page's own colors: the standard properties, then the WebKit ones
+   for Safari and older Chromium. */
+html { scrollbar-width: thin; scrollbar-color: rgba(96, 205, 255, 0.45) var(--page); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--page); }
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--page);
+  border-radius: 999px;
+  background: rgba(96, 205, 255, 0.4);
+}
+
+::-webkit-scrollbar-thumb:hover { background: rgba(96, 205, 255, 0.7); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
