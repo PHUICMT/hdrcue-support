@@ -12,6 +12,11 @@ here.
 
 ## The website
 
-A static page served by GitHub Pages from this branch. The text for each language lives in
-`i18n/en.json` and `i18n/th.json`, and `site.js` fills the pages from them. Screenshots in
-`images/<language>/` come from the app's own repository (`docs/store/screenshots`).
+A static page served by GitHub Pages from this branch. The text lives in `i18n/en.json`, and
+`site.js` fills the pages from it. Screenshots in `images/screens/` come from the app's own
+repository (`docs/store/screenshots`).
+
+`images/walkthrough/` holds a screen recording of adding an app in demo mode, made by the app
+repository's `tools/store/record-walkthrough.ps1`. Its `walkthrough.json` says when each step
+starts and where each click lands, and the page shows the step captions and click marks from
+it.

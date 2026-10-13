@@ -84,9 +84,8 @@
   "tour.done": "Done. HDR turns on when Space Arena opens, and the display goes back when it closes.",
   "tour.play": "Play",
   "tour.pause": "Pause",
-  "tour.previous": "Previous step",
-  "tour.nextStep": "Next step",
-  "tour.step": "{n} / {count}",
-  "footer.text": "SceneShift is made by PHUICMT.",
-  "language.switch": "ไทย"
+  "tour.previous": "Back",
+  "tour.nextStep": "Next",
+  "tour.restart": "Start over",
+  "footer.text": "SceneShift is made by PHUICMT."
 }

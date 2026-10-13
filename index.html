@@ -6,9 +6,6 @@
   <title>SceneShift</title>
   <meta name="description" content="SceneShift turns HDR on while your movie player or game is open, and puts the display back when it closes.">
   <link rel="icon" href="images/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
@@ -18,9 +15,7 @@
       <a href="#guide" data-i18n="nav.guide">Guide</a>
       <a href="#help" data-i18n="nav.help">Help</a>
       <a href="#feedback" data-i18n="nav.feedback">Feedback</a>
-      <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-      <button class="language" type="button" data-i18n="language.switch">Thai</button>
-    </nav>
+      <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>    </nav>
   </header>
 
   <main>
@@ -30,25 +25,41 @@
       <p class="badge" data-i18n="hero.store">Coming soon to the Microsoft Store</p>
     </section>
 
-    <!-- A recorded walkthrough: each frame is a capture, and the pointer moves to where
-         the next click landed (images/<language>/walkthrough/walkthrough.json). -->
+    <!-- A screen recording of the app in demo mode. images/walkthrough/walkthrough.json says
+         when each step starts and where each click lands, for the captions and click marks. -->
     <section id="tour" class="tour">
-      <h2 data-i18n="tour.title">See it in action</h2>
+      <h2 data-i18n="tour.title">Adding an app, step by step</h2>
       <div class="stage">
-        <img class="frame" alt="">
-        <div class="pointer" aria-hidden="true">
-          <span class="ripple"></span>
-          <svg viewBox="0 0 24 24" width="28" height="28">
-            <path d="M4 2 L4 19 L8.5 14.8 L11.4 21.5 L14.3 20.2 L11.4 13.6 L17.5 13.6 Z"
-                  fill="#ffffff" stroke="#101010" stroke-width="1.4" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <video class="video" src="images/walkthrough/walkthrough.mp4"
+               poster="images/walkthrough/poster.jpg" muted playsinline loop preload="auto"></video>
+        <span class="click-mark" aria-hidden="true"></span>
+        <p class="bubble" aria-hidden="true"><span class="bubble-number"></span><span class="bubble-text"></span></p>
       </div>
+      <p class="tour-caption" aria-live="polite"></p>
       <div class="tour-bar">
-        <button type="button" class="tour-button" data-tour="previous" data-i18n-label="tour.previous">&#8249;</button>
-        <button type="button" class="tour-button" data-tour="play" data-i18n-label="tour.pause">&#10074;&#10074;</button>
-        <button type="button" class="tour-button" data-tour="next" data-i18n-label="tour.nextStep">&#8250;</button>
-        <p class="tour-caption" aria-live="polite"></p>
+        <button type="button" class="control" data-tour="previous">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
+          <span data-i18n="tour.previous">Back</span>
+        </button>
+        <button type="button" class="control control--main" data-tour="play">
+          <span class="icon-swap" aria-hidden="true">
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M7 4.5v15L19.5 12z"/></svg>
+          </span>
+          <span class="play-label" data-i18n="tour.pause">Pause</span>
+        </button>
+        <button type="button" class="control" data-tour="next">
+          <span data-i18n="tour.nextStep">Next</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+        <button type="button" class="control" data-tour="restart">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></svg>
+          <span data-i18n="tour.restart">Start over</span>
+        </button>
+      </div>
+      <div class="progress">
+        <div class="track"><span class="fill"></span></div>
+        <div class="dots"></div>
         <span class="tour-count"></span>
       </div>
     </section>
