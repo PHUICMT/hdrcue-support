@@ -250,7 +250,20 @@ details.opening summary::after { transform: rotate(180deg); }
 .answer { overflow: hidden; }
 .answer > p { padding-top: 8px; }
 
-.feedback p { color: var(--text-muted); }
+.feedback p, .sponsor p { color: var(--text-muted); }
+
+/* The GitHub Sponsors button, with the pink heart GitHub uses; the heart beats on hover. */
+.sponsor-button { display: inline-flex; align-items: center; gap: 8px; }
+.heart { width: 16px; height: 16px; fill: #db61a2; transition: transform 0.2s var(--ease); }
+.sponsor-button:hover { border-color: rgba(219, 97, 162, 0.6); }
+.sponsor-button:hover .heart { animation: heartbeat 0.9s ease-in-out infinite; }
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.18); }
+}
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 
 .button {
