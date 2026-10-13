@@ -28,7 +28,29 @@
       <h1 data-i18n="hero.title">HDR when you need it, back to normal when you're done</h1>
       <p data-i18n="hero.text"></p>
       <p class="badge" data-i18n="hero.store">Coming soon to the Microsoft Store</p>
-      <img class="shot" data-shot="01-rules.png" alt="">
+    </section>
+
+    <!-- A recorded walkthrough: each frame is a capture, and the pointer moves to where
+         the next click landed (images/<language>/walkthrough/walkthrough.json). -->
+    <section id="tour" class="tour">
+      <h2 data-i18n="tour.title">See it in action</h2>
+      <div class="stage">
+        <img class="frame" alt="">
+        <div class="pointer" aria-hidden="true">
+          <span class="ripple"></span>
+          <svg viewBox="0 0 24 24" width="28" height="28">
+            <path d="M4 2 L4 19 L8.5 14.8 L11.4 21.5 L14.3 20.2 L11.4 13.6 L17.5 13.6 Z"
+                  fill="#ffffff" stroke="#101010" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="tour-bar">
+        <button type="button" class="tour-button" data-tour="previous" data-i18n-label="tour.previous">&#8249;</button>
+        <button type="button" class="tour-button" data-tour="play" data-i18n-label="tour.pause">&#10074;&#10074;</button>
+        <button type="button" class="tour-button" data-tour="next" data-i18n-label="tour.nextStep">&#8250;</button>
+        <p class="tour-caption" aria-live="polite"></p>
+        <span class="tour-count"></span>
+      </div>
     </section>
 
     <section>

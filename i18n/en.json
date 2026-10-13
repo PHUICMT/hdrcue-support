@@ -75,6 +75,18 @@
   "privacy.sends": "Nothing. SceneShift does not connect to the internet, has no telemetry, and shares no data with anyone.",
   "privacy.contact.title": "Contact",
   "privacy.contact": "For questions about this policy, open an issue on GitHub.",
+  "tour.title": "Adding an app, step by step",
+  "tour.add": "Select Add app.",
+  "tour.pick": "Open now lists the apps that are running. Pick Space Arena.",
+  "tour.next": "Select Next.",
+  "tour.hdr": "The main display is already picked. Set HDR to On.",
+  "tour.save": "Check the summary, then select Add rule.",
+  "tour.done": "Done. HDR turns on when Space Arena opens, and the display goes back when it closes.",
+  "tour.play": "Play",
+  "tour.pause": "Pause",
+  "tour.previous": "Previous step",
+  "tour.nextStep": "Next step",
+  "tour.step": "{n} / {count}",
   "footer.text": "SceneShift is made by PHUICMT.",
   "language.switch": "ไทย"
 }

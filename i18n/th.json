@@ -75,6 +75,18 @@
   "privacy.sends": "ไม่มี SceneShift ไม่ต่ออินเทอร์เน็ต ไม่มี telemetry และไม่ส่งข้อมูลให้ใคร",
   "privacy.contact.title": "ติดต่อ",
   "privacy.contact": "มีคำถามเรื่องนโยบายนี้ เปิด issue ใน GitHub ได้เลย",
+  "tour.title": "เพิ่มแอปทีละขั้น",
+  "tour.add": "กดเพิ่มแอป",
+  "tour.pick": "แท็บเปิดอยู่ตอนนี้มีแอปที่รันอยู่ เลือก Space Arena",
+  "tour.next": "กดถัดไป",
+  "tour.hdr": "จอหลักเลือกไว้ให้แล้ว ตั้ง HDR เป็นเปิด",
+  "tour.save": "ดูสรุปอีกที แล้วกดเพิ่มกฎ",
+  "tour.done": "เสร็จแล้ว เปิด Space Arena เมื่อไหร่ HDR ก็เปิด ปิดแอปแล้วจอกลับเป็นแบบเดิม",
+  "tour.play": "เล่น",
+  "tour.pause": "หยุด",
+  "tour.previous": "ขั้นก่อนหน้า",
+  "tour.nextStep": "ขั้นถัดไป",
+  "tour.step": "{n} / {count}",
   "footer.text": "SceneShift ทำโดย PHUICMT",
   "language.switch": "English"
 }
