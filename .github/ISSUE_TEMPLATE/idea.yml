@@ -1,5 +1,5 @@
 name: Suggest an idea
-description: Something SceneShift could do, or do better.
+description: Something HDRcue could do, or do better.
 labels: ["idea"]
 body:
   - type: markdown
@@ -9,7 +9,7 @@ body:
     id: idea
     attributes:
       label: The idea
-      description: What would you like SceneShift to do?
+      description: What would you like HDRcue to do?
     validations:
       required: true
   - type: textarea

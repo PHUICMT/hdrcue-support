@@ -1,5 +1,5 @@
 name: Report a problem
-description: Something in SceneShift doesn't work as it should.
+description: Something in HDRcue doesn't work as it should.
 labels: ["problem"]
 body:
   - type: markdown
@@ -25,10 +25,10 @@ body:
   - type: input
     id: versions
     attributes:
-      label: SceneShift and Windows versions
-      description: SceneShift's version is in Settings > About. Windows' version is in Settings > System > About.
+      label: HDRcue and Windows versions
+      description: HDRcue's version is in Settings > About. Windows' version is in Settings > System > About.
   - type: textarea
     id: log
     attributes:
       label: Log
-      description: Optional. In SceneShift, Settings > About > Open data folder, then attach log.txt. It holds only error messages, no personal data.
+      description: Optional. In HDRcue, Settings > About > Open data folder, then attach log.txt. It holds only error messages, no personal data.

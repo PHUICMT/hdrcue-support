@@ -1,10 +1,10 @@
-// The SceneShift window for the demo: its state, its markup and a small DOM patcher. The patcher
+// The HDRcue window for the demo: its state, its markup and a small DOM patcher. The patcher
 // keeps the nodes that stay, so CSS transitions run when a class changes, and inserts new nodes,
 // so their entrance animations run, the same way the app animates between states.
 const DemoView = (function () {
   const text = {
-    title: 'SceneShift',
-    addTitle: 'SceneShift · Add app',
+    title: 'HDRcue',
+    addTitle: 'HDRcue · Add app',
     rules: 'Rules',
     settings: 'Settings',
     pause: 'Pause',
