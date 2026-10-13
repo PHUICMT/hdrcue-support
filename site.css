@@ -361,22 +361,15 @@ summary::after {
   transition: transform 0.3s var(--ease);
 }
 
-details[open] summary::after { transform: rotate(225deg); }
+summary { transition: color 0.2s; }
+summary:hover { color: var(--accent); }
+summary:hover::after { border-color: var(--accent); }
+summary:active { transform: scale(0.99); }
+details.opening summary::after { transform: rotate(225deg); }
 
-/* The answer slides open: its row grows from 0fr to 1fr. */
-.answer {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s var(--ease);
-}
-
-.answer > p { overflow: hidden; }
-details[open] .answer { grid-template-rows: 1fr; padding-top: 8px; animation: answer-in 0.3s var(--ease); }
-
-@keyframes answer-in {
-  from { grid-template-rows: 0fr; opacity: 0; }
-  to { grid-template-rows: 1fr; opacity: 1; }
-}
+/* site.js slides the answer open and closed. */
+.answer { overflow: hidden; }
+.answer > p { padding-top: 8px; }
 
 .feedback p { color: var(--text-muted); }
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }

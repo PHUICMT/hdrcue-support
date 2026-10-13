@@ -25,12 +25,31 @@
         text.textContent = item.answer;
         answer.append(text);
         details.append(summary, answer);
+        summary.addEventListener('click', event => {
+          event.preventDefault();
+          toggleAnswer(details, answer);
+        });
         return details;
       }));
     });
     document.querySelectorAll('[data-shot]').forEach(image => {
       image.src = `images/screens/${image.dataset.shot}`;
     });
+  }
+
+  // A question opens and closes by sliding its answer, both ways. The browser would show or
+  // hide the answer at once, so the open attribute is set before opening and after closing.
+  function toggleAnswer(details, answer) {
+    const opening = !details.open;
+    if (opening) details.open = true;
+    details.classList.toggle('opening', opening);
+    const full = `${answer.scrollHeight}px`;
+    answer.getAnimations().forEach(animation => animation.cancel());
+    const animation = answer.animate(
+      [{ height: opening ? '0px' : full, opacity: opening ? 0 : 1 },
+        { height: opening ? full : '0px', opacity: opening ? 1 : 0 }],
+      { duration: reducedMotion ? 0 : 280, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' });
+    animation.onfinish = () => { if (!opening) details.open = false; };
   }
 
   // The walkthrough is a real recording. Its steps say when each one starts and where its
@@ -139,7 +158,7 @@
       video.play();
     });
 
-    fetch('images/walkthrough/walkthrough.json')
+    fetch('images/walkthrough/walkthrough.json', { cache: 'no-cache' })
       .then(response => response.json())
       .then(walkthrough => {
         steps = walkthrough.steps;
@@ -171,7 +190,8 @@
     }
   }
 
-  fetch('i18n/en.json')
+  // no-cache asks the server whether the file changed, so new text shows at once.
+  fetch('i18n/en.json', { cache: 'no-cache' })
     .then(response => response.json())
     .then(texts => {
       fill(texts);
