@@ -66,18 +66,20 @@
   "sponsor.kofi": "Buy me a coffee on Ko-fi",
   "footer.sponsor": "Sponsor",
   "privacy.title": "Privacy policy",
-  "privacy.updated": "Last updated: 13 October 2026",
+  "privacy.updated": "Last updated: 14 October 2026",
   "privacy.intro": "HDRcue works entirely on your PC.",
   "privacy.reads.title": "What HDRcue reads",
   "privacy.reads": [
     "Running apps: which programs are running and where their executable files are, to know when an app with a rule opens or closes. It does not read what those apps show or contain.",
     "Displays: each display's name, size, refresh rate and HDR state, to show them and to switch HDR.",
-    "Installed apps: the apps in your Start menu, listed when you add a rule."
+    "Installed apps: the apps in your Start menu, listed when you add a rule, and your Steam, Xbox and Epic game libraries when you open the games page.",
+    "Playback in mpv: when you turn on HDR by file, the format and frame rate of the video mpv is playing, read through mpv's own connection on your PC.",
+    "Sound outputs, display brightness and color profiles, and whether the PC is plugged in, for the rules that use them."
   ],
   "privacy.stores.title": "What HDRcue stores",
   "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, and a small log of errors, in HDRcue's own folder on your PC. Uninstalling the app removes them.",
   "privacy.sends.title": "What HDRcue sends",
-  "privacy.sends": "Nothing. HDRcue does not connect to the internet, has no telemetry, and shares no data with anyone.",
+  "privacy.sends": "Nothing to us or anyone else. HDRcue has no telemetry and no account. The only connection it makes is to the Microsoft Store, to check whether you own HDRcue Pro and to buy it; Microsoft handles that under the Microsoft Privacy Statement.",
   "privacy.contact.title": "Contact",
   "privacy.contact": "For questions about this policy, open an issue on GitHub.",
   "tour.title": "Adding an app, step by step",
