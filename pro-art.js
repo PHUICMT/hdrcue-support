@@ -11,13 +11,13 @@
 (function () {
   const line = 'rgba(255,255,255,.4)';
 
-  // A five-pointed star centred on (cx, cy).
-  function star(cx, cy, r) {
+  // A five-pointed star centred on (centerX, centerY).
+  function star(centerX, centerY, radius) {
     const points = [];
     for (let i = 0; i < 10; i++) {
       const angle = (-90 + 36 * i) * Math.PI / 180;
-      const length = i % 2 ? r * 0.45 : r;
-      points.push(`${(cx + length * Math.cos(angle)).toFixed(2)},${(cy + length * Math.sin(angle)).toFixed(2)}`);
+      const length = i % 2 ? radius * 0.45 : radius;
+      points.push(`${(centerX + length * Math.cos(angle)).toFixed(2)},${(centerY + length * Math.sin(angle)).toFixed(2)}`);
     }
     return `<polygon points="${points.join(' ')}"/>`;
   }
@@ -36,15 +36,15 @@
 
   const sky = `<linearGradient id="pa-sky" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ffd27a"/></linearGradient>`;
-  const scene = (x, y, w, h, sunX, sunY) => {
-    const bottom = y + h;
-    const peaks = `M${x} ${bottom}L${x + w * 0.28} ${y + h * 0.45}L${x + w * 0.45} ${y + h * 0.7}`
-      + `L${x + w * 0.63} ${y + h * 0.4}L${x + w} ${bottom}Z`;
+  const scene = (x, y, width, height, sunX, sunY) => {
+    const bottom = y + height;
+    const peaks = `M${x} ${bottom}L${x + width * 0.28} ${y + height * 0.45}L${x + width * 0.45} ${y + height * 0.7}`
+      + `L${x + width * 0.63} ${y + height * 0.4}L${x + width} ${bottom}Z`;
     return {
-      sdr: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="#3f4458"/>
+      sdr: `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="2" fill="#3f4458"/>
         <circle cx="${sunX}" cy="${sunY}" r="5.5" fill="#8a8fa3"/>
         <path d="${peaks}" fill="#5d6275"/>`,
-      hdr: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="url(#pa-sky)"/>
+      hdr: `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="2" fill="url(#pa-sky)"/>
         <circle cx="${sunX}" cy="${sunY}" r="9" fill="#fff3c4" opacity=".55"/>
         <circle cx="${sunX}" cy="${sunY}" r="5.5" fill="#fffaf0"/>
         <path d="${peaks}" fill="#4b2d7a"/>`
@@ -76,21 +76,22 @@
   const rays = [];
   for (let i = 0; i < 8; i++) {
     const angle = i * Math.PI / 4;
-    const c = Math.cos(angle);
-    const s = Math.sin(angle);
-    rays.push(`M${(66 + 7.5 * c).toFixed(2)} ${(22 + 7.5 * s).toFixed(2)}L${(66 + 10.5 * c).toFixed(2)} ${(22 + 10.5 * s).toFixed(2)}`);
+    const cosine = Math.cos(angle);
+    const sine = Math.sin(angle);
+    rays.push(`M${(66 + 7.5 * cosine).toFixed(2)} ${(22 + 7.5 * sine).toFixed(2)}`
+      + `L${(66 + 10.5 * cosine).toFixed(2)} ${(22 + 10.5 * sine).toFixed(2)}`);
   }
 
   const swatches = colors => colors
     .map((color, i) => `<rect x="122" y="${7 + 18 * i}" width="32" height="14" rx="3" fill="${color}"/>`)
     .join('');
 
-  // Each sign sits in its ring at about half the ring's width, drawn smaller and shifted by dy
-  // so it looks centred; its lines come out as thick as the ring.
-  const condition = (x, delay, dy, icon) => `<g transform="translate(${x} 30)">
-      <g class="turn" style="--d:${delay}s">
+  // Each sign sits in its ring at about half the ring's width, drawn smaller and shifted down by
+  // shiftY so it looks centred; its lines come out as thick as the ring.
+  const condition = (x, delay, shiftY, icon) => `<g transform="translate(${x} 30)">
+      <g class="turn" style="--turn-delay:${delay}s">
         <circle r="14" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="1.5"/>
-        <g transform="translate(0 ${dy}) scale(.8)" fill="none" stroke="currentColor" stroke-width="1.9"
+        <g transform="translate(0 ${shiftY}) scale(.8)" fill="none" stroke="currentColor" stroke-width="1.9"
           stroke-linecap="round" stroke-linejoin="round">${icon}</g>
       </g></g>`;
   const display = '<path d="M-9 -7h18v12h-18z M0 5v3.5M-4.5 8.5h9"/>';
@@ -99,7 +100,7 @@
       <stop offset="0" stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient>
     <rect x="${x}" y="8" width="26" height="36" rx="3" fill="url(#pa-tile${x})"/>
     <g fill="#fff" fill-opacity=".6">${glyph}</g>`;
-  const tick = (x, n) => `<g class="tick${n}">
+  const tick = (x, order) => `<g class="tick${order}">
       <circle cx="${x + 13}" cy="35" r="5.5" fill="#fff"/>
       <path d="M${x + 10.6} 35l1.7 1.9 3.3-3.8" fill="none" stroke="#1b2a55" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
     </g>`;

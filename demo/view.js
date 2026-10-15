@@ -63,7 +63,7 @@ const DemoView = (function () {
     ruleName: ['Rule name (optional)', 'For example: Projector'],
     orderNew: app => `${app} has other rules. When more than one applies, the higher one wins. New rules go to the bottom. `
       + "To change that, drag the rule cards or use Move up in the rule's menu.",
-    sentence: (app, display) => `When <b>${app}</b> is open → <b>${display}</b>: HDR <span class="k">on</span>`,
+    sentence: (app, display) => `When <b>${app}</b> is open → <b>${display}</b>: HDR <span class="keyword">on</span>`,
     goesBack: app => `Goes back when ${app} closes`,
     cancel: 'Cancel',
     back: 'Back',
@@ -150,7 +150,7 @@ const DemoView = (function () {
   const withTv = [...displays,
     { id: 'tv', name: 'Living room TV', x: 3440, y: 0, width: 3840, height: 2160, hertz: 60, hdr: true }];
 
-  const svg = (body, className = 'i', box = 16) =>
+  const svg = (body, className = 'icon', box = 16) =>
     `<svg class="${className}" viewBox="0 0 ${box} ${box}" aria-hidden="true">${body}</svg>`;
 
   function gear() {
@@ -172,7 +172,7 @@ const DemoView = (function () {
     gear: gear(),
     pause: svg('<rect x="3.5" y="2.5" width="3" height="11" rx="0.8"/><rect x="9.5" y="2.5" width="3" height="11" rx="0.8"/>'),
     plus: svg('<path d="M8 2v12M2 8h12"/>'),
-    more: svg('<circle cx="3" cy="8" r="1"/><circle cx="8" cy="8" r="1"/><circle cx="13" cy="8" r="1"/>', 'i dots'),
+    more: svg('<circle cx="3" cy="8" r="1"/><circle cx="8" cy="8" r="1"/><circle cx="13" cy="8" r="1"/>', 'icon dots'),
     search: svg('<circle cx="6.5" cy="6.5" r="4.7"/><path d="M10 10l4.3 4.3"/>'),
     folder: svg('<path d="M1.5 4a1 1 0 0 1 1-1h3.4l1.6 1.6h6a1 1 0 0 1 1 1v6.9a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"/><path d="M1.5 6.2h13"/>'),
     check: svg('<path d="M3 8.6l3.1 3.1L13 4.7"/>'),
@@ -182,7 +182,7 @@ const DemoView = (function () {
     open: svg('<rect x="1.5" y="5.5" width="9" height="9" rx="1.2"/><path d="M5.5 5.5V2.7a1.2 1.2 0 0 1 1.2-1.2h6.6a1.2 1.2 0 0 1 1.2 1.2v6.6a1.2 1.2 0 0 1-1.2 1.2h-2.8"/>'),
     front: svg('<path d="M13.5 9.5v3.8a1.2 1.2 0 0 1-1.2 1.2H2.7a1.2 1.2 0 0 1-1.2-1.2V3.7a1.2 1.2 0 0 1 1.2-1.2h3.8"/><path d="M9.5 1.5h5v5M14.5 1.5L8 8"/>'),
     full: svg('<path d="M9.5 1.5h5v5M14.5 1.5l-5 5M6.5 14.5h-5v-5M1.5 14.5l5-5"/>'),
-    star: svg('<path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z"/>', 'i solid'),
+    star: svg('<path d="M8 1.6l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.2l-3.9 2.2.9-4.3-3.3-3 4.4-.5z"/>', 'icon solid'),
     power: svg('<path d="M4.9 3.8a5.6 5.6 0 1 0 6.2 0"/><path d="M8 1.5v6"/>'),
     bolt: svg('<path d="M9.6 1.5L3.6 9h4.1l-1.2 5.5 6-7.6H8.4z"/>'),
     palette: svg('<path d="M8 1.5a6.5 6.5 0 0 0 0 13c.9 0 1.4-.6 1.4-1.3 0-.9-.8-1.2-.8-2 0-.7.6-1.2 1.3-1.2h1.6a3 3 0 0 0 3-3C14.5 4 11.6 1.5 8 1.5z"/>'
@@ -193,16 +193,16 @@ const DemoView = (function () {
     chevron: svg('<path d="M4 6l4 4 4-4"/>'),
     // Six dots at a rule's left edge: it can be dragged to another place.
     handle: svg('<circle cx="6" cy="4" r="1.1"/><circle cx="10" cy="4" r="1.1"/><circle cx="6" cy="8" r="1.1"/>'
-      + '<circle cx="10" cy="8" r="1.1"/><circle cx="6" cy="12" r="1.1"/><circle cx="10" cy="12" r="1.1"/>', 'i handle'),
+      + '<circle cx="10" cy="8" r="1.1"/><circle cx="6" cy="12" r="1.1"/><circle cx="10" cy="12" r="1.1"/>', 'icon drag-handle'),
     warn: svg('<path d="M8 1.8l6.6 11.7H1.4z"/><path d="M8 6.2v3.6M8 11.6v.2"/>'),
     game: svg('<path d="M4.6 4.5h6.8a3.1 3.1 0 0 1 3 2.4l.6 3.2a1.8 1.8 0 0 1-3.1 1.5L10.4 10H5.6l-1.5 1.6A1.8 1.8 0 0 1 1 10.1l.6-3.2a3.1 3.1 0 0 1 3-2.4z"/><path d="M4.8 6.4v2.2M3.7 7.5h2.2M10.8 7.2v.1M12 8.1v.1"/>'),
     resolution: svg('<rect x="1.5" y="2.5" width="13" height="11" rx="1"/><path d="M4.5 5.5h2.5M4.5 5.5V8M11.5 10.5H9M11.5 10.5V8"/>'),
     refresh: svg('<path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M12.2 1.6v2.8H9.4"/>'),
     brightness: svg('<circle cx="8" cy="8" r="3"/><path d="M8 5a3 3 0 0 1 0 6z" class="fill"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/>'),
     sound: svg('<path d="M2 6h2.6L8 3v10L4.6 10H2z"/><path d="M10.6 5.6a3.4 3.4 0 0 1 0 4.8M12.4 3.8a6 6 0 0 1 0 8.4"/>'),
-    minimize: svg('<path d="M0.5 5h9"/>', 'i', 10),
-    maximize: svg('<rect x="0.5" y="0.5" width="9" height="9" rx="1"/>', 'i', 10),
-    close: svg('<path d="M0.5 0.5l9 9M9.5 0.5l-9 9"/>', 'i', 10),
+    minimize: svg('<path d="M0.5 5h9"/>', 'icon', 10),
+    maximize: svg('<rect x="0.5" y="0.5" width="9" height="9" rx="1"/>', 'icon', 10),
+    close: svg('<path d="M0.5 0.5l9 9M9.5 0.5l-9 9"/>', 'icon', 10),
   };
 
   const initialState = () => ({
@@ -223,21 +223,21 @@ const DemoView = (function () {
 
   /* ---------- markup ---------- */
 
-  const appIcon = id => `<span class="appic" style="background:${apps[id].color}">${apps[id].name[0]}</span>`;
+  const appIcon = id => `<span class="app-icon" style="background:${apps[id].color}">${apps[id].name[0]}</span>`;
   // Shown on Pro options until Pro is bought, so also during the trial the demo shows.
-  const proBadge = (size = '') => `<span class="probadge ${size}">${text.pro}</span>`;
+  const proBadge = (size = '') => `<span class="pro-badge ${size}">${text.pro}</span>`;
   const isGame = id => !!apps[id].game;
 
   // "Apps (2)" or "Games (1)" and what is under it; nothing for an empty group. On the rules
   // page the heading folds its group, with a chevron that points up while it is open.
   const groupHtml = (key, heading, count, body, first = false, folds = false) => count
-    ? `<div class="group" data-key="group-${key}"><div class="sect ${first ? 'first' : ''} ${folds ? 'fold' : ''}">${heading(count)}`
-      + `${folds ? `<span class="chev">${icon.chevron}</span>` : ''}</div>${body}</div>`
+    ? `<div class="group" data-key="group-${key}"><div class="section-heading ${first ? 'first' : ''} ${folds ? 'folds' : ''}">${heading(count)}`
+      + `${folds ? `<span class="chevron">${icon.chevron}</span>` : ''}</div>${body}</div>`
     : '';
 
   // A row of a settings card: icon, title with an optional description, and its control.
   const optionHtml = (glyph, title, description, control, className = '') =>
-    `<div class="opt ${className}">${glyph}<div class="label">${title}${description ? `<small>${description}</small>` : ''}</div>${control}</div>`;
+    `<div class="option ${className}">${glyph}<div class="label">${title}${description ? `<small>${description}</small>` : ''}</div>${control}</div>`;
 
   // A segmented control. Each choice is a label, or [label, the tour's target for it].
   function segHtml(choices, chosen, className = '') {
@@ -245,41 +245,41 @@ const DemoView = (function () {
       const [label, target] = Array.isArray(choice) ? choice : [choice];
       return `<button class="${index === chosen ? 'on' : ''}" ${target ? `data-target="${target}"` : ''}>${label}</button>`;
     }).join('');
-    return `<div class="seg ${className}" style="--n:${choices.length};--i:${chosen}">${buttons}</div>`;
+    return `<div class="segmented ${className}" style="--choice-count:${choices.length};--chosen-index:${chosen}">${buttons}</div>`;
   }
 
   const pages = { rules: rulesHtml, wizard: wizardHtml, settings: settingsHtml };
 
-  function windowHtml(s) {
-    return `<div class="tb"><img class="logo" src="${iconUrl}" alt=""><span>${s.page === 'wizard' ? text.addTitle : text.title}</span>
-      <div class="caps"><span>${icon.minimize}</span><span>${icon.maximize}</span><span>${icon.close}</span></div></div>
-      <div class="wbody">${navHtml(s.page)}<div class="wc" data-key="wc-${s.page}">${pages[s.page](s)}</div></div>`;
+  function windowHtml(state) {
+    return `<div class="title-bar"><img class="logo" src="${iconUrl}" alt=""><span>${state.page === 'wizard' ? text.addTitle : text.title}</span>
+      <div class="caption-buttons"><span>${icon.minimize}</span><span>${icon.maximize}</span><span>${icon.close}</span></div></div>
+      <div class="window-body">${navHtml(state.page)}<div class="window-content" data-key="content-${state.page}">${pages[state.page](state)}</div></div>`;
   }
 
   function navHtml(page) {
     const settings = page === 'settings';
-    return `<div class="wnav"><span class="navind ${settings ? 'second' : ''}"></span>
+    return `<div class="window-nav"><span class="nav-indicator ${settings ? 'second' : ''}"></span>
       <a class="${settings ? '' : 'on'}">${icon.monitor}${text.rules}</a><a class="${settings ? 'on' : ''}">${icon.gear}${text.settings}</a>
       <span class="spacer"></span><a>${icon.pause}${text.pause}</a></div>`;
   }
 
-  function rulesHtml(s) {
+  function rulesHtml(state) {
     const nowCard = (name, line, hdr) => `<div class="card">${icon.monitor}<div class="grow"><b>${name}</b>
       <div class="small muted">${line}</div></div><span class="chip ${hdr ? '' : 'mute'}">${hdr ? 'HDR' : 'SDR'}</span></div>`;
     return `<div class="row head"><div class="grow"><h1>${text.rules}</h1><p class="lead">${text.rulesLead}</p></div>
-        <button class="btn primary" data-target="add">${icon.plus}${text.addApp}</button></div>
-      ${s.gamesFound ? gamesBarHtml(s.gamesFound) : ''}
-      <div class="sect first">${text.rightNow}</div>
+        <button class="button primary" data-target="add">${icon.plus}${text.addApp}</button></div>
+      ${state.gamesFound ? gamesBarHtml(state.gamesFound) : ''}
+      <div class="section-heading first">${text.rightNow}</div>
       <div class="now">${nowCard('Main display', text.nowBy, true)}${nowCard('Left display', text.nowNone, false)}</div>
-      ${ruleGroupHtml('apps', text.apps, s.rules.filter(rule => !isGame(rule.app)))}
-      ${ruleGroupHtml('games', text.games, s.rules.filter(rule => isGame(rule.app)))}`;
+      ${ruleGroupHtml('apps', text.apps, state.rules.filter(rule => !isGame(rule.app)))}
+      ${ruleGroupHtml('games', text.games, state.rules.filter(rule => isGame(rule.app)))}`;
   }
 
   // The bar above Right now that points out games without a rule. Finding games is Pro.
   function gamesBarHtml(count) {
-    return `<div class="bar info gamesbar">${icon.game}<div class="grow"><b>${text.gamesFound(count)}</b>
+    return `<div class="bar info games-bar">${icon.game}<div class="grow"><b>${text.gamesFound(count)}</b>
       <div class="small muted">${text.gamesText}</div></div>${proBadge()}
-      <button class="btn small">${text.showGames}</button><button class="btn small ghost">${text.later}</button></div>`;
+      <button class="button small">${text.showGames}</button><button class="button small ghost">${text.later}</button></div>`;
   }
 
   // One card for each app, in the order of their first rules. The group counts the cards.
@@ -299,7 +299,7 @@ const DemoView = (function () {
   }
 
   // When the rule runs, its display, what it changes and its extra conditions.
-  const tagsHtml = rule => `<div class="line2"><span class="tag">${icon[rule.when]}${text.when[rule.when]}`
+  const tagsHtml = rule => `<div class="tag-line"><span class="tag">${icon[rule.when]}${text.when[rule.when]}`
     + `${rule.when === 'full' ? proBadge('small') : ''}</span>`
     + `<span class="tag">${icon.monitor}${rule.display || 'Main display'}</span>`
     + `<span class="tag change">${text.hdrParts[rule.hdr]}${rule.hdr === 'file' ? proBadge('small') : ''}</span>`
@@ -307,59 +307,59 @@ const DemoView = (function () {
     + `${rule.extra ? `<span class="tag">${rule.extra}${proBadge('small')}</span>` : ''}</div>`;
 
   const switchesHtml = rule =>
-    `${pillHtml(rule)}<span class="tgl ${rule.enabled ? 'on' : ''}"></span><span class="iconbtn">${icon.more}</span>`;
+    `${pillHtml(rule)}<span class="toggle ${rule.enabled ? 'on' : ''}"></span><span class="icon-button">${icon.more}</span>`;
 
   function ruleHtml(rule, index) {
-    return `<div class="card rule ${rule.enabled ? '' : 'off'}" data-key="rule-${rule.app}" style="--d:${index}">${icon.handle}${appIcon(rule.app)}
-      <div class="grow"><div class="line1"><b>${apps[rule.app].name}</b></div>${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`;
+    return `<div class="card rule ${rule.enabled ? '' : 'off'}" data-key="rule-${rule.app}" style="--order:${index}">${icon.handle}${appIcon(rule.app)}
+      <div class="grow"><div class="name-line"><b>${apps[rule.app].name}</b></div>${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`;
   }
 
   // An app with several rules: its name once, then a numbered row for each rule, the higher
   // one first. A rule without a name is called by its number.
   function appCardHtml(appRules, index) {
     const app = appRules[0].app;
-    const rows = appRules.map((rule, place) => `<div class="subrule ${rule.enabled ? '' : 'off'}">${icon.handle}
-        <span class="place">${place + 1}</span><div class="grow"><div class="line1"><b>${rule.name || text.unnamedRule(place + 1)}</b></div>
+    const rows = appRules.map((rule, place) => `<div class="rule-row ${rule.enabled ? '' : 'off'}">${icon.handle}
+        <span class="rule-number">${place + 1}</span><div class="grow"><div class="name-line"><b>${rule.name || text.unnamedRule(place + 1)}</b></div>
         ${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`).join('');
-    return `<div class="card rule appcard" data-key="app-${app}" style="--d:${index}">
-      <div class="apphead">${icon.handle}${appIcon(app)}<div class="grow"><b>${apps[app].name}</b>
-        <div class="small muted">${text.orderNote}</div></div><span class="small muted count">${text.ruleCount(appRules.length)}</span></div>
+    return `<div class="card rule app-card" data-key="app-${app}" style="--order:${index}">
+      <div class="app-header">${icon.handle}${appIcon(app)}<div class="grow"><b>${apps[app].name}</b>
+        <div class="small muted">${text.orderNote}</div></div><span class="small muted rule-count">${text.ruleCount(appRules.length)}</span></div>
       ${rows}</div>`;
   }
 
-  function wizardHtml(s) {
-    const wizard = s.wizard;
+  function wizardHtml(state) {
+    const wizard = state.wizard;
     const step = number => {
       const status = wizard.step === number ? 'on' : wizard.step > number ? 'done' : '';
-      return `<div class="s ${status}"><span class="n">${wizard.step > number ? icon.check : number}</span>${text.steps[number - 1]}</div>`;
+      return `<div class="step ${status}"><span class="step-number">${wizard.step > number ? icon.check : number}</span>${text.steps[number - 1]}</div>`;
     };
-    const line = number => `<span class="line ${wizard.step > number ? 'done' : ''}"></span>`;
+    const line = number => `<span class="step-line ${wizard.step > number ? 'done' : ''}"></span>`;
     const steps = `<div class="steps">${step(1)}${line(1)}${step(2)}${line(2)}${step(3)}</div>`;
     const bodies = { 1: chooseAppHtml, 2: displayHtml, 3: whenHtml };
     const canGoOn = wizard.step === 1 ? !!wizard.app : wizard.step === 2 ? wizard.hdr !== 'keep' : true;
     const forward = wizard.step < 3
-      ? `<button class="btn primary" data-key="next" data-target="next" ${canGoOn ? '' : 'disabled'}>${text.next}</button>`
-      : `<button class="btn primary fadein" data-key="save" data-target="save">${text.addRule}</button>`;
-    const foot = `<div class="wfoot"><button class="btn">${text.cancel}</button><span class="grow"></span>
-      ${wizard.step > 1 ? `<button class="btn fadein" data-key="back">${text.back}</button>` : ''}${forward}</div>`;
-    return `${steps}<div class="stepbody" data-key="step-${wizard.step}" style="--dx:28px">${bodies[wizard.step](s)}</div>${foot}`;
+      ? `<button class="button primary" data-key="next" data-target="next" ${canGoOn ? '' : 'disabled'}>${text.next}</button>`
+      : `<button class="button primary fade-in" data-key="save" data-target="save">${text.addRule}</button>`;
+    const footer = `<div class="wizard-footer"><button class="button">${text.cancel}</button><span class="grow"></span>
+      ${wizard.step > 1 ? `<button class="button fade-in" data-key="back">${text.back}</button>` : ''}${forward}</div>`;
+    return `${steps}<div class="step-body" data-key="step-${wizard.step}" style="--slide-from:28px">${bodies[wizard.step](state)}</div>${footer}`;
   }
 
-  function chooseAppHtml(s) {
+  function chooseAppHtml(state) {
     const tile = (id, index) => {
-      const ruleCount = s.rules.filter(rule => rule.app === id).length;
+      const ruleCount = state.rules.filter(rule => rule.app === id).length;
       const sub = ruleCount
-        ? `<div class="sub has">${icon.check}${text.ruleCount(ruleCount)}</div>`
-        : `<div class="sub">${apps[id].name}.exe</div>`;
-      return `<div class="tile ${s.wizard.app === id ? 'sel' : ''}" data-key="tile-${id}" data-target="tile-${id}" style="--d:${index}">
-        ${appIcon(id)}<div><div class="name">${apps[id].name}</div>${sub}</div><span class="run"></span></div>`;
+        ? `<div class="subtitle has-rules">${icon.check}${text.ruleCount(ruleCount)}</div>`
+        : `<div class="subtitle">${apps[id].name}.exe</div>`;
+      return `<div class="tile ${state.wizard.app === id ? 'selected' : ''}" data-key="tile-${id}" data-target="tile-${id}" style="--order:${index}">
+        ${appIcon(id)}<div><div class="name">${apps[id].name}</div>${sub}</div><span class="running-dot"></span></div>`;
     };
     return `<h1>${text.steps[0]}</h1><p class="lead">${text.chooseLead}</p>
-      <div class="row tabsrow"><div class="tabs"><a class="on">${text.openNow}</a><a>${text.allApps}</a></div>
+      <div class="row tabs-row"><div class="tabs"><a class="on">${text.openNow}</a><a>${text.allApps}</a></div>
         <div class="search">${icon.search}<span>${text.search}</span></div></div>
       ${tileGroupHtml('apps', text.apps, openApps.filter(id => !isGame(id)), tile, 0, true)}
       ${tileGroupHtml('games', text.games, openApps.filter(isGame), tile, openApps.filter(id => !isGame(id)).length)}
-      <button class="btn ghost browse">${icon.folder}${text.browse}</button>`;
+      <button class="button ghost browse">${icon.folder}${text.browse}</button>`;
   }
 
   function tileGroupHtml(key, heading, ids, tile, firstIndex, first = false) {
@@ -371,8 +371,8 @@ const DemoView = (function () {
   // the couch mode switches in one card, with the rest folded under More settings.
   // The guide's pictures set more of it: the rule following its app, "By file" for a player,
   // the couch mode switches, and More settings opened.
-  function displayHtml(s) {
-    const wizard = s.wizard;
+  function displayHtml(state) {
+    const wizard = state.wizard;
     const follows = wizard.target === 'app';
     const options = [['keep', text.keep], ['on', text.on], ['off', text.offButton]];
     if (wizard.player) options.push(['file', `${text.byFile}${proBadge('small')}`]);
@@ -381,19 +381,19 @@ const DemoView = (function () {
     const hdrDescription = wizard.hdr === 'file'
       ? `${text.byFileDescription} · <span class="link">${text.seeList}</span>` : text.hdrDescription;
     const proTitle = title => `<span class="title">${title}${proBadge('small')}</span>`;
-    const toggle = on => `<span class="tgl ${on ? 'on' : ''}"></span>`;
+    const toggle = on => `<span class="toggle ${on ? 'on' : ''}"></span>`;
     const target = segHtml([text.targets[0], `${text.targets[1]}${proBadge('small')}`], follows ? 1 : 0, 'target');
-    const note = follows ? `<p class="note follownote">${text.followNote}</p>` : '';
+    const note = follows ? `<p class="note follow-note">${text.followNote}</p>` : '';
     const setup = wizard.needsSetup
-      ? `<div class="bar warn setupbar">${icon.warn}<div class="grow"><b>${text.needsSetupTitle(apps[wizard.app].name)}</b>
-        <div class="small muted">${text.needsSetupText}</div></div><button class="btn small">${text.setUp}</button></div>`
+      ? `<div class="bar warn setup-bar">${icon.warn}<div class="grow"><b>${text.needsSetupTitle(apps[wizard.app].name)}</b>
+        <div class="small muted">${text.needsSetupText}</div></div><button class="button small">${text.setUp}</button></div>`
       : '';
     return `<h1>${text.displayTitle(apps[wizard.app].name)}</h1><p class="lead">${text.displayLead}</p>
       <div>${target}</div>
       ${mapHtml(wizard)}${note}
-      <div class="card box hdrcard">${optionHtml(icon.sun, 'HDR', hdrDescription, hdr, 'hdrrow')}
-        ${optionHtml(icon.star, proTitle(text.makeMain), text.makeMainDescription, toggle(wizard.makesMain), 'mainrow')}
-        ${optionHtml(icon.power, proTitle(text.othersOff), text.othersOffDescription, toggle(wizard.othersOff), 'othersrow')}
+      <div class="card box hdr-card">${optionHtml(icon.sun, 'HDR', hdrDescription, hdr, 'hdr-row')}
+        ${optionHtml(icon.star, proTitle(text.makeMain), text.makeMainDescription, toggle(wizard.makesMain), 'main-row')}
+        ${optionHtml(icon.power, proTitle(text.othersOff), text.othersOffDescription, toggle(wizard.othersOff), 'others-row')}
         ${moreHtml(wizard)}</div>${setup}`;
   }
 
@@ -402,17 +402,17 @@ const DemoView = (function () {
     const more = wizard.more;
     const parts = more ? [more.refresh, more.brightness, more.profile].filter(Boolean) : [];
     const head = optionHtml(icon.sliders, text.more, '',
-      `<span class="value">${parts.length ? parts.join(' · ') : text.keep}${icon.chevron}</span>`, `morehead ${more ? 'open' : ''}`);
+      `<span class="value">${parts.length ? parts.join(' · ') : text.keep}${icon.chevron}</span>`, `more-header ${more ? 'open' : ''}`);
     if (!more) return head;
     const combo = value => `<span class="combo">${value || text.keep}${icon.chevron}</span>`;
     const proTitle = title => `<span class="title">${title}${proBadge('small')}</span>`;
-    const preview = more.refresh === text.matchPart ? `<div class="opt-sub preview small muted">${text.matchPreview}</div>` : '';
+    const preview = more.refresh === text.matchPart ? `<div class="option-sub preview small muted">${text.matchPreview}</div>` : '';
     return `${head}
-      ${wizard.target === 'app' ? '' : optionHtml(icon.resolution, text.resolution, '', combo(), 'resrow')}
-      <div class="option-group refreshrow">${optionHtml(icon.refresh, text.refresh, '', combo(more.refresh))}${preview}</div>
-      ${optionHtml(icon.brightness, proTitle(text.brightness[0]), text.brightness[1], combo(more.brightness), 'brightrow')}
-      ${optionHtml(icon.palette, proTitle(text.colorProfile[0]), text.colorProfile[1], combo(more.profile), 'profilerow')}
-      ${optionHtml(icon.sound, text.sound[0], text.sound[1], combo(), 'soundrow')}`;
+      ${wizard.target === 'app' ? '' : optionHtml(icon.resolution, text.resolution, '', combo(), 'resolution-row')}
+      <div class="option-group refresh-row">${optionHtml(icon.refresh, text.refresh, '', combo(more.refresh))}${preview}</div>
+      ${optionHtml(icon.brightness, proTitle(text.brightness[0]), text.brightness[1], combo(more.brightness), 'brightness-row')}
+      ${optionHtml(icon.palette, proTitle(text.colorProfile[0]), text.colorProfile[1], combo(more.profile), 'profile-row')}
+      ${optionHtml(icon.sound, text.sound[0], text.sound[1], combo(), 'sound-row')}`;
   }
 
   // Displays drawn to scale where Windows places them, 600 px across like the app. While the
@@ -435,8 +435,8 @@ const DemoView = (function () {
         + `width:${display.width * scale - 6}px;height:${height}px`;
       // On a display too short to fit its name below the HDR or SDR chip, the name moves down
       // and to the left, clear of the chip.
-      const low = height < 70 ? 'low' : '';
-      return `<div class="mon ${selected ? 'sel' : ''} ${low}" data-key="mon-${display.id}" style="${place}">${badge}
+      const shortClass = height < 70 ? 'short' : '';
+      return `<div class="monitor-tile ${selected ? 'selected' : ''} ${shortClass}" data-key="monitor-${display.id}" style="${place}">${badge}
         <b>${display.name}</b><small>${display.width} × ${display.height} · ${display.hertz} Hz</small>
         <span class="chip ${display.hdr ? '' : 'mute'}">${display.hdr ? 'HDR' : 'SDR'}</span></div>`;
     }).join('');
@@ -446,20 +446,20 @@ const DemoView = (function () {
   // The choices, the extra conditions under them, the summary and the rule's name, as in the
   // app. The tour keeps the first choice and shows its short summary. The guide's pictures
   // pick a choice and write the summary as the app does.
-  function whenHtml(s) {
-    const wizard = s.wizard;
+  function whenHtml(state) {
+    const wizard = state.wizard;
     const name = apps[wizard.app].name;
     const when = wizard.when || 'open';
     const choices = text.whenChoices.map((choice, index) => whenChoiceHtml(choice, index, when)).join('');
-    const order = wizard.otherRules ? `<div class="small muted ordernote">${text.orderNew(name)}</div>` : '';
-    const naming = `<div class="namefield"><div>${text.ruleName[0]}</div><div class="textbox">${text.ruleName[1]}</div>${order}</div>`;
+    const order = wizard.otherRules ? `<div class="small muted order-note">${text.orderNew(name)}</div>` : '';
+    const naming = `<div class="name-field"><div>${text.ruleName[0]}</div><div class="text-box">${text.ruleName[1]}</div>${order}</div>`;
     if (!wizard.when) {
       return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
         <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
           <div class="small muted">${text.goesBack(name)}</div></div>${naming}`;
     }
     const display = wizard.target === 'app' ? text.appsDisplay : 'Main display';
-    const changes = [text.hdrParts[wizard.hdr || 'on']].map(part => `<span class="k">${part}</span>`).join(', ');
+    const changes = [text.hdrParts[wizard.hdr || 'on']].map(part => `<span class="keyword">${part}</span>`).join(', ');
     return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
       <div class="card summary"><div class="sentence">${text.sentences[when](name)} → <b>${display}</b>: ${changes}</div>
         <div class="small muted">${text.goesBackFrom[when](name)}</div></div>${naming}`;
@@ -484,7 +484,7 @@ const DemoView = (function () {
   function whenChoiceHtml(choice, index, chosen) {
     const badge = choice.id === 'full' ? proBadge() : '';
     const recommended = choice.id === 'open' ? `<span class="pill plain">${text.recommended}</span>` : '';
-    return `<div class="radio ${choice.id === chosen ? 'on' : ''}" style="--d:${index}"><span class="r"></span>${icon[choice.id]}
+    return `<div class="radio ${choice.id === chosen ? 'on' : ''}" style="--order:${index}"><span class="radio-dot"></span>${icon[choice.id]}
         <div class="grow"><div class="title"><b>${choice.title}</b>${badge}</div><div class="small muted">${choice.description}</div></div>
         ${recommended}</div>`;
   }
@@ -492,16 +492,16 @@ const DemoView = (function () {
   // Settings as a free user sees it: the Pro card with See Pro, then the General rows. The
   // window cuts the page off where the Displays section starts, as the app's screenshot does.
   function settingsHtml() {
-    const toggle = '<span class="tgl on"></span>';
+    const toggle = '<span class="toggle on"></span>';
     const choice = (glyph, [title, description, choices]) => optionHtml(glyph, title, description, segHtml(choices, 0, 'compact'));
     const [playersTitle, playersDescription, seeList] = text.players;
-    const players = `<div class="option-group">${optionHtml(icon.video, playersTitle, playersDescription, `<button class="btn">${seeList}</button>`)}
-        <div class="opt-sub"><span class="grow">mpv</span><span class="pill warn"><span class="dot"></span>${text.needsSetup}</span>
-          <button class="btn primary small">${text.setUp}</button></div></div>`;
+    const players = `<div class="option-group">${optionHtml(icon.video, playersTitle, playersDescription, `<button class="button">${seeList}</button>`)}
+        <div class="option-sub"><span class="grow">mpv</span><span class="pill warn"><span class="dot"></span>${text.needsSetup}</span>
+          <button class="button primary small">${text.setUp}</button></div></div>`;
     return `<h1>${text.settings}</h1><p class="lead">${text.settingsLead}</p>
-      <div class="card box procard">${optionHtml(icon.star, `<b>${text.proFree}</b>`, text.proFreeDescription,
-        `<button class="btn primary">${text.seePro}</button>`)}</div>
-      <div class="sect">${text.general}</div>
+      <div class="card box pro-card">${optionHtml(icon.star, `<b>${text.proFree}</b>`, text.proFreeDescription,
+        `<button class="button primary">${text.seePro}</button>`)}</div>
+      <div class="section-heading">${text.general}</div>
       <div class="card box">${optionHtml(icon.power, ...text.startup, toggle)}
         ${optionHtml(icon.monitor, ...text.tray, toggle)}
         ${choice(icon.sun, text.theme)}
@@ -509,7 +509,7 @@ const DemoView = (function () {
         ${choice(icon.palette, text.accent)}
         ${optionHtml(icon.language, text.language[0], '', `<span class="combo">${text.language[1]}${icon.chevron}</span>`)}
         ${players}</div>
-      <div class="sect">${text.displays}</div><p class="lead">${text.displaysLead}</p>`;
+      <div class="section-heading">${text.displays}</div><p class="lead">${text.displaysLead}</p>`;
   }
 
   /* ---------- patcher ---------- */
@@ -521,7 +521,8 @@ const DemoView = (function () {
   }
 
   const keyOf = node => node.nodeType === 1 ? node.getAttribute('data-key') : null;
-  const sameKind = (a, b) => a.nodeType === b.nodeType && (a.nodeType !== 1 || a.tagName === b.tagName);
+  const sameKind = (first, second) => first.nodeType === second.nodeType
+    && (first.nodeType !== 1 || first.tagName === second.tagName);
 
   function morphChildren(oldParent, newParent) {
     const keyed = new Map();
@@ -604,11 +605,11 @@ const DemoView = (function () {
   const strips = {
     'hdr-file': {
       state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, needsSetup: true }),
-      from: '.hdrcard', height: 346,
+      from: '.hdr-card', height: 364,
     },
     refresh: {
       state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, more: { refresh: text.matchPart } }),
-      from: '.morehead', height: 213, pad: 0,
+      from: '.more-header', height: 213, pad: 0,
     },
     couch: {
       state: () => wizardAt(2, {
@@ -622,11 +623,11 @@ const DemoView = (function () {
     },
     follow: {
       state: () => wizardAt(2, { app: 'racer', hdr: 'on', target: 'app' }),
-      from: '.seg.target', height: 336,
+      from: '.segmented.target', height: 336,
     },
     brightness: {
       state: () => wizardAt(2, { app: 'cinema', hdr: 'on', more: { brightness: '70%', profile: 'Wide Gamut Calibrated' } }),
-      from: '.brightrow', height: 134, pad: 0,
+      from: '.brightness-row', height: 134, pad: 0,
     },
     conditions: {
       state: () => wizardAt(3, { app: 'cinema', hdr: 'on', when: 'open', checks: { time: true, display: true } }),
@@ -670,7 +671,7 @@ const DemoView = (function () {
     const width = strip ? size.width - menuWidth : size.width;
     const shadow = host.shadowRoot || host.attachShadow({ mode: 'open' });
     shadow.innerHTML = `<link rel="stylesheet" href="${styleUrl}">
-      <div class="stage" data-motion="off" style="visibility:hidden"><div class="win">${windowHtml(state)}</div></div>`;
+      <div class="stage" data-motion="off" style="visibility:hidden"><div class="app-window">${windowHtml(state)}</div></div>`;
     const stage = shadow.querySelector('.stage');
     let loaded = false;
     let top = null;
@@ -683,9 +684,9 @@ const DemoView = (function () {
     // Where the strip starts, in the window's own pixels, measured once it is laid out.
     const measure = scale => {
       stage.style.transform = `scale(${scale})`;
-      const win = shadow.querySelector('.win').getBoundingClientRect();
-      const from = shadow.querySelector(strip.from).getBoundingClientRect();
-      return Math.max(0, (from.top - win.top) / scale - (strip.pad ?? 16));
+      const windowBox = shadow.querySelector('.app-window').getBoundingClientRect();
+      const startBox = shadow.querySelector(strip.from).getBoundingClientRect();
+      return Math.max(0, (startBox.top - windowBox.top) / scale - (strip.pad ?? 16));
     };
     const fit = () => {
       const scale = host.clientWidth / width;

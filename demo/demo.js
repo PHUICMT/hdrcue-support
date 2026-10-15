@@ -28,7 +28,7 @@
   let pointerAt = { ...restingPoint };
 
   document.documentElement.dataset.motion = reducedMotion ? 'off' : 'on';
-  DemoView.mount(document.getElementById('win'));
+  DemoView.mount(document.getElementById('app-window'));
 
   /* ---------- fit the 1344 x 850 window into whatever size the frame has ---------- */
 
@@ -100,7 +100,9 @@
     };
   }
 
-  const easeInOut = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const easeInOut = progress => progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
   // Moves along a slight curve, the way a hand moves a mouse, easing in and out.
   function glide(to, duration) {
@@ -114,8 +116,9 @@
     };
     return new Promise(resolve => clock.tweens.push(time => {
       const progress = Math.min(1, (time - start) / duration);
-      const t = easeInOut(progress);
-      const along = (a, b, c) => (1 - t) * (1 - t) * a + 2 * (1 - t) * t * b + t * t * c;
+      const eased = easeInOut(progress);
+      const along = (start, middle, end) =>
+        (1 - eased) * (1 - eased) * start + 2 * (1 - eased) * eased * middle + eased * eased * end;
       placePointer({ x: along(from.x, control.x, to.x), y: along(from.y, control.y, to.y) });
       if (progress < 1) return true;
       resolve();

@@ -235,7 +235,7 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 }
 
 /* The app's own PRO label. */
-.probadge {
+.pro-badge {
   padding: 1px 7px;
   border-radius: 4px;
   font-size: 11px;
@@ -463,7 +463,7 @@ details.opening summary::after { transform: rotate(180deg); }
 
   .art .turn {
     animation: art-turn 8s ease-in-out infinite both;
-    animation-delay: calc(var(--stagger, 0s) - var(--d, 0s));
+    animation-delay: calc(var(--stagger, 0s) - var(--turn-delay, 0s));
   }
 
   /* Only the cards on screen, or under the pointer, move. site.js marks them .playing. */
