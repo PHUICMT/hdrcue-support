@@ -1,10 +1,10 @@
 {
   "meta.home.title": "HDRcue",
-  "meta.home.description": "HDRcue turns HDR on while your movie player or game is open, and puts the display back when it closes.",
+  "meta.home.description": "A Windows app that turns HDR on while your video player or game is open, and puts the display back the way it was when you close it.",
   "meta.guide.title": "HDRcue guide",
-  "meta.guide.description": "How to set up HDRcue, one feature at a time: rules, video players, backup and every Pro feature.",
+  "meta.guide.description": "Step-by-step setup for HDRcue: rules, video players, backup and each Pro feature.",
   "meta.privacy.title": "HDRcue privacy policy",
-  "meta.privacy.description": "What HDRcue reads, stores and sends: it works on your PC, with no telemetry and no account.",
+  "meta.privacy.description": "What HDRcue reads, stores and sends. It runs on your PC and has no telemetry and no account.",
   "nav.guide": "Guide",
   "nav.help": "Help",
   "nav.feedback": "Feedback",
@@ -12,9 +12,9 @@
   "nav.privacy": "Privacy",
   "nav.menu": "Menu",
   "language.label": "Language",
-  "hero.title": "HDR when you need it, back to normal when you're done",
-  "hero.text": "HDRcue switches HDR on or off for the apps you choose. Open your movie player and the display turns HDR on. Close it and the display goes back to how it was.",
-  "hero.note": "Free for Windows 10 and 11 · Pro upgrade with a 14-day free trial",
+  "hero.title": "Start a movie or a game and HDR turns on. Close it and your display goes back to how it was.",
+  "hero.text": "Pick an app, such as your video player or a game, and choose what the display does while it runs, like turning HDR on or switching to another refresh rate. When the app closes, HDRcue puts the display back the way it was, so HDR you turned on yourself stays on.",
+  "hero.note": "Free for Windows 10 and 11 · Pro has a 14-day free trial",
   "tour.title": "Adding an app, step by step",
   "tour.frame": "Demo of adding an app in HDRcue",
   "tour.add": "Select Add app.",
@@ -27,10 +27,10 @@
   "steps.1.title": "Pick an app",
   "steps.1.text": "Choose from the apps you have open, or browse for any .exe file.",
   "steps.2.title": "Pick a display",
-  "steps.2.text": "Click the display on a map laid out like your desk, and choose HDR on or off.",
+  "steps.2.text": "Click a display on a map laid out like your desk, then set HDR on or off.",
   "steps.3.title": "Use the app as usual",
   "steps.3.text": "HDRcue changes the display when the app opens and puts it back when it closes.",
-  "steps.guide": "Every feature, step by step, is in the [guide](guide/).",
+  "steps.guide": "The [guide](guide/) covers every feature step by step.",
   "openApp.button": "Open in HDRcue",
   "openApp.note": "Needs HDRcue 1.1 or later. Don't have it?",
   "openApp.store": "Get it from the Microsoft Store",
@@ -44,30 +44,30 @@
   "guide.contentsClose": "Close contents",
   "guide.start.title": "Getting started",
   "guide.add.title": "Adding an app",
-  "guide.add.text": "Select **Add app**, pick the app, then the display and what HDR should do, and when the rule runs. If the app has rules already, this adds another one and keeps the ones it has.",
+  "guide.add.text": "Select **Add app** and pick the app. Then choose the display, what HDR should do there, and when the rule runs. If the app already has rules, this adds one more and leaves the others as they are.",
   "guide.rules.title": "The rules page",
-  "guide.rules.text": "**Right now** shows what each display is doing. Below it, your rules are listed under **Apps** and **Games**. Select a group's heading to fold it, and HDRcue keeps it folded next time. Each card shows when the rule runs, the display and what changes, with its status, a switch to turn the rule off, and a **⋯** menu to edit or delete it.",
+  "guide.rules.text": "**Right now** shows what each display is doing. Below it, your rules are listed under **Apps** and **Games**. Select a group's heading to fold it, and it stays folded next time. Each card shows when the rule runs, which display it changes and how, and its status. It also has a switch to turn the rule off and a **⋯** menu to edit or delete it.",
   "guide.rules.status": [
-    "Active: the app is open and its rule is in effect.",
-    "Waiting: the rule is ready and the app is not open.",
+    "Active: the app is open and the rule is working.",
+    "Waiting: the rule is on and the app isn't open yet.",
     "Off: you switched the rule off. It stays saved.",
-    "Paused: every rule is paused from the tray or the window.",
+    "Paused: you paused all rules from the tray icon or the HDRcue window.",
     "Needs Pro: the rule uses an option marked PRO and Pro isn't on. It stays saved and runs again once Pro is on.",
     "Waiting for a display, such as Waiting for Projector: the rule's display isn't connected. The rule runs once it's plugged in.",
-    "Display not connected: the rule starts working again once that display is back."
+    "Display not connected: the rule works again once that display is back."
   ],
   "guide.tray.title": "The tray icon",
-  "guide.tray.text": "Click the icon to see each display, switch HDR by hand, pause every rule, or open HDRcue. Right-click it for a short menu with Restore all displays now and Exit.",
+  "guide.tray.text": "Click the icon to see each display, switch HDR by hand, pause all rules or open HDRcue. Right-click it for a short menu with Restore all displays now and Exit.",
   "guide.restore.title": "Putting displays back",
-  "guide.restore.text": "HDRcue remembers how each display was before it changed it. When the app closes, the display goes back to that, so HDR you turned on yourself stays on. If the PC restarts or HDRcue closes unexpectedly, the displays are put back the next time it starts.",
+  "guide.restore.text": "Before HDRcue changes a display, it notes how the display was set. When the app closes, the display goes back to that, so HDR you turned on yourself stays on. If the PC restarts or HDRcue closes unexpectedly, the displays go back the next time HDRcue starts.",
   "guide.settings.title": "Settings",
   "guide.settings.text": "**General** has Start with Windows, the tray icon, theme, animations, accent color, language (English, Thai, Simplified Chinese or Japanese) and **Video players**. Further down are display names, a shortcut to turn HDR on or off, **Backup**, and **Restore all displays now** for a display stuck in the wrong mode. Select **See Pro** to try or buy Pro.",
   "guide.rulesPart.title": "Rules",
   "guide.several.title": "Several rules for one app",
-  "guide.several.text": "An app can have more than one rule, such as one for a projector and one for your desk. To add another, select **Add app** and pick the app again. Its tile says how many rules it has, and the new rule goes below them.",
-  "guide.several.name": "On the **When** step, you can give the rule a name in **Rule name (optional)**, such as Projector, so the rules are easy to tell apart.",
-  "guide.several.card": "On the **Rules** page, the rules of one app share one card: the app's name at the top, then a numbered row for each rule, in order. Under the rows, a summary says what happens in each situation.",
-  "guide.several.note": "Several rules per app, their names and their order are in the free version. Options marked PRO in a rule, such as **Only when the app window is on**, need Pro.",
+  "guide.several.text": "An app can have more than one rule, such as one for a projector and one for your desk. To add another, select **Add app** and pick the same app again. Its tile shows how many rules it has, and the new rule goes last.",
+  "guide.several.name": "On the **When** step, type a name in **Rule name (optional)**, such as Projector, so you can tell the rules apart.",
+  "guide.several.card": "On the **Rules** page, all the rules of one app share one card: the app's name at the top, then one numbered row per rule, in order. Below the rows, a summary says what happens in each situation.",
+  "guide.several.note": "Several rules per app, rule names and rule order are all free. Options marked PRO inside a rule, such as **Only when the app window is on**, need Pro.",
   "guide.order.title": "Rule order",
   "guide.order.text": "When two rules of one app apply at the same time and want different things for the same display, or different sound outputs, the higher rule wins. Changes that don't clash all happen, so a rule for the projector and one for your desk display can run together. To change the order:",
   "guide.order.steps": [
@@ -76,9 +76,9 @@
     "From the keyboard, open the rule's **⋯** menu and choose **Move up** or **Move down**."
   ],
   "guide.order.example": "For example, mpv has two rules. **Projector** turns on HDR by file on the projector and sends the sound to it. **Desk** does the same on your desk display and sends the sound to your headphones. Both pick a sound output, so put Projector on top and tick **Only when the app window is on Projector** in it. While mpv plays on the projector, both rules apply and Projector wins: the sound goes to the projector. Move mpv back to your desk and only Desk applies. Without the window condition, Projector would win whenever mpv is open, even at your desk.",
-  "guide.order.summary": "The summary under the card, **What happens while mpv is open**, shows which rule wins in each situation, and warns when one rule takes over another.",
+  "guide.order.summary": "The summary under the card, **What happens while mpv is open**, shows which rule wins in each situation and warns you when one rule takes over from another.",
   "guide.players.title": "Video players",
-  "guide.players.text": "HDR by file and **Match the movie** need to know which file your player is playing. They work with mpv, mpv.net, VLC and PotPlayer, and both are Pro features. **Video players** in **Settings** lists the players on this PC and whether each is ready, with **Set it up** and **Undo**. When you choose **By file** for a player that isn't ready, the rule editor offers the same setup.",
+  "guide.players.text": "HDR by file and **Match the movie** need to know which file your player is playing. Both are Pro features, and they work with mpv, mpv.net, VLC and PotPlayer. **Video players** in **Settings** lists the players on this PC and whether each one is ready, with **Set it up** and **Undo** buttons. If you choose **By file** for a player that isn't ready, the rule editor offers the same setup.",
   "guide.mpv.title": "mpv and mpv.net",
   "guide.mpv.steps": [
     "Select **Set it up** next to the player, under **Video players** or in the bar in the rule editor.",
@@ -97,23 +97,23 @@
   "guide.potplayer.title": "PotPlayer",
   "guide.potplayer.text": "Nothing to set up. HDRcue asks PotPlayer which file is open and reads the start of that file for its format and frame rate.",
   "guide.backup.title": "Backup and restore",
-  "guide.backup.text": "HDRcue can keep a copy of your rules and settings, so a new PC or a reinstall gets them back. Backup is free, and it's off until you turn it on.",
+  "guide.backup.text": "HDRcue can keep a copy of your rules and settings, so you get them back on a new PC or after a reinstall. Backup is free, and it's off until you turn it on.",
   "guide.backupAuto.title": "Automatic backup",
   "guide.backupAuto.steps": [
     "Open **Settings** and scroll to **Backup**.",
     "Select **Back up to OneDrive**, or **Choose a folder…** for another folder, such as one Google Drive or Dropbox keeps in sync.",
     "From then on **Back up automatically** is on, and HDRcue saves a copy after each change. The line under it says where, and when the last backup was made."
   ],
-  "guide.backupAuto.note": "Each PC writes its own file in an HDRcue folder there, named after the PC, so several PCs can share one OneDrive. Copies from the last five days it made a backup stay next to it. A backup holds your rules, display names, preferences and which video players were set up, but not Pro, the trial or the log.",
+  "guide.backupAuto.note": "Each PC writes its own file, named after the PC, in an HDRcue folder there, so several PCs can share one OneDrive. HDRcue also keeps dated copies from the last five days it made a backup. A backup holds your rules, display names, preferences and which video players were set up, but not Pro, the trial or the log.",
   "guide.backupRestore.title": "Restoring",
   "guide.backupRestore.text": "On a new PC, the welcome pages ask **Restore your HDRcue settings from OneDrive?** when they find a backup there. Otherwise, open **Settings** and select **Restore…** next to **Restore from backup**. If several PCs back up to the folder, pick the one to restore from.",
   "guide.backupRestore.more": "If you have rules already, choose **Replace all** or **Keep both**. Displays in the backup that aren't on this PC can go to a display that is, or stay as not connected, so their rules wait until they're plugged in. Video players need setting up again, and HDRcue says which.",
   "guide.backupExport.title": "Export and import",
-  "guide.backupExport.text": "Under **Export or import** in **Settings**, **Export…** saves your settings to a .hdrcue file and **Import…** loads one, such as a file from another PC. The file holds the same as a backup.",
+  "guide.backupExport.text": "Under **Export or import** in **Settings**, **Export…** saves your settings to a .hdrcue file and **Import…** loads one, such as a file from another PC. The file holds the same things as a backup.",
   "guide.pro.title": "Pro features",
-  "guide.pro.text": "Options marked PRO in the app need Pro or the 14-day free trial. To start the trial, open **Settings**, select **See Pro**, then **Try free for 14 days**. Most of these options are in the rule editor: select **Add app** for a new rule, or open a rule's ⋯ menu on the **Rules** page and choose **Edit**, which opens at **Display settings**.",
+  "guide.pro.text": "Options marked PRO in the app need Pro or the 14-day free trial. To start the trial, open **Settings**, select **See Pro**, then **Try free for 14 days**. Most of these options are in the rule editor. Select **Add app** for a new rule, or open a rule's ⋯ menu on the **Rules** page and choose **Edit**, which opens at **Display settings**.",
   "guide.pro.hdrFile.title": "HDR that follows the file",
-  "guide.pro.refresh.title": "A refresh rate that fits the film",
+  "guide.pro.refresh.title": "A refresh rate that matches the movie",
   "guide.pro.couch.title": "Couch mode",
   "guide.pro.couch.steps": [
     "Select **Add app**, pick the app you use on the TV, such as Plex or Steam, and select **Next**.",
@@ -128,7 +128,7 @@
     "Choose **While the app is full screen**.",
     "Select **Add rule**, or **Save** for a rule you're editing."
   ],
-  "guide.pro.fullScreen.note": "Borderless and exclusive full screen both count, a maximized window doesn't. The display goes back when the app leaves full screen, closes, or another app comes to the front.",
+  "guide.pro.fullScreen.note": "Borderless and exclusive full screen both count. A maximized window doesn't. The display goes back when the app leaves full screen or closes, or when another app comes to the front.",
   "guide.pro.follow.title": "HDR follows the app",
   "guide.pro.follow.steps": [
     "On **Display settings**, choose **Wherever the app is** at the top instead of **A chosen display**.",
@@ -153,7 +153,7 @@
   ],
   "guide.pro.conditions.note": "The rule runs only while every ticked condition is true, along with the choice above them. A time range can cross midnight, such as 18:00 to 02:00. The window condition is there only when the rule uses A chosen display.",
   "guide.pro.games.title": "Set up your games",
-  "guide.pro.games.note": "Finds games installed from Steam, Epic and the Xbox app. Each one gets a rule that turns HDR on for the main display while the game is full screen, and you can edit it like any rule. If you chose **Later**, the bar comes back when you install another game.",
+  "guide.pro.games.note": "Finds games installed from Steam, Epic and the Xbox app. Each one gets a rule that turns HDR on for the main display while the game is full screen, and you can edit it like any other rule. If you chose **Later**, the bar comes back when you install another game.",
   "guide.pro.hdrFile.steps": [
     "Select **Add app**, pick **mpv**, **mpv.net**, **VLC** or **PotPlayer** and select **Next**. To change a rule the player has already, open its **⋯** menu on the **Rules** page and choose **Edit** instead.",
     "Click the display you watch on and set **HDR** to **By file**.",
@@ -167,7 +167,7 @@
     "If a bar says the player needs setup first, set it up as in [Video players](#players).",
     "Select **Next**, then **Add rule**, or **Save** for a rule you're editing."
   ],
-  "guide.pro.refresh.note": "Works with mpv, mpv.net, VLC and PotPlayer. The display needs a refresh rate that matches the film's frame rate or a multiple of it. If it has none, the line says so and the rate stays as it is.",
+  "guide.pro.refresh.note": "Works with mpv, mpv.net, VLC and PotPlayer. The display needs a refresh rate that matches the movie's frame rate or a multiple of it. If it has none, the line says so and the rate stays as it is.",
   "guide.pro.games.steps": [
     "When a bar on the **Rules** page says it found games on this PC, select **Show games**.",
     "On **Set up games**, tick the games you play in HDR.",
@@ -176,8 +176,8 @@
   "help.title": "Help",
   "help.items": [
     {
-      "question": "The HDR choice is greyed out",
-      "answer": "Windows reports that this display doesn't support HDR. Check Settings > System > Display > HDR in Windows. If HDR can't be turned on there, HDRcue can't turn it on either."
+      "question": "The HDR choice is grayed out",
+      "answer": "Windows reports that this display doesn't support HDR. Check Settings > System > Display > HDR in Windows. If you can't turn HDR on there, HDRcue can't either."
     },
     {
       "question": "My app isn't in the list",
@@ -193,7 +193,7 @@
     },
     {
       "question": "How do I try Pro?",
-      "answer": "Open HDRcue, go to Settings and select See Pro, then Try free for 14 days. The trial can be used once and the days count from when you start it. Afterwards the app goes back to the free version and your rules stay saved."
+      "answer": "Open HDRcue, go to Settings, select See Pro, then Try free for 14 days. You can use the trial once, and the 14 days count from when you start it. Afterwards HDRcue goes back to the free version and keeps your rules."
     },
     {
       "question": "Which video players work with HDR by file?",
@@ -205,31 +205,31 @@
     },
     {
       "question": "How do I move my settings to a new PC?",
-      "answer": "Under Backup in Settings, back up to OneDrive or to a folder that syncs. On the new PC, HDRcue offers to restore from OneDrive when it first starts, or select Restore… in Settings. You can also carry a .hdrcue file over with Export… and Import…. See [Backup and restore](guide/#backup)."
+      "answer": "Under Backup in Settings, back up to OneDrive or to a folder that syncs. On the new PC, HDRcue offers to restore from OneDrive the first time it starts, or you can select Restore… in Settings. You can also move a .hdrcue file across with Export… and Import…. See [Backup and restore](guide/#backup)."
     },
     {
-      "question": "Uninstalling",
+      "question": "How do I uninstall it?",
       "answer": "Uninstall HDRcue from Start or Settings > Apps. Its settings are removed with it. Backups you turned on stay in the folder you chose, and a small file with the Pro trial dates stays, as the [privacy policy](privacy.html) explains."
     }
   ],
   "feedback.title": "Feedback",
-  "feedback.text": "Found a problem or have an idea? Open an issue on GitHub. English or Thai are both fine.",
+  "feedback.text": "Found a problem or have an idea? Open an issue on GitHub. You can write in English or Thai.",
   "feedback.bug": "Report a problem",
   "feedback.idea": "Suggest an idea",
   "pro.title": "HDRcue Pro",
-  "pro.text": "HDRcue is free. Pro is an optional upgrade you buy once, inside the app, through the Microsoft Store. There's no subscription.",
+  "pro.text": "HDRcue is free. Pro adds the features below. You buy it once in the app, through the Microsoft Store, and there's no subscription.",
   "pro.features": [
     {
       "title": "HDR that follows the file",
       "art": "hdr-file",
       "guideLink": "guide/#pro-hdr-by-file",
-      "text": "In mpv, mpv.net, VLC and PotPlayer, HDR films turn HDR on and everything else stays in SDR. SDR video that mpv turns into HDR counts too."
+      "text": "Play an HDR movie in mpv, mpv.net, VLC or PotPlayer and HDR turns on. Everything else plays in SDR. SDR video that mpv converts to HDR counts too."
     },
     {
-      "title": "A refresh rate that fits the film",
+      "title": "A refresh rate that matches the movie",
       "art": "refresh",
       "guideLink": "guide/#pro-refresh",
-      "text": "The display switches to a rate that fits the film's frame rate, such as 144 Hz for a 24 fps film, so pans don't stutter. Works with the same four players."
+      "text": "The display switches to a rate that fits the movie, such as 144 Hz for a 24 fps movie, so slow pans don't judder. Works with the same four players."
     },
     {
       "title": "Couch mode",
@@ -265,12 +265,12 @@
       "title": "Set up your games",
       "art": "games",
       "guideLink": "guide/#pro-games",
-      "text": "Finds the games installed from Steam, Xbox and Epic and sets them up at once."
+      "text": "Finds your Steam, Xbox and Epic games and sets them all up in one go."
     }
   ],
   "pro.howTo": "How to set it up",
-  "pro.trial": "Try it free for 14 days: open HDRcue, go to Settings and select See Pro. No card needed. When the trial ends, the app goes back to the free version and your rules stay. If you tried Pro in an earlier version, you get 7 more days once.",
-  "pro.free": "Always free: HDR on or off per display for each app, several rules per app, resolution and refresh rate, while open or while in front, putting displays back afterwards and after a crash, backup and restore, the tray panel, an HDR shortcut, silent mode, sound output (experimental) and importing settings from AutoActions.",
+  "pro.trial": "Try Pro free for 14 days: open HDRcue, go to Settings and select See Pro. You don't need a card. When the trial ends, HDRcue goes back to the free version and keeps your rules. If you tried Pro in an earlier version, you get a one-time bonus of 7 more days.",
+  "pro.free": "Always free: HDR on or off per display for each app, several rules per app, resolution and refresh rate, rules that run while an app is open or in front, putting displays back afterwards and after a crash, backup and restore, the tray panel, an HDR shortcut, silent mode, sound output (experimental) and importing settings from AutoActions.",
   "privacy.title": "Privacy policy",
   "privacy.updated": "Last updated: 15 October 2026",
   "privacy.intro": "HDRcue works entirely on your PC.",
