@@ -289,6 +289,180 @@ details.opening summary::after { transform: rotate(180deg); }
 .features h3 { font-size: 16px; margin-bottom: 6px; }
 .features p { margin: 0; font-size: 14px; color: var(--text-muted); }
 
+/* The heading's mark after "Pro": the app's PRO badge colours, violet to blue, running on into a
+   warm HDR tone, with a sparkle and now and then a soft shine across it. */
+.pro h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+
+.pro-mark {
+  position: relative;
+  overflow: hidden;
+  display: inline-grid;
+  place-items: center;
+  align-self: center;
+  width: 44px;
+  height: 26px;
+  border-radius: 999px;
+  background: linear-gradient(115deg, #7a5cff, #0a84ff 55%, #ff9a4a);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 4px 16px rgba(122, 92, 255, 0.35);
+}
+
+.pro-mark svg { position: relative; width: 20px; height: 20px; }
+
+.pro-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%);
+  transform: translateX(-110%);
+}
+
+/* A small mark beside Pro in the menu. */
+.top nav a[href$="#pro"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: -7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7a5cff, #ff9a4a);
+}
+
+/* The picture at the top of each Pro card, drawn by pro-art.js. */
+.features .art {
+  display: grid;
+  place-items: center;
+  height: 76px;
+  margin: 0 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: radial-gradient(ellipse at 50% 130%, rgba(96, 205, 255, 0.1), transparent 70%), rgba(5, 8, 25, 0.35);
+}
+
+.art svg { display: block; width: 160px; max-width: 100%; height: 64px; overflow: visible; }
+.art text { font-family: var(--font); font-weight: 600; }
+.art .bezel { fill: #0a0e22; stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5; }
+.art .stand { fill: none; stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5; stroke-linecap: round; }
+.art * { transform-box: fill-box; transform-origin: center; }
+
+/* Standing still, each picture shows the feature at work; the loop below starts from the
+   feature off, turns it on in the middle, holds, and goes back. */
+.art .off, .art .up-off { opacity: 0; }
+.art .dim { opacity: 0.35; }
+.art .slide { transform: translateX(80px); }
+.art .bar { transform-origin: left center; }
+.art .turn { color: #60cdff; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .art { --cycle: 7s; }
+  .art .on { animation: art-on var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .off { animation: art-off var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .up-on { animation: art-up-on var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .up-off { animation: art-up-off var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .pop { animation: art-pop var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .dim { animation: art-dim var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .grow { animation: art-grow var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .slide { animation: art-slide var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .rays { animation: art-rays var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .bar { animation: art-bar var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .knob { animation: art-knob var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .tick1 { animation: art-tick1 var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .tick2 { animation: art-tick2 var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+  .art .tick3 { animation: art-tick3 var(--cycle) ease-in-out var(--stagger, 0s) infinite both; }
+
+  .art .turn {
+    animation: art-turn 8s ease-in-out infinite both;
+    animation-delay: calc(var(--stagger, 0s) - var(--d, 0s));
+  }
+
+  /* Only the cards on screen, or under the pointer, move. site.js marks them .playing. */
+  .features article:not(.playing):not(:hover) .art * { animation-play-state: paused; }
+
+  .pro-mark::after { animation: shine 6s ease-in-out 1.5s infinite; }
+}
+
+@keyframes art-on { 0%, 38% { opacity: 0; } 50%, 88% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes art-off { 0%, 38% { opacity: 1; } 50%, 88% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes art-dim { 0%, 38% { opacity: 1; } 50%, 88% { opacity: 0.35; } 100% { opacity: 1; } }
+
+/* A counter: the old number is gone before the new one comes in, so they never overlap. */
+@keyframes art-up-on {
+  0%, 44% { opacity: 0; transform: translateY(7px); }
+  50%, 88% { opacity: 1; transform: none; }
+  91%, 100% { opacity: 0; transform: translateY(7px); }
+}
+
+@keyframes art-up-off {
+  0%, 38% { opacity: 1; transform: none; }
+  44%, 94% { opacity: 0; transform: translateY(-7px); }
+  100% { opacity: 1; transform: none; }
+}
+
+@keyframes art-pop {
+  0%, 38% { opacity: 0; transform: scale(0.5); }
+  50%, 88% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+@keyframes art-grow {
+  0%, 38% { transform: scale(0.5); }
+  50%, 88% { transform: none; }
+  100% { transform: scale(0.5); }
+}
+
+@keyframes art-slide {
+  0%, 38% { transform: none; }
+  50%, 88% { transform: translateX(80px); }
+  100% { transform: none; }
+}
+
+@keyframes art-rays {
+  0%, 38% { opacity: 0.55; transform: scale(0.75); }
+  50%, 88% { opacity: 1; transform: none; }
+  100% { opacity: 0.55; transform: scale(0.75); }
+}
+
+@keyframes art-bar {
+  0%, 38% { transform: scaleX(0.44); }
+  50%, 88% { transform: none; }
+  100% { transform: scaleX(0.44); }
+}
+
+@keyframes art-knob {
+  0%, 38% { transform: translateX(-29px); }
+  50%, 88% { transform: none; }
+  100% { transform: translateX(-29px); }
+}
+
+@keyframes art-tick1 {
+  0%, 10% { opacity: 0; transform: scale(0.4); }
+  18%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: scale(0.4); }
+}
+
+@keyframes art-tick2 {
+  0%, 26% { opacity: 0; transform: scale(0.4); }
+  34%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: scale(0.4); }
+}
+
+@keyframes art-tick3 {
+  0%, 42% { opacity: 0; transform: scale(0.4); }
+  50%, 88% { opacity: 1; transform: none; }
+  96%, 100% { opacity: 0; transform: scale(0.4); }
+}
+
+@keyframes art-turn {
+  0% { color: #6b7080; }
+  6%, 25% { color: #60cdff; }
+  31%, 100% { color: #6b7080; }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-110%); }
+  30%, 100% { transform: translateX(110%); }
+}
+
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 
 .button {

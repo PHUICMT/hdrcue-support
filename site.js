@@ -16,12 +16,23 @@
       }));
     });
     document.querySelectorAll('[data-i18n-cards]').forEach(holder => {
-      holder.replaceChildren(...(texts[holder.dataset.i18nCards] || []).map(item => {
+      holder.replaceChildren(...(texts[holder.dataset.i18nCards] || []).map((item, index) => {
         const card = document.createElement('article');
         const title = document.createElement('h3');
         const text = document.createElement('p');
         title.textContent = item.title;
         text.textContent = item.text;
+        // The picture is decoration; the card's text says the same.
+        const picture = typeof ProArt !== 'undefined' && ProArt[item.art];
+        if (picture) {
+          const art = document.createElement('div');
+          art.className = 'art';
+          art.setAttribute('aria-hidden', 'true');
+          // Cards side by side take turns a little, so a row doesn't change all at once.
+          art.style.setProperty('--stagger', `${(index % 4) * 0.5}s`);
+          art.innerHTML = picture;
+          card.append(art);
+        }
         card.append(title, text);
         return card;
       }));
@@ -77,6 +88,17 @@
       entries.forEach(entry => { visible = entry.isIntersecting; });
       tell();
     }, { threshold: 0.3 }).observe(frame);
+  }
+
+  // The pictures on the Pro cards move only while their card is on screen (site.css).
+  function playArt() {
+    if (reducedMotion) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('playing', entry.isIntersecting));
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.features article').forEach(card => {
+      if (card.querySelector('.art')) observer.observe(card);
+    });
   }
 
   // Sections rise in once as they come into view (the styles live in site.css).
@@ -150,6 +172,7 @@
     .then(response => response.json())
     .then(texts => {
       fill(texts);
+      playArt();
       // The text above a linked section was not there when the browser jumped to it, so the
       // jump is made again now that the page has its full length.
       const linked = location.hash.length > 1 && document.getElementById(location.hash.slice(1));

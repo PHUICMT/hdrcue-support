@@ -25,3 +25,8 @@ The pictures in the guide are drawn by the same `demo/view.js`, standing still: 
 `data-window` element on the main page gets one page of the app (`choose`, `display` or
 `settings`) in a shadow root that loads `demo/demo.css`. `view.js` asks for `demo.css` with its
 own `?v=`, so give both the same number when either changes.
+
+Each Pro card on the main page has a small moving picture drawn by `pro-art.js` in inline SVG,
+named by the card's `art` in `i18n/en.json`. `site.css` animates them, only while the card is on
+screen or under the pointer, and shows them standing still on the feature switched on to
+visitors who ask for reduced motion.

@@ -71,34 +71,42 @@
   "pro.features": [
     {
       "title": "HDR that follows the file",
+      "art": "hdr-file",
       "text": "In mpv and mpv.net, HDR films turn HDR on and everything else stays in SDR."
     },
     {
       "title": "A refresh rate that fits the film",
+      "art": "refresh",
       "text": "The display switches to a rate that fits the film's frame rate, such as 144 Hz for a 24 fps film, so pans don't stutter."
     },
     {
       "title": "Couch mode",
+      "art": "couch",
       "text": "Make a TV the main display and turn the other displays off while an app is open. They come back when it closes."
     },
     {
       "title": "Full screen only",
+      "art": "fullscreen",
       "text": "A rule runs only while the game is full screen, so HDR stays off in its launcher."
     },
     {
       "title": "HDR follows the app",
+      "art": "follows",
       "text": "Move the app to another display and HDR moves with it."
     },
     {
       "title": "Brightness and color profile per app",
+      "art": "brightness",
       "text": "Set the brightness of DDC/CI displays and pick a color profile for each app. Color profiles need Windows 11."
     },
     {
       "title": "More conditions",
+      "art": "conditions",
       "text": "Run a rule only while the PC is plugged in, at certain times of day, while a display is connected, or while the window is on a chosen display."
     },
     {
       "title": "Set up your games",
+      "art": "games",
       "text": "Finds the games installed from Steam, Xbox and Epic and sets them up at once."
     }
   ],
