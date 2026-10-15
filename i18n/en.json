@@ -285,5 +285,5 @@
   "privacy.contact": "For questions about this policy, open an issue on GitHub.",
   "footer.tagline": "HDR for the apps you choose",
   "footer.sponsor": "Sponsor",
-  "footer.copyright": "© 2026 PHUICMT"
+  "footer.copyright": "© {year} PHUICMT"
 }

@@ -36,5 +36,5 @@
         <a href="${sponsorUrl}" data-i18n="footer.sponsor">Sponsor</a>
       </nav>
     </div>
-    <p class="copyright" data-i18n="footer.copyright">&copy; 2026 PHUICMT</p>`;
+    <p class="copyright" data-i18n="footer.copyright">&copy; ${new Date().getFullYear()} PHUICMT</p>`;
 })();
