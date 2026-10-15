@@ -231,6 +231,7 @@
     .then(response => response.json())
     .then(texts => {
       fill(texts);
+      document.dispatchEvent(new CustomEvent('site-texts-filled', { detail: texts }));
       playArt();
       // The text above a linked section was not there when the browser jumped to it, so the
       // jump is made again now that the page has its full length.

@@ -1,6 +1,7 @@
 :root {
   --page: #0f1430;
   --page-end: #1d1238;
+  --page-gradient: linear-gradient(180deg, var(--page), var(--page-end));
   --card: rgba(255, 255, 255, 0.05);
   --card-hover: rgba(255, 255, 255, 0.09);
   --stroke: rgba(255, 255, 255, 0.1);
@@ -12,6 +13,8 @@
   --on-accent: #001a33;
   --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --scrollbar-thumb: rgba(96, 205, 255, 0.45);
+  --scrollbar-thumb-hover: rgba(96, 205, 255, 0.75);
   color-scheme: dark;
 }
 
@@ -65,13 +68,14 @@
   100% { color: var(--text); transform: none; }
 }
 
+html { background: var(--page-gradient) fixed; }
+
 body {
   margin: 0;
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.65;
   color: var(--text);
-  background: linear-gradient(180deg, var(--page), var(--page-end)) fixed;
 }
 
 a { color: var(--accent); transition: color 0.2s; }
@@ -220,6 +224,107 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 
 .guide { display: grid; gap: 16px; }
 .guide ul { margin: 12px 0 0; padding-left: 20px; color: var(--text-muted); }
+
+/* A guide picture is a button that opens it larger (lightbox.js). The corner icon shows while
+   the picture is drawn smaller than its own size. */
+.picture-button {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font: inherit;
+  cursor: zoom-in;
+}
+
+.picture-button > .shot { margin-top: 0; }
+
+.zoom-hint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--stroke);
+  background: rgba(8, 10, 28, 0.75);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s var(--ease);
+}
+
+.zoom-hint svg { width: 16px; height: 16px; fill: none; stroke: var(--text); stroke-width: 1.5; stroke-linecap: round; }
+.picture-button.is-reduced .zoom-hint { opacity: 0.85; }
+.picture-button:hover .zoom-hint, .picture-button:focus-visible .zoom-hint { opacity: 1; transform: scale(1.08); }
+
+/* The lightbox: the page dims and stops scrolling, and the picture sits in the middle, as large
+   as fits. A picture wider than the screen scrolls inside its frame. */
+html.lightbox-open { overflow: hidden; }
+
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+}
+
+.lightbox[open] { display: flex; align-items: center; justify-content: center; }
+.lightbox::backdrop { background: transparent; }
+
+/* The shade is an element of its own rather than the backdrop, so it can fade with the picture. */
+.lightbox-shade {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 25, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.lightbox-close {
+  align-self: flex-end;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.lightbox-close:hover { background: var(--card-hover); border-color: var(--stroke-hover); }
+.lightbox-close svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+
+.lightbox-frame {
+  overflow: auto;
+  transform-origin: 0 0;
+  overscroll-behavior: contain;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.lightbox-picture { position: relative; overflow: hidden; background: #1c2029; }
+.lightbox-caption { margin: 0; text-align: center; font-size: 14px; color: var(--text-muted); }
 
 /* Setting up Pro, after the guide's other parts: one card per Pro feature, its steps numbered
    like How it works, then what it needs and a strip of the app's page. */
@@ -611,19 +716,29 @@ details.opening summary::after { transform: rotate(180deg); }
   .bottom-row { flex-direction: column; }
 }
 
-/* A slim scrollbar in the page's own colors: the standard properties, then the WebKit ones
-   for Safari and older Chromium. */
-html { scrollbar-width: thin; scrollbar-color: rgba(96, 205, 255, 0.45) var(--page); }
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--page); }
-
-::-webkit-scrollbar-thumb {
-  border: 3px solid var(--page);
-  border-radius: 999px;
-  background: rgba(96, 205, 255, 0.4);
+/* Slim, rounded scrollbars in the site's colors, for the page and any inner scroll area. Browsers
+   that know the WebKit scrollbar parts (Chromium, Safari) take those, which drop the arrow
+   buttons and brighten the thumb under the pointer; Firefox takes the standard properties. */
+@supports not selector(::-webkit-scrollbar) {
+  :root { scrollbar-color: var(--scrollbar-thumb) transparent; }
+  * { scrollbar-width: thin; }
 }
 
-::-webkit-scrollbar-thumb:hover { background: rgba(96, 205, 255, 0.7); }
+::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
+::-webkit-scrollbar-button { display: none; }
+::-webkit-scrollbar-track { background: transparent; }
+/* The page's own scrollbar sits beside the page, not over it, so a see-through track would show
+   a dark strip. Its track gets the page's gradient instead, which lines up with the fixed one
+   behind the page since both span the window. Chromium styles it from body, Safari from html. */
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { background: var(--page-gradient); }
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--scrollbar-thumb) padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover) padding-box; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
