@@ -1,4 +1,5 @@
-// Fills the pages from i18n/en.json and plays the demo while it is on screen.
+// Fills the pages from i18n/en.json, draws the guide's pictures and plays the demo while it is
+// on screen.
 (function () {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -44,9 +45,6 @@
         });
         return details;
       }));
-    });
-    document.querySelectorAll('[data-shot]').forEach(image => {
-      image.src = `images/screens/${image.dataset.shot}`;
     });
   }
 
@@ -136,9 +134,16 @@
     });
   }
 
+  // The guide's pictures of the app's pages, drawn by demo/view.js.
+  function drawWindows() {
+    if (typeof DemoView === 'undefined') return;
+    document.querySelectorAll('[data-window]').forEach(host => DemoView.draw(host, host.dataset.window));
+  }
+
   revealSections();
   followSections();
   watchDemo();
+  drawWindows();
 
   // no-cache asks the server whether the file changed, so new text shows at once.
   fetch('i18n/en.json', { cache: 'no-cache' })

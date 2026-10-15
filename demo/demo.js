@@ -2,8 +2,7 @@
 // the app does, with a caption for each step. It loops, pauses while the page is hidden, and
 // follows {type: 'play'} and {type: 'pause'} messages from the page that embeds it.
 (function () {
-  const width = 1344;
-  const height = 850;
+  const { width, height } = DemoView.size;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Each step: its caption in ../i18n/en.json, the control to click, and where on that

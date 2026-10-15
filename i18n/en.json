@@ -59,7 +59,7 @@
     },
     {
       "question": "Uninstalling",
-      "answer": "Uninstall HDRcue from Start or Settings > Apps. Its settings are removed with it."
+      "answer": "Uninstall HDRcue from Start or Settings > Apps. Its settings are removed with it. Only a small file with the Pro trial dates stays, as the privacy policy explains."
     }
   ],
   "feedback.title": "Feedback",
@@ -117,7 +117,8 @@
     "Sound outputs, display brightness and color profiles, and whether the PC is plugged in, for the rules that use them."
   ],
   "privacy.stores.title": "What HDRcue stores",
-  "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, when you started the Pro trial, and a small log of errors. These are files in HDRcue's own folder on your PC, plus one value in the Windows registry for your user account that keeps a second copy of the trial dates. When HDRcue is installed from the Microsoft Store, that value is in the app's own private part of the registry. Uninstalling the app removes all of them.",
+  "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, when you started the Pro trial and the last time HDRcue checked it, and a small log of errors. These are files in HDRcue's own folder on your PC, plus one value in the Windows registry for your user account that keeps a second copy of the trial dates. When HDRcue is installed from the Microsoft Store, that value is in the app's own private part of the registry. Uninstalling the app removes them.",
+  "privacy.stores.third": "HDRcue also keeps a third copy of the trial dates in a small file in your user folder, under AppData\\LocalLow\\HDRcue. This file stays after you uninstall HDRcue, so that installing it again does not start the trial over. It holds only the trial dates, the last time HDRcue checked them, and a check value tied to your PC, and it stays on your PC.",
   "privacy.sends.title": "What HDRcue sends",
   "privacy.sends": "Nothing to us or anyone else. HDRcue has no telemetry and no account. The only connection it makes is to the Microsoft Store, to check whether you own HDRcue Pro and to buy it. Microsoft handles that under the Microsoft Privacy Statement.",
   "privacy.contact.title": "Contact",

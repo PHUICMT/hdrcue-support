@@ -157,6 +157,14 @@ section { padding: 48px 0 8px; scroll-margin-top: 56px; }
 
 .shot.small { margin-top: 16px; }
 
+/* A page of the app drawn by demo/view.js. It keeps the window's shape at any width. */
+.window {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1344 / 850;
+  background: #1c2029;
+}
+
 h2 { font-size: 28px; margin: 0 0 20px; }
 h3 { font-size: 18px; margin: 0 0 8px; }
 

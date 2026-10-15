@@ -19,7 +19,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The HDRcue window listing apps with their HDR rules">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="site.css?v=14">
+  <link rel="stylesheet" href="site.css?v=15">
 </head>
 <body>
   <header class="top">
@@ -46,7 +46,7 @@
     <section id="tour" class="tour">
       <h2 data-i18n="tour.title">Adding an app, step by step</h2>
       <div class="stage">
-        <iframe class="demo-frame" src="demo/?v=12" title="Demo of adding an app in HDRcue" loading="lazy"></iframe>
+        <iframe class="demo-frame" src="demo/?v=13" title="Demo of adding an app in HDRcue" loading="lazy"></iframe>
       </div>
     </section>
 
@@ -59,6 +59,8 @@
       </div>
     </section>
 
+    <!-- The pictures in the guide are the app's pages drawn by demo/view.js, the same drawing as
+         the tour, standing still. The text around them says what they show. -->
     <section id="guide">
       <h2 data-i18n="guide.title">Guide</h2>
       <div class="guide">
@@ -70,15 +72,15 @@
         <article>
           <h3 data-i18n="guide.add.title"></h3>
           <p data-i18n="guide.add.text"></p>
-          <img class="shot small" data-shot="02-choose-app.png" alt="">
-          <img class="shot small" data-shot="03-display.png" alt="">
+          <div class="shot small window" data-window="choose" aria-hidden="true" inert></div>
+          <div class="shot small window" data-window="display" aria-hidden="true" inert></div>
         </article>
         <article><h3 data-i18n="guide.tray.title"></h3><p data-i18n="guide.tray.text"></p></article>
         <article><h3 data-i18n="guide.restore.title"></h3><p data-i18n="guide.restore.text"></p></article>
         <article>
           <h3 data-i18n="guide.settings.title"></h3>
           <p data-i18n="guide.settings.text"></p>
-          <img class="shot small" data-shot="05-settings.png" alt="">
+          <div class="shot small window" data-window="settings" aria-hidden="true" inert></div>
         </article>
       </div>
     </section>
@@ -126,6 +128,7 @@
     </div>
     <p class="copyright" data-i18n="footer.copyright">&copy; 2026 PHUICMT</p>
   </footer>
-  <script src="site.js?v=14"></script>
+  <script src="demo/view.js?v=11"></script>
+  <script src="site.js?v=15"></script>
 </body>
 </html>
