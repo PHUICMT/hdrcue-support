@@ -282,6 +282,32 @@ b { font-weight: 600; }
 
 .rule.off { opacity: 0.62; }
 
+/* the dots that show a rule can be dragged, faint until the pointer is over the card */
+.rule .handle { width: 16px; height: 16px; flex: none; margin: 0 -8px 0 -10px; fill: var(--text-2); stroke: none; opacity: 0.45; }
+
+/* the rules page heading folds its group; the chevron points up while it is open */
+.sect.fold { display: flex; align-items: center; justify-content: space-between; padding-right: 10px; }
+.sect.fold .chev .i { width: 12px; height: 12px; transform: rotate(180deg); color: var(--text-2); }
+
+/* several rules of one app in one card: the app once, then a numbered row for each rule */
+.appcard { display: block; padding: 0; }
+.apphead, .subrule { display: flex; align-items: center; gap: 14px; padding: 12px 16px; }
+.apphead .count { flex: none; }
+.subrule { padding-left: 44px; border-top: 1px solid var(--stroke); }
+.subrule.off > :not(.handle) { opacity: 0.62; }
+
+.place {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 12px;
+}
+
 .appic {
   width: 36px;
   height: 36px;
@@ -595,6 +621,23 @@ b { font-weight: 600; }
 .sentence { font-size: 17px; line-height: 1.6; }
 .sentence .k { color: var(--accent); font-weight: 600; }
 .summary .small { margin-top: 6px; }
+
+/* the rule's own name, under the summary: a text box with its label above it */
+.namefield { display: grid; gap: 6px; margin-top: 18px; }
+.namefield .ordernote { max-width: 760px; }
+
+.textbox {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 32px;
+  padding: 0 11px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+  background: var(--control);
+  color: var(--text-3);
+}
 
 /* motion: entrances run once when a node is inserted, and the patcher keeps nodes alive */
 @keyframes fadeIn { from { opacity: 0; } }

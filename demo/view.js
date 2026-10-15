@@ -29,13 +29,17 @@ const DemoView = (function () {
     pro: 'PRO',
     active: 'Active',
     waiting: 'Waiting',
+    waitingFor: display => `Waiting for ${display}`,
     off: 'Off',
+    // Several rules for one app share a card, with a numbered row for each.
+    ruleCount: count => count === 1 ? '1 rule' : `${count} rules`,
+    orderNote: 'When more than one applies, the higher rule wins. Drag a rule to change the order.',
+    unnamedRule: number => `Rule ${number}`,
     steps: ['Choose app', 'Display settings', 'When'],
     chooseLead: 'Easiest way: open the app, then pick it from the first tab.',
     openNow: 'Open now',
     allApps: 'All apps',
     search: 'Search apps and games',
-    hasRule: 'Has a rule',
     browse: 'Browse for .exe…',
     displayTitle: app => `What should happen when ${app} opens?`,
     displayLead: 'Pick a display, then choose what changes. Leave the rest as is.',
@@ -56,6 +60,9 @@ const DemoView = (function () {
       { id: 'full', title: 'While the app is full screen', description: 'Good for games and video players' },
     ],
     recommended: 'Recommended',
+    ruleName: ['Rule name (optional)', 'For example: Projector'],
+    orderNew: app => `${app} has other rules. When more than one applies, the higher one wins. New rules go to the bottom. `
+      + "To change that, drag the rule cards or use Move up in the rule's menu.",
     sentence: (app, display) => `When <b>${app}</b> is open → <b>${display}</b>: HDR <span class="k">on</span>`,
     goesBack: app => `Goes back when ${app} closes`,
     cancel: 'Cancel',
@@ -82,7 +89,7 @@ const DemoView = (function () {
       + "Displays that aren't connected stay here, so you can still set up rules for them.",
     // The Pro options, for the guide's pictures of setting them up.
     byFile: 'By file',
-    byFileDescription: 'Works with 2 players',
+    byFileDescription: 'Turns on for HDR files, and for SDR files the player converts to HDR. Works with 4 players',
     seeList: 'See list',
     followNote: 'Settings apply to the display the app window is on. Move the window and the settings follow.',
     needsSetupTitle: name => `${name} needs setup first.`,
@@ -184,6 +191,9 @@ const DemoView = (function () {
     video: svg('<rect x="1.5" y="4" width="9" height="8" rx="1.2"/><path d="M10.5 7.2l4-2.3v6.2l-4-2.3"/>'),
     sliders: svg('<path d="M1.5 4.5h13M1.5 11.5h13"/><circle class="knob" cx="10.5" cy="4.5" r="1.8"/><circle class="knob" cx="5.5" cy="11.5" r="1.8"/>'),
     chevron: svg('<path d="M4 6l4 4 4-4"/>'),
+    // Six dots at a rule's left edge: it can be dragged to another place.
+    handle: svg('<circle cx="6" cy="4" r="1.1"/><circle cx="10" cy="4" r="1.1"/><circle cx="6" cy="8" r="1.1"/>'
+      + '<circle cx="10" cy="8" r="1.1"/><circle cx="6" cy="12" r="1.1"/><circle cx="10" cy="12" r="1.1"/>', 'i handle'),
     warn: svg('<path d="M8 1.8l6.6 11.7H1.4z"/><path d="M8 6.2v3.6M8 11.6v.2"/>'),
     game: svg('<path d="M4.6 4.5h6.8a3.1 3.1 0 0 1 3 2.4l.6 3.2a1.8 1.8 0 0 1-3.1 1.5L10.4 10H5.6l-1.5 1.6A1.8 1.8 0 0 1 1 10.1l.6-3.2a3.1 3.1 0 0 1 3-2.4z"/><path d="M4.8 6.4v2.2M3.7 7.5h2.2M10.8 7.2v.1M12 8.1v.1"/>'),
     resolution: svg('<rect x="1.5" y="2.5" width="13" height="11" rx="1"/><path d="M4.5 5.5h2.5M4.5 5.5V8M11.5 10.5H9M11.5 10.5V8"/>'),
@@ -197,7 +207,10 @@ const DemoView = (function () {
 
   const initialState = () => ({
     page: 'rules',
+    // Cinema Player has two rules: the higher one for the projector, which isn't connected,
+    // and the other for the main display.
     rules: [
+      { app: 'cinema', name: 'Projector', display: 'Projector', when: 'open', hdr: 'on', enabled: true, status: 'away' },
       { app: 'cinema', when: 'open', hdr: 'on', enabled: true, status: 'active' },
       { app: 'photo', when: 'front', hdr: 'off', enabled: false, status: 'waiting' },
       { app: 'racer', when: 'full', hdr: 'on', enabled: true, status: 'waiting' },
@@ -215,9 +228,11 @@ const DemoView = (function () {
   const proBadge = (size = '') => `<span class="probadge ${size}">${text.pro}</span>`;
   const isGame = id => !!apps[id].game;
 
-  // "Apps (2)" or "Games (1)" and what is under it; nothing for an empty group.
-  const groupHtml = (key, heading, count, body, first = false) => count
-    ? `<div class="group" data-key="group-${key}"><div class="sect ${first ? 'first' : ''}">${heading(count)}</div>${body}</div>`
+  // "Apps (2)" or "Games (1)" and what is under it; nothing for an empty group. On the rules
+  // page the heading folds its group, with a chevron that points up while it is open.
+  const groupHtml = (key, heading, count, body, first = false, folds = false) => count
+    ? `<div class="group" data-key="group-${key}"><div class="sect ${first ? 'first' : ''} ${folds ? 'fold' : ''}">${heading(count)}`
+      + `${folds ? `<span class="chev">${icon.chevron}</span>` : ''}</div>${body}</div>`
     : '';
 
   // A row of a settings card: icon, title with an optional description, and its control.
@@ -267,21 +282,49 @@ const DemoView = (function () {
       <button class="btn small">${text.showGames}</button><button class="btn small ghost">${text.later}</button></div>`;
   }
 
+  // One card for each app, in the order of their first rules. The group counts the cards.
   function ruleGroupHtml(key, heading, rules) {
-    return groupHtml(key, heading, rules.length, `<div class="list">${rules.map(ruleHtml).join('')}</div>`);
+    const byApp = new Map();
+    rules.forEach(rule => byApp.set(rule.app, [...(byApp.get(rule.app) || []), rule]));
+    const cards = [...byApp.values()].map((appRules, index) =>
+      appRules.length === 1 ? ruleHtml(appRules[0], index) : appCardHtml(appRules, index)).join('');
+    return groupHtml(key, heading, byApp.size, `<div class="list">${cards}</div>`, false, true);
   }
 
+  function pillHtml(rule) {
+    if (!rule.enabled) return `<span class="pill"><span class="dot"></span>${text.off}</span>`;
+    if (rule.status === 'active') return `<span class="pill ok"><span class="dot"></span>${text.active}</span>`;
+    const label = rule.status === 'away' ? text.waitingFor(rule.display) : text.waiting;
+    return `<span class="pill"><span class="dot"></span>${label}</span>`;
+  }
+
+  // When the rule runs, its display, what it changes and its extra conditions.
+  const tagsHtml = rule => `<div class="line2"><span class="tag">${icon[rule.when]}${text.when[rule.when]}`
+    + `${rule.when === 'full' ? proBadge('small') : ''}</span>`
+    + `<span class="tag">${icon.monitor}${rule.display || 'Main display'}</span>`
+    + `<span class="tag change">${text.hdrParts[rule.hdr]}${rule.hdr === 'file' ? proBadge('small') : ''}</span>`
+    + `${rule.sound ? `<span class="tag">${icon.sound}${rule.sound}</span>` : ''}`
+    + `${rule.extra ? `<span class="tag">${rule.extra}${proBadge('small')}</span>` : ''}</div>`;
+
+  const switchesHtml = rule =>
+    `${pillHtml(rule)}<span class="tgl ${rule.enabled ? 'on' : ''}"></span><span class="iconbtn">${icon.more}</span>`;
+
   function ruleHtml(rule, index) {
-    const pill = !rule.enabled
-      ? `<span class="pill"><span class="dot"></span>${text.off}</span>`
-      : rule.status === 'active'
-        ? `<span class="pill ok"><span class="dot"></span>${text.active}</span>`
-        : `<span class="pill"><span class="dot"></span>${text.waiting}</span>`;
-    return `<div class="card rule ${rule.enabled ? '' : 'off'}" data-key="rule-${rule.app}" style="--d:${index}">${appIcon(rule.app)}
-      <div class="grow"><div class="line1"><b>${apps[rule.app].name}</b></div>
-        <div class="line2"><span class="tag">${icon[rule.when]}${text.when[rule.when]}${rule.when === 'full' ? proBadge('small') : ''}</span>
-          <span class="tag">${icon.monitor}Main display</span><span class="tag change">HDR ${rule.hdr}</span></div></div>
-      ${pill}<span class="tgl ${rule.enabled ? 'on' : ''}"></span><span class="iconbtn">${icon.more}</span></div>`;
+    return `<div class="card rule ${rule.enabled ? '' : 'off'}" data-key="rule-${rule.app}" style="--d:${index}">${icon.handle}${appIcon(rule.app)}
+      <div class="grow"><div class="line1"><b>${apps[rule.app].name}</b></div>${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`;
+  }
+
+  // An app with several rules: its name once, then a numbered row for each rule, the higher
+  // one first. A rule without a name is called by its number.
+  function appCardHtml(appRules, index) {
+    const app = appRules[0].app;
+    const rows = appRules.map((rule, place) => `<div class="subrule ${rule.enabled ? '' : 'off'}">${icon.handle}
+        <span class="place">${place + 1}</span><div class="grow"><div class="line1"><b>${rule.name || text.unnamedRule(place + 1)}</b></div>
+        ${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`).join('');
+    return `<div class="card rule appcard" data-key="app-${app}" style="--d:${index}">
+      <div class="apphead">${icon.handle}${appIcon(app)}<div class="grow"><b>${apps[app].name}</b>
+        <div class="small muted">${text.orderNote}</div></div><span class="small muted count">${text.ruleCount(appRules.length)}</span></div>
+      ${rows}</div>`;
   }
 
   function wizardHtml(s) {
@@ -304,9 +347,9 @@ const DemoView = (function () {
 
   function chooseAppHtml(s) {
     const tile = (id, index) => {
-      const hasRule = s.rules.some(rule => rule.app === id);
-      const sub = hasRule
-        ? `<div class="sub has">${icon.check}${text.hasRule}</div>`
+      const ruleCount = s.rules.filter(rule => rule.app === id).length;
+      const sub = ruleCount
+        ? `<div class="sub has">${icon.check}${text.ruleCount(ruleCount)}</div>`
         : `<div class="sub">${apps[id].name}.exe</div>`;
       return `<div class="tile ${s.wizard.app === id ? 'sel' : ''}" data-key="tile-${id}" data-target="tile-${id}" style="--d:${index}">
         ${appIcon(id)}<div><div class="name">${apps[id].name}</div>${sub}</div><span class="run"></span></div>`;
@@ -400,23 +443,26 @@ const DemoView = (function () {
     return `<div class="map" style="width:${width}px;height:${(bottom - top) * scale}px">${tiles}</div>`;
   }
 
-  // The tour keeps the first choice and shows its short summary. The guide's pictures pick a
-  // choice, show the extra conditions under the choices and write the summary as the app does.
+  // The choices, the extra conditions under them, the summary and the rule's name, as in the
+  // app. The tour keeps the first choice and shows its short summary. The guide's pictures
+  // pick a choice and write the summary as the app does.
   function whenHtml(s) {
     const wizard = s.wizard;
     const name = apps[wizard.app].name;
     const when = wizard.when || 'open';
     const choices = text.whenChoices.map((choice, index) => whenChoiceHtml(choice, index, when)).join('');
+    const order = wizard.otherRules ? `<div class="small muted ordernote">${text.orderNew(name)}</div>` : '';
+    const naming = `<div class="namefield"><div>${text.ruleName[0]}</div><div class="textbox">${text.ruleName[1]}</div>${order}</div>`;
     if (!wizard.when) {
-      return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}
+      return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
         <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
-          <div class="small muted">${text.goesBack(name)}</div></div>`;
+          <div class="small muted">${text.goesBack(name)}</div></div>${naming}`;
     }
     const display = wizard.target === 'app' ? text.appsDisplay : 'Main display';
     const changes = [text.hdrParts[wizard.hdr || 'on']].map(part => `<span class="k">${part}</span>`).join(', ');
     return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
       <div class="card summary"><div class="sentence">${text.sentences[when](name)} → <b>${display}</b>: ${changes}</div>
-        <div class="small muted">${text.goesBackFrom[when](name)}</div></div>`;
+        <div class="small muted">${text.goesBackFrom[when](name)}</div></div>${naming}`;
   }
 
   // The extra conditions, each a check box marked PRO. The first one is there only while the
@@ -589,6 +635,26 @@ const DemoView = (function () {
     games: {
       state: () => ({ ...initialState(), gamesFound: 3 }),
       from: '.head', height: 172,
+    },
+    // Two rules for one player that both pick a sound output: the higher one for the projector,
+    // only while the window is on it, and the other for the main display.
+    'rule-order': {
+      state: () => ({
+        ...initialState(),
+        rules: [
+          {
+            app: 'mpv', name: 'Projector', display: 'Projector', when: 'open', hdr: 'file', sound: 'Projector',
+            extra: 'Window on Projector', enabled: true, status: 'away',
+          },
+          { app: 'mpv', name: 'Desk', when: 'open', hdr: 'file', sound: 'Headphones', enabled: true, status: 'waiting' },
+        ],
+      }),
+      from: '.group', height: 262, pad: 12,
+    },
+    // The name box under the summary, for an app that has rules already.
+    'rule-name': {
+      state: () => wizardAt(3, { app: 'mpv', hdr: 'file', player: true, when: 'open', otherRules: true }),
+      from: '.summary', height: 196,
     },
   };
 
