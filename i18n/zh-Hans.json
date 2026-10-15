@@ -78,10 +78,10 @@
   "guide.order.example": "比如 mpv 有两条规则。**投影仪**规则在投影仪上按文件切换 HDR，并把声音输出到投影仪；**书桌**规则在书桌显示器上做同样的事，声音输出到耳机。两条规则都设置了声音输出，所以要把投影仪规则排在上面，并在其中勾选**仅当应用窗口在投影仪上时**。这样 mpv 在投影仪上播放时，两条规则都适用，以投影仪规则为准，声音从投影仪出来；把 mpv 拖回书桌显示器，就只剩书桌规则适用。如果不加这个窗口条件，只要 mpv 开着，就总是投影仪规则优先，哪怕你人在书桌前。",
   "guide.order.summary": "卡片下方的**打开 mpv 时会发生什么**摘要会列出各种情况下哪条规则生效；如果某条规则会接管另一条，也会提醒你。",
   "guide.players.title": "视频播放器",
-  "guide.players.text": "按文件切换 HDR 和**匹配影片**这两项 Pro 功能，需要知道播放器正在放哪个文件，目前支持 mpv、mpv.net、VLC 和 PotPlayer。在**设置**页的**视频播放器**里，可以看到这台电脑上有哪些播放器、是否已就绪，旁边有**设置**和**撤销**按钮。如果给还没就绪的播放器选了**按文件**，规则编辑器里也会出现同样的设置入口。",
+  "guide.players.text": "按文件切换 HDR 和**匹配影片**这两项 Pro 功能，需要知道播放器正在放哪个文件，目前支持 mpv、mpv.net、VLC 和 PotPlayer。在**设置**页的**视频播放器**里，可以看到这台电脑上有哪些播放器、是否已就绪，旁边有**立即设置**和**撤销**按钮。如果给还没就绪的播放器选了**按文件**，规则编辑器里也会出现同样的设置入口。",
   "guide.mpv.title": "mpv 和 mpv.net",
   "guide.mpv.steps": [
-    "在**视频播放器**列表或规则编辑器的提示栏里，点击播放器旁边的**设置**按钮。",
+    "在**视频播放器**列表或规则编辑器的提示栏里，点击播放器旁边的**立即设置**。",
     "HDRcue 会显示要添加到 mpv.conf 末尾的那一行，点击**添加**。",
     "如果播放器正开着，把它重启一次。"
   ],
@@ -90,7 +90,7 @@
   "guide.vlc.title": "VLC",
   "guide.vlc.steps": [
     "先打开一次 VLC 再关掉，让它生成设置文件 vlcrc。",
-    "点击**设置**按钮，HDRcue 会列出 vlcrc 里要改的几行，点击**更改**。",
+    "点击**立即设置**，HDRcue 会列出 vlcrc 里要改的几行，点击**更改**。",
     "如果 VLC 正开着，把它重启一次。"
   ],
   "guide.vlc.note": "这一步会开启 VLC 的网页界面（仅限本机访问，密码由 HDRcue 生成），HDRcue 通过它查询正在播放的文件。vlcrc 里的其他内容不会改动，原文件也会备份。如果 VLC 还没生成 vlcrc，HDRcue 会提示你先打开再关闭 VLC，然后重试。",
@@ -157,7 +157,7 @@
   "guide.pro.hdrFile.steps": [
     "点击**添加应用**，选 **mpv**、**mpv.net**、**VLC** 或 **PotPlayer**，再点击**下一步**。如果播放器已经有规则，也可以在**规则**页打开它的 **⋯** 菜单，选择**编辑**。",
     "点击你用来看电影的显示器，把 **HDR** 设为**按文件**。",
-    "如果提示栏显示播放器需要先设置，点击**设置**按钮，按[视频播放器](#players)里的步骤操作。PotPlayer 无需设置。",
+    "如果提示栏显示播放器需要先设置，点击**立即设置**，按[视频播放器](#players)里的步骤操作。PotPlayer 无需设置。",
     "点击**下一步**，选好规则什么时候运行，再点击**添加规则**。"
   ],
   "guide.pro.hdrFile.note": "播放 HDR 文件时开启 HDR，其他内容保持 SDR。mpv 或 mpv.net 把 SDR 视频转成 HDR 时（比如用 RTX Video HDR），HDR 也会开启。",
@@ -201,7 +201,7 @@
     },
     {
       "question": "VLC 设置不了",
-      "answer": "VLC 要在第一次关闭时才会生成设置文件。先打开一次 VLC 再关掉，然后重新点击“设置”按钮。"
+      "answer": "VLC 要在第一次关闭时才会生成设置文件。先打开一次 VLC 再关掉，然后重新点击“立即设置”。"
     },
     {
       "question": "怎么把设置搬到新电脑？",
@@ -384,14 +384,14 @@
   "app.nav.rules": "规则",
   "app.now.by": "HDR 开启 · {app} 的规则",
   "app.now.none": "SDR · 没有运行中的规则",
-  "app.part.hdr.ByFile": "HDR 按文件",
+  "app.part.hdr.ByFile": "按文件切换 HDR",
   "app.part.hdr.Off": "HDR 关闭",
   "app.part.hdr.On": "HDR 开启",
   "app.part.match": "匹配影片",
   "app.players.need.text": "设置之前，按文件切换 HDR 不会生效。",
   "app.players.need.title": "{name} 需要先设置。",
   "app.players.needsSetup": "需要设置",
-  "app.players.setUp": "设置",
+  "app.players.setUp": "立即设置",
   "app.players.title": "视频播放器",
   "app.preferences.accent": "主题色",
   "app.preferences.accent.Custom": "自定义",

@@ -353,7 +353,7 @@
   "app.editor.refresh.preview": "On {display}: {examples}",
   "app.editor.resolution": "Resolution",
   "app.editor.sentence.On": "on",
-  "app.editor.sentence.front": "While using <b>{app}</b>",
+  "app.editor.sentence.front": "When <b>{app}</b> is in front",
   "app.editor.sentence.full": "When <b>{app}</b> is full screen",
   "app.editor.sentence.hdr": "HDR",
   "app.editor.sentence.open": "When <b>{app}</b> is open",
