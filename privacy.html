@@ -18,18 +18,10 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The HDRcue window listing apps with their HDR rules">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="site.css?v=20">
+  <link rel="stylesheet" href="site.css?v=22">
 </head>
-<body>
-  <header class="top">
-    <a class="brand" href="./"><img src="images/icon.png" alt="" width="28" height="28">HDRcue</a>
-    <nav>
-      <a href="./#guide" data-i18n="nav.guide">Guide</a>
-      <a href="./#help" data-i18n="nav.help">Help</a>
-      <a href="./#feedback" data-i18n="nav.feedback">Feedback</a>
-      <a href="./#pro" data-i18n="nav.pro">Pro</a>
-    </nav>
-  </header>
+<body data-root="./" data-page="privacy">
+  <header class="top"></header>
 
   <main class="document">
     <h1 data-i18n="privacy.title">Privacy policy</h1>
@@ -43,6 +35,10 @@
     <p data-i18n="privacy.stores"></p>
     <p data-i18n="privacy.stores.third"></p>
 
+    <h2 data-i18n="privacy.backups.title"></h2>
+    <p data-i18n="privacy.backups"></p>
+    <p data-i18n="privacy.backups.sync"></p>
+
     <h2 data-i18n="privacy.sends.title"></h2>
     <p data-i18n="privacy.sends"></p>
 
@@ -54,32 +50,22 @@
     <!-- The English text without JavaScript, for readers and checkers that do not run it. -->
     <noscript>
       <p>HDRcue works entirely on your PC. It reads which apps are running, the state of
-      your displays and the apps in your Start menu. It stores your settings in its own
-      folder on your PC, plus one value in the Windows registry for your user account with a
-      second copy of the Pro trial dates. A third copy of the trial dates stays in a small file
-      under AppData\LocalLow\HDRcue after you uninstall, so that installing again does not
-      start the trial over. It has no telemetry and no account. Its only connection is to the
+      your displays and the apps in your Start menu. For HDR by file it reads which video
+      your player is playing, through connections that stay on your PC, and for PotPlayer it
+      reads the start of that file. It changes a player's settings file only after you agree,
+      and for VLC that turns on its web interface for this PC only, with a random password.
+      It stores your settings in its own folder on your PC, plus one value in the Windows
+      registry for your user account with a second copy of the Pro trial dates. A third copy
+      of the trial dates stays in a small file under AppData\LocalLow\HDRcue after you
+      uninstall, so that installing again does not start the trial over. Backups are off until
+      you turn them on. Then each PC writes its own file, named after the PC, to the folder you
+      choose. It has no telemetry and no account. Its only connection beyond your PC is to the
       Microsoft Store, to check and buy HDRcue Pro.</p>
     </noscript>
   </main>
 
-  <footer class="bottom">
-    <div class="bottom-row">
-      <div class="bottom-brand">
-        <a class="brand" href="./"><img src="images/icon.png" alt="" width="24" height="24">HDRcue</a>
-        <p data-i18n="footer.tagline">HDR for the apps you choose</p>
-      </div>
-      <nav class="bottom-links" aria-label="Footer">
-        <a href="./#guide" data-i18n="nav.guide">Guide</a>
-        <a href="./#help" data-i18n="nav.help">Help</a>
-        <a href="./#pro" data-i18n="nav.pro">Pro</a>
-        <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-        <a href="https://github.com/PHUICMT/hdrcue-support/issues/new?template=problem.yml" data-i18n="feedback.bug">Report a problem</a>
-        <a href="https://github.com/sponsors/PHUICMT" data-i18n="footer.sponsor">Sponsor</a>
-      </nav>
-    </div>
-    <p class="copyright" data-i18n="footer.copyright">&copy; 2026 PHUICMT</p>
-  </footer>
-  <script src="site.js?v=18"></script>
+  <footer class="bottom"></footer>
+  <script src="layout.js?v=1"></script>
+  <script src="site.js?v=19"></script>
 </body>
 </html>

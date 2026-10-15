@@ -13,6 +13,8 @@
   --on-accent: #001a33;
   --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Room under the sticky header for a part the page scrolls to. */
+  --header-space: 72px;
   --scrollbar-thumb: rgba(96, 205, 255, 0.45);
   --scrollbar-thumb-hover: rgba(96, 205, 255, 0.75);
   color-scheme: dark;
@@ -110,16 +112,17 @@ a:hover { color: var(--accent-hover); }
 .brand:hover { color: var(--text); }
 .brand:hover img { transform: rotate(-8deg) scale(1.08); }
 
-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
+/* The menus in the header and the footer. */
+.top nav, .bottom-links { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
 
-nav a {
+.top nav a, .bottom-links a {
   position: relative;
   color: var(--text-muted);
   text-decoration: none;
 }
 
 /* An underline that grows from the middle on hover. */
-nav a::after {
+.top nav a::after, .bottom-links a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -132,23 +135,15 @@ nav a::after {
   transition: transform 0.25s var(--ease);
 }
 
-nav a:hover, nav a.current { color: var(--text); }
-nav a:hover::after, nav a.current::after { transform: scaleX(1); }
+.top nav a:hover, .top nav a.current, .bottom-links a:hover { color: var(--text); }
+.top nav a:hover::after, .top nav a.current::after, .bottom-links a:hover::after { transform: scaleX(1); }
 
 main { max-width: 1040px; margin: 0 auto; padding: 0 16px 48px; }
-section { padding: 48px 0 8px; scroll-margin-top: 56px; }
+section { padding: 48px 0 8px; scroll-margin-top: var(--header-space); }
 
 .hero { text-align: center; padding-top: 64px; }
 .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.25; margin: 0 0 16px; }
 .hero p { max-width: 640px; margin: 0 auto 16px; color: var(--text-muted); }
-
-.badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--stroke);
-  background: var(--card);
-}
 
 .shot {
   display: block;
@@ -223,7 +218,77 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 .steps article:hover .number { transform: scale(1.12); }
 
 .guide { display: grid; gap: 16px; }
+.guide article { scroll-margin-top: var(--header-space); }
+.guide h3 { margin-bottom: 10px; }
 .guide ul { margin: 12px 0 0; padding-left: 20px; color: var(--text-muted); }
+.guide p + p, .guide p + .how, .guide .how + p { margin-top: 12px; }
+
+/* A link to somewhere else in the guide, inside a part's text. */
+.guide p a, .guide li a { font-weight: 600; }
+
+/* The guide page: an intro, then the contents beside the sections on a wide screen, where they
+   stay in view while the page scrolls, or above them on a narrow one. The contents fit a usual
+   window and scroll only in a short one. */
+.guide-intro { padding-top: 48px; }
+.guide-intro h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.25; margin: 0 0 8px; }
+
+.guide-layout {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.guide-contents {
+  position: sticky;
+  top: var(--header-space);
+  max-height: calc(100vh - var(--header-space));
+  overflow-y: auto;
+  padding: 40px 4px 16px 0;
+  font-size: 14px;
+}
+
+.guide-contents h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.guide-contents ul { list-style: none; margin: 0; padding: 0; }
+.guide-contents > ul > li + li { margin-top: 10px; }
+.guide-contents ul ul { margin-top: 2px; border-left: 1px solid var(--stroke); }
+
+.guide-contents a {
+  display: block;
+  margin-left: -1px;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid transparent;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.guide-contents > ul > li > a { margin: 0; padding-left: 0; border: 0; font-weight: 600; color: var(--text); }
+.guide-contents a:hover { color: var(--text); }
+.guide-contents a.current { color: var(--accent); border-left-color: var(--accent); }
+
+/* On a narrow screen the contents sit at the top, and each section ends with a way back. */
+.back-to-contents { display: none; }
+
+@media (max-width: 860px) {
+  .guide-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .guide-contents { position: static; max-height: none; overflow: visible; padding-top: 24px; }
+  .back-to-contents { display: inline-block; margin-top: 16px; font-size: 14px; }
+}
+
+/* "Open in HDRcue" (open-app.js): a quiet button with a line on what it needs. */
+.open-app { margin: 16px 0 20px; }
+.open-app[hidden] { display: none; }
+.button.quiet { padding: 6px 14px; font-size: 14px; }
+.open-app .open-app-note { margin: 6px 0 0; font-size: 13px; color: var(--text-muted); }
 
 /* A guide picture is a button that opens it larger (lightbox.js). The corner icon shows while
    the picture is drawn smaller than its own size. */
@@ -326,19 +391,6 @@ html.lightbox-open { overflow: hidden; }
 .lightbox-picture { position: relative; overflow: hidden; background: #1c2029; }
 .lightbox-caption { margin: 0; text-align: center; font-size: 14px; color: var(--text-muted); }
 
-/* Setting up Pro, after the guide's other parts: one card per Pro feature, its steps numbered
-   like How it works, then what it needs and a strip of the app's page. */
-.pro-setup { margin-top: 40px; }
-
-.part-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  font-size: 22px;
-  margin-bottom: 8px;
-}
-
 /* The app's own PRO label. */
 .pro-badge {
   padding: 1px 7px;
@@ -351,9 +403,8 @@ html.lightbox-open { overflow: hidden; }
   background: linear-gradient(135deg, #7a5cff, #0a84ff);
 }
 
-.part-lead { max-width: 760px; margin: 0 0 20px; color: var(--text-muted); }
-.pro-setup article { scroll-margin-top: 72px; }
-.pro-setup h4 { font-size: 18px; margin: 0 0 10px; }
+.heading-with-badge { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.section-lead { max-width: 760px; margin: 0 0 20px; color: var(--text-muted); }
 b.ui { font-weight: 600; color: var(--text); }
 
 .how { counter-reset: step; margin: 0; padding: 0; list-style: none; color: var(--text-muted); }
@@ -391,7 +442,7 @@ b.ui { font-weight: 600; color: var(--text); }
 
 /* Reached from a link, the part's border lights up for a moment. */
 @media (prefers-reduced-motion: no-preference) {
-  .pro-setup article.arrived { animation: part-arrived 1.6s var(--ease); }
+  .guide article.arrived { animation: part-arrived 1.6s var(--ease); }
 }
 
 @keyframes part-arrived {
@@ -436,12 +487,14 @@ details.opening summary::after { transform: rotate(180deg); }
 .answer { overflow: hidden; }
 .answer > p { padding-top: 8px; }
 
-.feedback p { color: var(--text-muted); }
+.feedback p, .guide-link { color: var(--text-muted); }
+.guide-link { margin: 20px 0 0; }
 
 /* HDRcue Pro: what it adds as small cards, then how to try and buy it. */
 .pro > p { max-width: 760px; color: var(--text-muted); }
 .pro .free-note { margin-top: 24px; font-size: 14px; }
-.pro .anchor { display: block; scroll-margin-top: 104px; }
+.anchor { display: block; scroll-margin-top: var(--header-space); }
+.pro .anchor { scroll-margin-top: 104px; }
 
 .features {
   display: grid;

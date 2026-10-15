@@ -1,17 +1,32 @@
-// Fills the pages from i18n/en.json, draws the guide's pictures and plays the demo while it is
-// on screen.
+// Fills every page from i18n/en.json, draws the guide's pictures and plays the demo while it is
+// on screen. When the text is in, it sends a site-texts-filled event, with the texts, for the
+// scripts that come after it.
 (function () {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The text file sits at the site's root, wherever the page is.
+  const textsUrl = new URL('i18n/en.json', document.currentScript.src);
 
-  // **Add app** in a text marks a name shown in the app, such as a button or page, in bold.
+  // In a text, **Add app** marks a name shown in the app, such as a button or page, set in bold,
+  // and [label](address) is a link.
   function rich(element, text) {
-    element.replaceChildren(...text.split(/\*\*(.+?)\*\*/).map((part, index) => {
-      if (index % 2 === 0) return document.createTextNode(part);
-      const name = document.createElement('b');
-      name.className = 'ui';
-      name.textContent = part;
-      return name;
-    }));
+    const pieces = text.split(/\*\*(.+?)\*\*|\[(.+?)\]\((.+?)\)/);
+    const nodes = [];
+    for (let index = 0; index < pieces.length; index += 4) {
+      nodes.push(document.createTextNode(pieces[index]));
+      const [name, label, address] = pieces.slice(index + 1, index + 4);
+      if (name) {
+        const bold = document.createElement('b');
+        bold.className = 'ui';
+        bold.textContent = name;
+        nodes.push(bold);
+      } else if (label) {
+        const link = document.createElement('a');
+        link.href = address;
+        link.textContent = label;
+        nodes.push(link);
+      }
+    }
+    element.replaceChildren(...nodes);
   }
 
   function fill(texts) {
@@ -33,7 +48,7 @@
     document.querySelectorAll('[data-i18n-list]').forEach(list => {
       list.replaceChildren(...(texts[list.dataset.i18nList] || []).map(item => {
         const entry = document.createElement('li');
-        entry.textContent = item;
+        rich(entry, item);
         return entry;
       }));
     });
@@ -56,11 +71,11 @@
           card.append(art);
         }
         card.append(title, text);
-        // A link down to how the feature is set up, in the guide.
-        if (item.guide && texts['pro.howTo']) {
+        // A link to how the feature is set up, in the guide.
+        if (item.guideLink && texts['pro.howTo']) {
           const link = document.createElement('a');
           link.className = 'how-link';
-          link.href = `#${item.guide}`;
+          link.href = item.guideLink;
           link.textContent = texts['pro.howTo'];
           const arrow = document.createElement('span');
           arrow.setAttribute('aria-hidden', 'true');
@@ -79,7 +94,7 @@
         const text = document.createElement('p');
         summary.textContent = item.question;
         answer.className = 'answer';
-        text.textContent = item.answer;
+        rich(text, item.answer);
         answer.append(text);
         details.append(summary, answer);
         summary.addEventListener('click', event => {
@@ -190,30 +205,6 @@
     });
   }
 
-  // A part of the Pro guide reached from a link, such as a card's "How to set it up", lights
-  // its border up once the page has stopped scrolling to it.
-  function flashPart(part) {
-    const section = part.closest('section');
-    if (section) section.classList.add('shown');
-    part.classList.remove('arrived');
-    let flashed = false;
-    const flash = () => {
-      if (flashed) return;
-      flashed = true;
-      part.classList.add('arrived');
-    };
-    addEventListener('scrollend', flash, { once: true });
-    setTimeout(flash, 900);
-  }
-
-  function followGuideLinks() {
-    document.addEventListener('click', event => {
-      const link = event.target.closest('a[href^="#pro-"]');
-      const part = link && document.getElementById(link.hash.slice(1));
-      if (part) flashPart(part);
-    });
-  }
-
   // The guide's pictures of the app's pages, drawn by demo/view.js.
   function drawWindows() {
     if (typeof DemoView === 'undefined') return;
@@ -222,22 +213,20 @@
 
   revealSections();
   followSections();
-  followGuideLinks();
   watchDemo();
   drawWindows();
 
   // no-cache asks the server whether the file changed, so new text shows at once.
-  fetch('i18n/en.json', { cache: 'no-cache' })
+  fetch(textsUrl, { cache: 'no-cache' })
     .then(response => response.json())
     .then(texts => {
       fill(texts);
-      document.dispatchEvent(new CustomEvent('site-texts-filled', { detail: texts }));
       playArt();
       // The text above a linked section was not there when the browser jumped to it, so the
       // jump is made again now that the page has its full length.
       const linked = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
       if (linked) linked.scrollIntoView({ behavior: 'instant' });
-      if (linked && linked.matches('.pro-setup article')) flashPart(linked);
+      document.dispatchEvent(new CustomEvent('site-texts-filled', { detail: texts }));
     })
     .catch(() => {
       // The text already in the page stays when the file cannot load.

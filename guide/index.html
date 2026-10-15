@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HDRcue guide</title>
+  <meta name="description" content="How to set up HDRcue, one feature at a time: rules, video players, backup and every Pro feature.">
+  <link rel="icon" href="../images/icon.png">
+  <link rel="canonical" href="https://hdrcue.phu-space.com/guide/">
+  <meta name="theme-color" content="#0f1430">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="HDRcue">
+  <meta property="og:title" content="HDRcue guide">
+  <meta property="og:description" content="How to set up HDRcue, one feature at a time.">
+  <meta property="og:url" content="https://hdrcue.phu-space.com/guide/">
+  <meta property="og:image" content="https://hdrcue.phu-space.com/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The HDRcue window listing apps with their HDR rules">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../site.css?v=22">
+</head>
+<body data-root="../" data-page="guide">
+  <header class="top"></header>
+
+  <!-- The pictures are the app's pages drawn by demo/view.js, standing still, or strips of
+       them. The app links to the ids here, so keep them as they are. -->
+  <main class="guide-page">
+    <div class="guide-intro">
+      <span id="guide" class="anchor"></span>
+      <h1 data-i18n="guide.title">Guide</h1>
+      <p class="section-lead" data-i18n="guide.lead"></p>
+      <div class="open-app" data-open-app="hdrcue://rules" hidden></div>
+    </div>
+
+    <div class="guide-layout">
+      <nav class="guide-contents" id="contents" aria-labelledby="contents-title">
+        <h2 id="contents-title" data-i18n="guide.contents">Contents</h2>
+        <ul>
+          <li><a href="#getting-started" data-i18n="guide.start.title">Getting started</a>
+            <ul>
+              <li><a href="#add-app" data-i18n="guide.add.title">Adding an app</a></li>
+              <li><a href="#rules-page" data-i18n="guide.rules.title">The rules page</a></li>
+              <li><a href="#tray" data-i18n="guide.tray.title">The tray icon</a></li>
+              <li><a href="#restore" data-i18n="guide.restore.title">Putting displays back</a></li>
+              <li><a href="#settings" data-i18n="guide.settings.title">Settings</a></li>
+            </ul>
+          </li>
+          <li><a href="#rules" data-i18n="guide.rulesPart.title">Rules</a>
+            <ul>
+              <li><a href="#several-rules" data-i18n="guide.several.title">Several rules for one app</a></li>
+              <li><a href="#rule-order" data-i18n="guide.order.title">Rule order</a></li>
+            </ul>
+          </li>
+          <li><a href="#players" data-i18n="guide.players.title">Video players</a>
+            <ul>
+              <li><a href="#mpv" data-i18n="guide.mpv.title">mpv and mpv.net</a></li>
+              <li><a href="#vlc" data-i18n="guide.vlc.title">VLC</a></li>
+              <li><a href="#potplayer" data-i18n="guide.potplayer.title">PotPlayer</a></li>
+            </ul>
+          </li>
+          <li><a href="#backup" data-i18n="guide.backup.title">Backup and restore</a>
+            <ul>
+              <li><a href="#backup-auto" data-i18n="guide.backupAuto.title">Automatic backup</a></li>
+              <li><a href="#backup-restore" data-i18n="guide.backupRestore.title">Restoring</a></li>
+              <li><a href="#backup-export" data-i18n="guide.backupExport.title">Export and import</a></li>
+            </ul>
+          </li>
+          <li><a href="#pro-setup" data-i18n="guide.pro.title">Pro features</a>
+            <ul>
+              <li><a href="#pro-hdr-by-file" data-i18n="guide.pro.hdrFile.title">HDR that follows the file</a></li>
+              <li><a href="#pro-refresh" data-i18n="guide.pro.refresh.title">A refresh rate that fits the film</a></li>
+              <li><a href="#pro-couch" data-i18n="guide.pro.couch.title">Couch mode</a></li>
+              <li><a href="#pro-full-screen" data-i18n="guide.pro.fullScreen.title">Full screen only</a></li>
+              <li><a href="#pro-follow" data-i18n="guide.pro.follow.title">HDR follows the app</a></li>
+              <li><a href="#pro-brightness" data-i18n="guide.pro.brightness.title">Brightness and color profile per app</a></li>
+              <li><a href="#pro-conditions" data-i18n="guide.pro.conditions.title">More conditions</a></li>
+              <li><a href="#pro-games" data-i18n="guide.pro.games.title">Set up your games</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="guide-sections">
+        <section id="getting-started" class="guide-section">
+          <h2 data-i18n="guide.start.title">Getting started</h2>
+          <div class="guide">
+            <article id="add-app">
+              <h3 data-i18n="guide.add.title">Adding an app</h3>
+              <p data-i18n-rich="guide.add.text"></p>
+              <div class="open-app" data-open-app="hdrcue://add-app" hidden></div>
+              <div class="shot small window" data-window="choose" aria-hidden="true" inert></div>
+              <div class="shot small window" data-window="display" aria-hidden="true" inert></div>
+            </article>
+            <article id="rules-page">
+              <h3 data-i18n="guide.rules.title">The rules page</h3>
+              <p data-i18n-rich="guide.rules.text"></p>
+              <ul data-i18n-list="guide.rules.status"></ul>
+            </article>
+            <article id="tray">
+              <h3 data-i18n="guide.tray.title">The tray icon</h3>
+              <p data-i18n="guide.tray.text"></p>
+            </article>
+            <article id="restore">
+              <h3 data-i18n="guide.restore.title">Putting displays back</h3>
+              <p data-i18n="guide.restore.text"></p>
+            </article>
+            <article id="settings">
+              <h3 data-i18n="guide.settings.title">Settings</h3>
+              <p data-i18n-rich="guide.settings.text"></p>
+              <div class="shot small window" data-window="settings" aria-hidden="true" inert></div>
+            </article>
+          </div>
+          <a class="back-to-contents" href="#contents" data-i18n="guide.backToContents">Back to contents</a>
+        </section>
+
+        <section id="rules" class="guide-section">
+          <h2 data-i18n="guide.rulesPart.title">Rules</h2>
+          <div class="guide">
+            <article id="several-rules">
+              <h3 data-i18n="guide.several.title">Several rules for one app</h3>
+              <p data-i18n-rich="guide.several.text"></p>
+              <p data-i18n-rich="guide.several.name"></p>
+              <p data-i18n-rich="guide.several.card"></p>
+              <p class="needs" data-i18n-rich="guide.several.note"></p>
+              <div class="shot small window" data-window="rule-name" aria-hidden="true" inert></div>
+            </article>
+            <article id="rule-order">
+              <h3 data-i18n="guide.order.title">Rule order</h3>
+              <p data-i18n-rich="guide.order.text"></p>
+              <ol class="how" data-i18n-steps="guide.order.steps"></ol>
+              <p data-i18n-rich="guide.order.example"></p>
+              <p data-i18n-rich="guide.order.summary"></p>
+              <div class="shot small window" data-window="rule-order" aria-hidden="true" inert></div>
+            </article>
+          </div>
+          <a class="back-to-contents" href="#contents" data-i18n="guide.backToContents">Back to contents</a>
+        </section>
+
+        <section id="players" class="guide-section">
+          <h2 data-i18n="guide.players.title">Video players</h2>
+          <p class="section-lead" data-i18n-rich="guide.players.text"></p>
+          <div class="open-app" data-open-app="hdrcue://players" hidden></div>
+          <div class="guide">
+            <article id="mpv">
+              <h3 data-i18n="guide.mpv.title">mpv and mpv.net</h3>
+              <ol class="how" data-i18n-steps="guide.mpv.steps"></ol>
+              <p data-i18n-rich="guide.mpv.folder"></p>
+              <p class="needs" data-i18n-rich="guide.mpv.note"></p>
+            </article>
+            <article id="vlc">
+              <h3 data-i18n="guide.vlc.title">VLC</h3>
+              <ol class="how" data-i18n-steps="guide.vlc.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.vlc.note"></p>
+            </article>
+            <article id="potplayer">
+              <h3 data-i18n="guide.potplayer.title">PotPlayer</h3>
+              <p data-i18n="guide.potplayer.text"></p>
+            </article>
+          </div>
+          <a class="back-to-contents" href="#contents" data-i18n="guide.backToContents">Back to contents</a>
+        </section>
+
+        <section id="backup" class="guide-section">
+          <h2 data-i18n="guide.backup.title">Backup and restore</h2>
+          <p class="section-lead" data-i18n-rich="guide.backup.text"></p>
+          <div class="open-app" data-open-app="hdrcue://settings/backup" hidden></div>
+          <div class="guide">
+            <article id="backup-auto">
+              <h3 data-i18n="guide.backupAuto.title">Automatic backup</h3>
+              <ol class="how" data-i18n-steps="guide.backupAuto.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.backupAuto.note"></p>
+            </article>
+            <article id="backup-restore">
+              <h3 data-i18n="guide.backupRestore.title">Restoring</h3>
+              <p data-i18n-rich="guide.backupRestore.text"></p>
+              <p data-i18n-rich="guide.backupRestore.more"></p>
+            </article>
+            <article id="backup-export">
+              <h3 data-i18n="guide.backupExport.title">Export and import</h3>
+              <p data-i18n-rich="guide.backupExport.text"></p>
+            </article>
+          </div>
+          <a class="back-to-contents" href="#contents" data-i18n="guide.backToContents">Back to contents</a>
+        </section>
+
+        <!-- One part per Pro card on the home page, in the same order; the cards link here. -->
+        <section id="pro-setup" class="guide-section">
+          <h2 class="heading-with-badge"><span data-i18n="guide.pro.title">Pro features</span><span class="pro-badge" aria-hidden="true">PRO</span></h2>
+          <p class="section-lead" data-i18n-rich="guide.pro.text"></p>
+          <div class="open-app" data-open-app="hdrcue://pro" hidden></div>
+          <div class="guide">
+            <article id="pro-hdr-by-file">
+              <h3 data-i18n="guide.pro.hdrFile.title">HDR that follows the file</h3>
+              <ol class="how" data-i18n-steps="guide.pro.hdrFile.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.hdrFile.note"></p>
+              <div class="shot small window" data-window="hdr-file" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-refresh">
+              <h3 data-i18n="guide.pro.refresh.title">A refresh rate that fits the film</h3>
+              <ol class="how" data-i18n-steps="guide.pro.refresh.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.refresh.note"></p>
+              <div class="shot small window" data-window="refresh" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-couch">
+              <h3 data-i18n="guide.pro.couch.title">Couch mode</h3>
+              <ol class="how" data-i18n-steps="guide.pro.couch.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.couch.note"></p>
+              <div class="shot small window" data-window="couch" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-full-screen">
+              <h3 data-i18n="guide.pro.fullScreen.title">Full screen only</h3>
+              <ol class="how" data-i18n-steps="guide.pro.fullScreen.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.fullScreen.note"></p>
+              <div class="shot small window" data-window="full-screen" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-follow">
+              <h3 data-i18n="guide.pro.follow.title">HDR follows the app</h3>
+              <ol class="how" data-i18n-steps="guide.pro.follow.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.follow.note"></p>
+              <div class="shot small window" data-window="follow" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-brightness">
+              <h3 data-i18n="guide.pro.brightness.title">Brightness and color profile per app</h3>
+              <ol class="how" data-i18n-steps="guide.pro.brightness.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.brightness.note"></p>
+              <div class="shot small window" data-window="brightness" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-conditions">
+              <h3 data-i18n="guide.pro.conditions.title">More conditions</h3>
+              <ol class="how" data-i18n-steps="guide.pro.conditions.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.conditions.note"></p>
+              <div class="shot small window" data-window="conditions" aria-hidden="true" inert></div>
+            </article>
+            <article id="pro-games">
+              <h3 data-i18n="guide.pro.games.title">Set up your games</h3>
+              <ol class="how" data-i18n-steps="guide.pro.games.steps"></ol>
+              <p class="needs" data-i18n-rich="guide.pro.games.note"></p>
+              <div class="open-app" data-open-app="hdrcue://games" hidden></div>
+              <div class="shot small window" data-window="games" aria-hidden="true" inert></div>
+            </article>
+          </div>
+          <a class="back-to-contents" href="#contents" data-i18n="guide.backToContents">Back to contents</a>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bottom"></footer>
+  <script src="../layout.js?v=1"></script>
+  <script src="../open-app.js?v=1"></script>
+  <script src="../demo/view.js?v=17"></script>
+  <script src="../site.js?v=19"></script>
+  <script src="../lightbox.js?v=1"></script>
+  <script src="../guide.js?v=1"></script>
+</body>
+</html>

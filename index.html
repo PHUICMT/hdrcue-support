@@ -19,19 +19,16 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The HDRcue window listing apps with their HDR rules">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="site.css?v=18">
+  <!-- The guide used to be on this page. Its old links go to the same part of the guide page. -->
+  <script>
+    if (/^#(guide|pro-setup|pro-[a-z-]+|getting-started|add-app|rule-order|several-rules|players|backup)$/.test(location.hash)) {
+      location.replace(`guide/${location.hash}`);
+    }
+  </script>
+  <link rel="stylesheet" href="site.css?v=22">
 </head>
-<body>
-  <header class="top">
-    <a class="brand" href="./"><img src="images/icon.png" alt="" width="28" height="28">HDRcue</a>
-    <nav>
-      <a href="#guide" data-i18n="nav.guide">Guide</a>
-      <a href="#help" data-i18n="nav.help">Help</a>
-      <a href="#feedback" data-i18n="nav.feedback">Feedback</a>
-      <a href="#pro" data-i18n="nav.pro">Pro</a>
-      <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-    </nav>
-  </header>
+<body data-root="./" data-page="home">
+  <header class="top"></header>
 
   <main>
     <section class="hero">
@@ -46,7 +43,7 @@
     <section id="tour" class="tour">
       <h2 data-i18n="tour.title">Adding an app, step by step</h2>
       <div class="stage">
-        <iframe class="demo-frame" src="demo/?v=18" title="Demo of adding an app in HDRcue" loading="lazy"></iframe>
+        <iframe class="demo-frame" src="demo/?v=19" title="Demo of adding an app in HDRcue" loading="lazy"></iframe>
       </div>
     </section>
 
@@ -57,89 +54,7 @@
         <article><span class="number">2</span><h3 data-i18n="steps.2.title"></h3><p data-i18n="steps.2.text"></p></article>
         <article><span class="number">3</span><h3 data-i18n="steps.3.title"></h3><p data-i18n="steps.3.text"></p></article>
       </div>
-    </section>
-
-    <!-- The pictures in the guide are the app's pages drawn by demo/view.js, the same drawing as
-         the tour, standing still. The text around them says what they show. -->
-    <section id="guide">
-      <h2 data-i18n="guide.title">Guide</h2>
-      <div class="guide">
-        <article>
-          <h3 data-i18n="guide.rules.title"></h3>
-          <p data-i18n="guide.rules.text"></p>
-          <ul data-i18n-list="guide.rules.status"></ul>
-        </article>
-        <article>
-          <h3 data-i18n="guide.add.title"></h3>
-          <p data-i18n="guide.add.text"></p>
-          <div class="shot small window" data-window="choose" aria-hidden="true" inert></div>
-          <div class="shot small window" data-window="display" aria-hidden="true" inert></div>
-        </article>
-        <article><h3 data-i18n="guide.tray.title"></h3><p data-i18n="guide.tray.text"></p></article>
-        <article><h3 data-i18n="guide.restore.title"></h3><p data-i18n="guide.restore.text"></p></article>
-        <article>
-          <h3 data-i18n="guide.settings.title"></h3>
-          <p data-i18n="guide.settings.text"></p>
-          <div class="shot small window" data-window="settings" aria-hidden="true" inert></div>
-        </article>
-      </div>
-
-      <!-- How to set up each Pro feature, in the order of the cards under Pro, which link to
-           these parts by id. The pictures are strips of the app's pages from demo/view.js. -->
-      <div class="pro-setup" id="pro-setup">
-        <h3 class="part-title"><span data-i18n="guide.pro.title">Setting up Pro features</span><span class="pro-badge" aria-hidden="true">PRO</span></h3>
-        <p class="part-lead" data-i18n-rich="guide.pro.text"></p>
-        <div class="guide">
-          <article id="pro-hdr-by-file">
-            <h4 data-i18n="guide.pro.hdrFile.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.hdrFile.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.hdrFile.note"></p>
-            <div class="shot small window" data-window="hdr-file" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-refresh">
-            <h4 data-i18n="guide.pro.refresh.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.refresh.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.refresh.note"></p>
-            <div class="shot small window" data-window="refresh" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-couch">
-            <h4 data-i18n="guide.pro.couch.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.couch.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.couch.note"></p>
-            <div class="shot small window" data-window="couch" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-full-screen">
-            <h4 data-i18n="guide.pro.fullScreen.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.fullScreen.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.fullScreen.note"></p>
-            <div class="shot small window" data-window="full-screen" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-follow">
-            <h4 data-i18n="guide.pro.follow.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.follow.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.follow.note"></p>
-            <div class="shot small window" data-window="follow" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-brightness">
-            <h4 data-i18n="guide.pro.brightness.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.brightness.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.brightness.note"></p>
-            <div class="shot small window" data-window="brightness" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-conditions">
-            <h4 data-i18n="guide.pro.conditions.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.conditions.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.conditions.note"></p>
-            <div class="shot small window" data-window="conditions" aria-hidden="true" inert></div>
-          </article>
-          <article id="pro-games">
-            <h4 data-i18n="guide.pro.games.title"></h4>
-            <ol class="how" data-i18n-steps="guide.pro.games.steps"></ol>
-            <p class="needs" data-i18n-rich="guide.pro.games.note"></p>
-            <div class="shot small window" data-window="games" aria-hidden="true" inert></div>
-          </article>
-        </div>
-      </div>
+      <p class="guide-link" data-i18n-rich="steps.guide"></p>
     </section>
 
     <section id="help">
@@ -164,29 +79,15 @@
       <div class="features" data-i18n-cards="pro.features"></div>
       <p data-i18n="pro.trial"></p>
       <p><a class="store-badge" href="https://apps.microsoft.com/detail/9P06PWS591LH"><img src="images/ms-store-badge-light.svg" alt="Get it from the Microsoft Store" width="161" height="44"></a></p>
+      <div class="open-app" data-open-app="hdrcue://pro" hidden></div>
       <p class="free-note" data-i18n="pro.free"></p>
     </section>
   </main>
 
-  <footer class="bottom">
-    <div class="bottom-row">
-      <div class="bottom-brand">
-        <a class="brand" href="./"><img src="images/icon.png" alt="" width="24" height="24">HDRcue</a>
-        <p data-i18n="footer.tagline">HDR for the apps you choose</p>
-      </div>
-      <nav class="bottom-links" aria-label="Footer">
-        <a href="#guide" data-i18n="nav.guide">Guide</a>
-        <a href="#help" data-i18n="nav.help">Help</a>
-        <a href="#pro" data-i18n="nav.pro">Pro</a>
-        <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-        <a href="https://github.com/PHUICMT/hdrcue-support/issues/new?template=problem.yml" data-i18n="feedback.bug">Report a problem</a>
-        <a href="https://github.com/sponsors/PHUICMT" data-i18n="footer.sponsor">Sponsor</a>
-      </nav>
-    </div>
-    <p class="copyright" data-i18n="footer.copyright">&copy; 2026 PHUICMT</p>
-  </footer>
-  <script src="demo/view.js?v=16"></script>
+  <footer class="bottom"></footer>
+  <script src="layout.js?v=1"></script>
+  <script src="open-app.js?v=1"></script>
   <script src="pro-art.js?v=2"></script>
-  <script src="site.js?v=17"></script>
+  <script src="site.js?v=19"></script>
 </body>
 </html>
