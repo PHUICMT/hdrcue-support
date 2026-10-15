@@ -40,6 +40,8 @@
   "guide.lead": "How to set up HDRcue, one feature at a time. Pick a topic, or open HDRcue and follow along.",
   "guide.contents": "Contents",
   "guide.backToContents": "Back to contents",
+  "guide.topicCount": "{count} topics",
+  "guide.contentsClose": "Close contents",
   "guide.start.title": "Getting started",
   "guide.add.title": "Adding an app",
   "guide.add.text": "Select **Add app**, pick the app, then the display and what HDR should do, and when the rule runs. If the app has rules already, this adds another one and keeps the ones it has.",

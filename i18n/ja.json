@@ -40,6 +40,8 @@
   "guide.lead": "HDRcue の設定方法を機能ごとに説明します。知りたい項目を選ぶか、HDRcue を開いて一緒に進めてください。",
   "guide.contents": "目次",
   "guide.backToContents": "目次に戻る",
+  "guide.topicCount": "{count}項目",
+  "guide.contentsClose": "目次を閉じる",
   "guide.start.title": "はじめに",
   "guide.add.title": "アプリを追加する",
   "guide.add.text": "**アプリの追加**を選び、アプリを選んだら、ディスプレイと HDR の動作、ルールを実行するタイミングを選びます。そのアプリにすでにルールがある場合は、今あるルールを残したまま新しいルールを追加します。",

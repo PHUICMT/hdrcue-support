@@ -1,8 +1,8 @@
-// The guide page. Its contents list marks the part being read, and a part reached by a link,
-// from the list, from another part or from the app (guide/#players), lights up once the page
-// has stopped scrolling to it.
+// The guide page. Its contents list marks the part being read, and tells guide-contents.js with
+// a guide-reading event. A part reached by a link, from the list, from another part or from the
+// app (guide/#players), lights up once the page has stopped scrolling to it.
 (function () {
-  const contentsLinks = [...document.querySelectorAll('.guide-contents a[href^="#"]')];
+  const contentsLinks = [...document.querySelectorAll('.contents-list a[href^="#"]')];
   const targetOf = link => document.getElementById(link.hash.slice(1));
 
   // A part is a section with its heading, or an article inside one.
@@ -27,12 +27,14 @@
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
+        const currentLink = linkFor.get(entry.target);
         contentsLinks.forEach(link => {
-          const isCurrent = link === linkFor.get(entry.target);
+          const isCurrent = link === currentLink;
           link.classList.toggle('current', isCurrent);
           if (isCurrent) link.setAttribute('aria-current', 'location');
           else link.removeAttribute('aria-current');
         });
+        document.dispatchEvent(new CustomEvent('guide-reading', { detail: { link: currentLink } }));
       });
     }, { rootMargin: '-25% 0px -65% 0px' });
     linkFor.forEach((link, part) => { if (part) observer.observe(part); });

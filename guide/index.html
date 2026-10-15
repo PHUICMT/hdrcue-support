@@ -20,10 +20,18 @@
   <meta property="og:image:alt" content="The HDRcue window listing apps with their HDR rules">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../fonts.css?v=1">
-  <link rel="stylesheet" href="../site.css?v=23">
+  <link rel="stylesheet" href="../site.css?v=24">
 </head>
 <body data-root="../" data-page="guide">
   <header class="top"></header>
+
+  <!-- On a phone, a bar under the header names the part being read and opens the contents as a
+       sheet from the bottom (guide-contents.js). -->
+  <button type="button" class="contents-bar" aria-haspopup="dialog" aria-controls="contents-sheet" aria-expanded="false">
+    <span class="contents-bar-label" data-i18n="guide.contents">Contents</span>
+    <span class="contents-bar-current"></span>
+    <svg class="icon chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
+  </button>
 
   <!-- The pictures are the app's pages drawn by demo/view.js, standing still, or strips of
        them. The app links to the ids here, so keep them as they are. -->
@@ -35,10 +43,16 @@
       <div class="open-app" data-open-app="hdrcue://rules" hidden></div>
     </div>
 
+    <!-- On a phone: a card for each group of the contents, made from the list below. -->
+    <nav class="contents-cards" aria-labelledby="contents-cards-title">
+      <h2 id="contents-cards-title" class="contents-label" data-i18n="guide.contents">Contents</h2>
+      <ul></ul>
+    </nav>
+
     <div class="guide-layout">
       <nav class="guide-contents" id="contents" aria-labelledby="contents-title">
-        <h2 id="contents-title" data-i18n="guide.contents">Contents</h2>
-        <ul>
+        <h2 id="contents-title" class="contents-label" data-i18n="guide.contents">Contents</h2>
+        <ul class="contents-list">
           <li><a href="#getting-started" data-i18n="guide.start.title">Getting started</a>
             <ul>
               <li><a href="#add-app" data-i18n="guide.add.title">Adding an app</a></li>
@@ -246,6 +260,17 @@
         </section>
       </div>
     </div>
+
+    <dialog class="contents-sheet" id="contents-sheet" aria-labelledby="contents-sheet-title">
+      <div class="contents-sheet-top">
+        <span class="contents-sheet-handle" aria-hidden="true"></span>
+        <h2 id="contents-sheet-title" class="contents-label" data-i18n="guide.contents">Contents</h2>
+        <button type="button" class="close-button" aria-label="Close contents" data-i18n-label="guide.contentsClose">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/></svg>
+        </button>
+      </div>
+      <div class="contents-sheet-body"></div>
+    </dialog>
   </main>
 
   <footer class="bottom"></footer>
@@ -253,7 +278,8 @@
   <script src="../open-app.js?v=1"></script>
   <script src="../demo/view.js?v=18"></script>
   <script src="../site.js?v=21"></script>
-  <script src="../lightbox.js?v=1"></script>
-  <script src="../guide.js?v=2"></script>
+  <script src="../lightbox.js?v=2"></script>
+  <script src="../guide.js?v=3"></script>
+  <script src="../guide-contents.js?v=1"></script>
 </body>
 </html>

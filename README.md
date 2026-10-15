@@ -18,7 +18,7 @@ Static pages served by GitHub Pages from this branch, with no build step.
 | Path | What it is |
 |---|---|
 | `index.html` | The home page: what HDRcue does, the tour, how it works, help, feedback and Pro. A short script at the top sends old links to the guide (`#guide`, `#pro-setup`, `#pro-*`) to the same part of `guide/`. |
-| `guide/index.html` | The guide, one part per feature, with its contents beside it on a wide screen and above it on a phone. |
+| `guide/index.html` | The guide, one part per feature, with its contents beside it on a wide screen, above it on a tablet, and in a sheet on a phone. |
 | `privacy.html` | The privacy policy. |
 | `i18n/` | Every text on the site, one file per language: `en.json`, `th.json`, `zh-Hans.json` and `ja.json`, all with the same keys. |
 | `language.js` | Picks the language, sets `<html lang>`, loads the Thai font when needed, fills the language menus and changes the page's language in place. Every page loads it in `<head>`. |
@@ -27,6 +27,7 @@ Static pages served by GitHub Pages from this branch, with no build step.
 | `layout.js` | Draws the header and footer on every page. A page says where the site's root is (`data-root` on `body`) and which page it is (`data-page`). On a phone the menu folds into a button that opens it as a popup. |
 | `site.js` | Fills each page with the texts of its language, draws the guide's pictures and plays the tour while it is on screen. It fills the page again when the language changes, and sends a `site-texts-filled` event each time the text is in. |
 | `guide.js` | On the guide page: marks the part being read in the contents, and lights up a part reached by a link. |
+| `guide-contents.js` | The guide's contents on a phone (720 px wide or less): a card for each group at the top, a bar under the header that names the part being read, and a sheet from the bottom with the whole list. |
 | `open-app.js` | The "Open in HDRcue" buttons, which open a page of the app through a `hdrcue://` link. They show only on Windows PCs. |
 | `lightbox.js` | Opens a guide picture larger when it is clicked or tapped. |
 | `pro-art.js` | The small moving pictures on the Pro cards, in inline SVG. |
@@ -72,6 +73,14 @@ The app links to the guide's parts by id, so keep them as they are: `#guide` (th
 `#backup-auto`, `#backup-restore`, `#backup-export`, `#pro-setup`, `#pro-hdr-by-file`,
 `#pro-refresh`, `#pro-couch`, `#pro-full-screen`, `#pro-follow`, `#pro-brightness`,
 `#pro-conditions` and `#pro-games`.
+
+On a phone the long contents list would fill the first screen, so `guide-contents.js` moves it
+into a sheet. The top of the guide shows a card for each group (Getting started, Rules, Video
+players, Backup and restore, Pro features) with how many topics it has; a card is a link to its
+group. Once the cards have scrolled away, a bar under the header names the part being read and
+opens the sheet, which closes on the close button, a tap outside it, Esc, dragging it down or
+choosing a topic. A group card needs an icon in `groupIcons` in `guide-contents.js`. Parts the
+page scrolls to, deep links included, stop below the header and the bar (`--header-space`).
 
 The Pro parts follow the order of the Pro cards on the home page, and each card links to its
 part through `guideLink` in `pro.features`.

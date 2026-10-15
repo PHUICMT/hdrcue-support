@@ -11,9 +11,19 @@
   --accent: #60cdff;
   --accent-hover: #8adbff;
   --on-accent: #001a33;
+  --accent-soft: rgba(96, 205, 255, 0.12);
+  /* The header's see-through background, and a raised surface for popups and sheets. */
+  --header-background: rgba(15, 20, 48, 0.85);
+  --surface-raised: #1a1f45;
+  /* The dimmed page behind the lightbox and the contents sheet. */
+  --shade: rgba(5, 8, 25, 0.85);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  /* Room under the sticky header for a part the page scrolls to. */
+  /* The sticky header's height, which guide-contents.js keeps up to date, and room under it
+     for a part the page scrolls to. */
+  --header-height: 61px;
   --header-space: 72px;
+  /* The guide's contents bar under the header on a phone. */
+  --contents-bar-height: 48px;
   --scrollbar-thumb: rgba(96, 205, 255, 0.45);
   --scrollbar-thumb-hover: rgba(96, 205, 255, 0.75);
   color-scheme: dark;
@@ -92,7 +102,7 @@ a:hover { color: var(--accent-hover); }
   align-items: center;
   gap: 12px 20px;
   padding: 12px max(16px, calc((100% - 1040px) / 2));
-  background: rgba(15, 20, 48, 0.85);
+  background: var(--header-background);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--stroke);
 }
@@ -195,7 +205,7 @@ a:hover { color: var(--accent-hover); }
   border: 1px solid var(--stroke-hover);
   border-radius: 12px;
   color: var(--text);
-  background: #1a1f45;
+  background: var(--surface-raised);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
@@ -343,7 +353,7 @@ h1, h2 { text-wrap: balance; }
   font-size: 14px;
 }
 
-.guide-contents h2 {
+.contents-label {
   margin: 0 0 8px;
   font-size: 12px;
   letter-spacing: 0.08em;
@@ -351,11 +361,11 @@ h1, h2 { text-wrap: balance; }
   color: var(--text-muted);
 }
 
-.guide-contents ul { list-style: none; margin: 0; padding: 0; }
-.guide-contents > ul > li + li { margin-top: 10px; }
-.guide-contents ul ul { margin-top: 2px; border-left: 1px solid var(--stroke); }
+.contents-list, .contents-list ul { list-style: none; margin: 0; padding: 0; }
+.contents-list > li + li { margin-top: 10px; }
+.contents-list ul { margin-top: 2px; border-left: 1px solid var(--stroke); }
 
-.guide-contents a {
+.contents-list a {
   display: block;
   margin-left: -1px;
   padding: 2px 0 2px 12px;
@@ -366,9 +376,9 @@ h1, h2 { text-wrap: balance; }
   transition: color 0.2s, border-color 0.2s;
 }
 
-.guide-contents > ul > li > a { margin: 0; padding-left: 0; border: 0; font-weight: 600; color: var(--text); }
-.guide-contents a:hover { color: var(--text); }
-.guide-contents a.current { color: var(--accent); border-left-color: var(--accent); }
+.contents-list > li > a { margin: 0; padding-left: 0; border: 0; font-weight: 600; color: var(--text); }
+.contents-list a:hover { color: var(--text); }
+.contents-list a.current { color: var(--accent); border-left-color: var(--accent); }
 
 /* On a narrow screen the contents sit at the top, and each section ends with a way back. */
 .back-to-contents { display: none; }
@@ -378,6 +388,163 @@ h1, h2 { text-wrap: balance; }
   .guide-contents { position: static; max-height: none; overflow: visible; padding-top: 24px; }
   .back-to-contents { display: inline-block; margin-top: 16px; font-size: 14px; }
 }
+
+/* On a phone the list would fill the first screen, so guide-contents.js moves it into a sheet.
+   The top of the guide shows a card for each group instead, and once the cards have scrolled
+   away a bar under the header names the part being read and opens the sheet. A part the page
+   scrolls to stops below the bar. */
+.contents-cards, .contents-bar { display: none; }
+
+@media (max-width: 720px) {
+  [data-page="guide"] { --header-space: calc(var(--header-height) + var(--contents-bar-height) + 12px); }
+  .guide-contents, .back-to-contents { display: none; }
+
+  .contents-cards { display: block; margin-top: 24px; }
+
+  .contents-cards ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* An odd card out at the end takes the whole row. */
+  .contents-cards li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  .contents-bar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: var(--contents-bar-height);
+    padding: 0 16px;
+    border: 0;
+    border-bottom: 1px solid var(--stroke);
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.3;
+    text-align: left;
+    color: var(--text);
+    background: var(--header-background);
+    backdrop-filter: blur(12px);
+    cursor: pointer;
+    /* Hidden, it waits tucked under the header. */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition: transform 0.25s var(--ease), opacity 0.25s, visibility 0s 0.25s;
+  }
+
+  .contents-bar.shown { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+}
+
+.contents-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: 100%;
+  min-height: 92px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  line-height: 1.35;
+  color: var(--text);
+  background: var(--card);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.contents-card:hover { color: var(--text); border-color: var(--stroke-hover); background: var(--card-hover); }
+.contents-card .icon { width: 20px; height: 20px; margin-bottom: 8px; color: var(--accent); }
+.contents-card-name { font-weight: 600; }
+.contents-card-count { font-size: 13px; color: var(--text-muted); }
+
+.contents-bar:active { background: var(--surface-raised); }
+.contents-bar-label { flex: none; color: var(--text-muted); }
+
+/* The part being read, cut short with an ellipsis when it doesn't fit. */
+.contents-bar-current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.contents-bar-current:not(:empty)::before { content: "\00B7\00A0"; font-weight: 400; color: var(--text-muted); }
+.contents-bar .chevron { margin-left: auto; color: var(--text-muted); }
+
+/* The sheet: the whole contents, rising from the bottom of the screen over the dimmed page. Its
+   top holds a handle to drag it down by, the title and a close button; the list scrolls under
+   it. Each row is 44 px tall, for fingers. */
+.contents-sheet {
+  inset: auto 0 0;
+  width: 100%;
+  max-width: none;
+  max-height: 85dvh;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--stroke-hover);
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  color: var(--text);
+  background: var(--surface-raised);
+  box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.contents-sheet[open] { display: flex; flex-direction: column; }
+.contents-sheet::backdrop { background: var(--shade); }
+
+.contents-sheet-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 8px 4px 20px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.contents-sheet-handle {
+  position: absolute;
+  top: 6px;
+  left: calc(50% - 18px);
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--stroke-hover);
+}
+
+.contents-sheet-top .contents-label { margin: 0; }
+
+.contents-sheet-body {
+  position: relative;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 12px calc(16px + env(safe-area-inset-bottom));
+  font-size: 15px;
+}
+
+.contents-sheet .contents-list > li + li { margin-top: 4px; }
+.contents-sheet .contents-list ul { margin: 0 0 0 8px; }
+
+.contents-sheet .contents-list a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 12px 6px 16px;
+  border-radius: 0 8px 8px 0;
+}
+
+.contents-sheet .contents-list > li > a { padding-left: 8px; border-radius: 8px; }
+.contents-sheet .contents-list a.current { background: var(--accent-soft); }
 
 /* "Open in HDRcue" (open-app.js): a quiet button with a line on what it needs. */
 .open-app { margin: 16px 0 20px; }
@@ -421,9 +588,11 @@ h1, h2 { text-wrap: balance; }
 .picture-button.is-reduced .zoom-hint { opacity: 0.85; }
 .picture-button:hover .zoom-hint, .picture-button:focus-visible .zoom-hint { opacity: 1; transform: scale(1.08); }
 
-/* The lightbox: the page dims and stops scrolling, and the picture sits in the middle, as large
-   as fits. A picture wider than the screen scrolls inside its frame. */
-html.lightbox-open { overflow: hidden; }
+/* The page stops scrolling while the lightbox or the contents sheet is open. */
+html.scroll-locked { overflow: hidden; }
+
+/* The lightbox: the page dims, and the picture sits in the middle, as large as fits. A picture
+   wider than the screen scrolls inside its frame. */
 
 .lightbox {
   width: 100vw;
@@ -444,7 +613,7 @@ html.lightbox-open { overflow: hidden; }
 .lightbox-shade {
   position: fixed;
   inset: 0;
-  background: rgba(5, 8, 25, 0.85);
+  background: var(--shade);
   backdrop-filter: blur(4px);
 }
 
@@ -457,8 +626,11 @@ html.lightbox-open { overflow: hidden; }
   max-height: 100%;
 }
 
-.lightbox-close {
-  align-self: flex-end;
+/* A close button with a cross, in the lightbox and the contents sheet. */
+.lightbox-close { align-self: flex-end; }
+
+.close-button {
+  flex: none;
   display: grid;
   place-items: center;
   width: 36px;
@@ -471,8 +643,10 @@ html.lightbox-open { overflow: hidden; }
   cursor: pointer;
 }
 
-.lightbox-close:hover { background: var(--card-hover); border-color: var(--stroke-hover); }
-.lightbox-close svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.close-button:hover { background: var(--card-hover); border-color: var(--stroke-hover); }
+.contents-sheet .close-button { width: 44px; height: 44px; }
+
+.close-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
 
 .lightbox-frame {
   overflow: auto;

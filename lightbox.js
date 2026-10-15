@@ -61,7 +61,7 @@
     dialog.className = 'lightbox';
     dialog.innerHTML = `<div class="lightbox-shade"></div>
       <div class="lightbox-body">
-        <button type="button" class="lightbox-close" aria-label="${labels.close}">${closeIcon}</button>
+        <button type="button" class="lightbox-close close-button" aria-label="${labels.close}">${closeIcon}</button>
         <div class="lightbox-frame"></div>
         <p class="lightbox-caption" id="lightbox-caption"></p>
       </div>`;
@@ -80,7 +80,7 @@
       animations.forEach(animation => animation.cancel());
       animations = [];
       isClosing = false;
-      document.documentElement.classList.remove('lightbox-open');
+      document.documentElement.classList.remove('scroll-locked');
       dialog.querySelector('.lightbox-frame').replaceChildren();
       if (openedFrom) openedFrom.focus();
     });
@@ -101,7 +101,7 @@
     enlarged.style.aspectRatio = getComputedStyle(picture).aspectRatio;
     dialog.querySelector('.lightbox-frame').replaceChildren(enlarged);
     DemoView.draw(enlarged, picture.dataset.window);
-    document.documentElement.classList.add('lightbox-open');
+    document.documentElement.classList.add('scroll-locked');
     dialog.showModal();
     dialog.querySelector('.lightbox-close').focus();
     animations = animateLightbox(button, true);

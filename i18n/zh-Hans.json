@@ -40,6 +40,8 @@
   "guide.lead": "逐项讲解 HDRcue 的设置方法。选一个主题，或者打开 HDRcue 跟着做。",
   "guide.contents": "目录",
   "guide.backToContents": "返回目录",
+  "guide.topicCount": "{count} 个主题",
+  "guide.contentsClose": "关闭目录",
   "guide.start.title": "入门",
   "guide.add.title": "添加应用",
   "guide.add.text": "选择**添加应用**，选好应用，再选显示器和 HDR 怎么切换，以及规则何时运行。如果这个应用已有规则，这里会再加一条，原有规则保留。",
