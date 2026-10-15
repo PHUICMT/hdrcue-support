@@ -221,6 +221,79 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 .guide { display: grid; gap: 16px; }
 .guide ul { margin: 12px 0 0; padding-left: 20px; color: var(--text-muted); }
 
+/* Setting up Pro, after the guide's other parts: one card per Pro feature, its steps numbered
+   like How it works, then what it needs and a strip of the app's page. */
+.pro-setup { margin-top: 40px; }
+
+.part-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+/* The app's own PRO label. */
+.probadge {
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(135deg, #7a5cff, #0a84ff);
+}
+
+.part-lead { max-width: 760px; margin: 0 0 20px; color: var(--text-muted); }
+.pro-setup article { scroll-margin-top: 72px; }
+.pro-setup h4 { font-size: 18px; margin: 0 0 10px; }
+b.ui { font-weight: 600; color: var(--text); }
+
+.how { counter-reset: step; margin: 0; padding: 0; list-style: none; color: var(--text-muted); }
+
+.how li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 36px;
+}
+
+.how li + li { margin-top: 8px; }
+
+.how li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: var(--accent);
+}
+
+.guide .needs {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+  font-size: 14px;
+}
+
+/* Reached from a link, the part's border lights up for a moment. */
+@media (prefers-reduced-motion: no-preference) {
+  .pro-setup article.arrived { animation: part-arrived 1.6s var(--ease); }
+}
+
+@keyframes part-arrived {
+  0%, 30% { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), 0 0 32px rgba(96, 205, 255, 0.2); }
+  100% { border-color: var(--stroke); box-shadow: none; }
+}
+
 .questions { display: grid; gap: 8px; }
 
 summary {
@@ -273,6 +346,8 @@ details.opening summary::after { transform: rotate(180deg); }
 }
 
 .features article {
+  display: flex;
+  flex-direction: column;
   padding: 16px 18px;
   border-radius: 10px;
   border: 1px solid var(--stroke);
@@ -288,6 +363,22 @@ details.opening summary::after { transform: rotate(180deg); }
 
 .features h3 { font-size: 16px; margin-bottom: 6px; }
 .features p { margin: 0; font-size: 14px; color: var(--text-muted); }
+
+/* "How to set it up" at the foot of a card, level across a row; the arrow moves on hover. */
+.how-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.how-link span { transition: transform 0.25s var(--ease); }
+.how-link:hover span { transform: translateX(4px); }
 
 /* The heading's mark after "Pro": the app's PRO badge colours, violet to blue, running on into a
    warm HDR tone, with a sparkle and now and then a soft shine across it. */

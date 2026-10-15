@@ -35,6 +35,69 @@
   "guide.restore.text": "HDRcue remembers how each display was before it changed it. When the app closes, the display goes back to that, so HDR you turned on yourself stays on. If the PC restarts or HDRcue closes unexpectedly, the displays are put back the next time it starts.",
   "guide.settings.title": "Settings",
   "guide.settings.text": "Start with Windows, animations, accent color and language. You can also restore every display from here, and select See Pro to try or buy Pro.",
+  "guide.pro.title": "Setting up Pro features",
+  "guide.pro.text": "Options marked PRO in the app need Pro or the 14-day free trial. To start the trial, open **Settings**, select **See Pro**, then **Try free for 14 days**. Most of these options are in the rule editor: select **Add app** for a new rule, or open a rule's ⋯ menu on the **Rules** page and choose **Edit**, which opens at **Display settings**.",
+  "guide.pro.hdrFile.title": "HDR that follows the file",
+  "guide.pro.hdrFile.steps": [
+    "Select **Add app**, pick **mpv** or **mpv.net** and select **Next**. If the player already has a rule, select **Edit existing rule**.",
+    "Click the display you watch on and set **HDR** to **By file**.",
+    "If a bar says the player needs setup first, select **Set it up**, then **Add it**. Restart the player once if it's open.",
+    "Select **Next**, choose when the rule runs, then select **Add rule**."
+  ],
+  "guide.pro.hdrFile.note": "Works with mpv and mpv.net. Setup adds one line to the player's mpv.conf and keeps a copy of the old file. If the folder %APPDATA%\\mpv (or %APPDATA%\\mpv.net) doesn't exist yet, make it first.",
+  "guide.pro.refresh.title": "A refresh rate that fits the film",
+  "guide.pro.refresh.steps": [
+    "In the player's rule, on **Display settings**, open **More settings**.",
+    "Set **Refresh rate** to **Match the movie**. The line under it shows the rates your display will use, such as 24 fps → 144 Hz.",
+    "If a bar says the player needs setup first, set it up the same way as for HDR by file.",
+    "Select **Next**, then **Add rule**, or **Save** for a rule you're editing."
+  ],
+  "guide.pro.refresh.note": "Works with mpv and mpv.net. The display needs a refresh rate that matches the film's frame rate or a multiple of it. If it has none, the line says so and the rate stays as it is.",
+  "guide.pro.couch.title": "Couch mode",
+  "guide.pro.couch.steps": [
+    "Select **Add app**, pick the app you use on the TV, such as Plex or Steam, and select **Next**.",
+    "Click the TV on the map. Set **HDR** to **On** if you want HDR there.",
+    "Turn on **Temporarily make it the main display**. To switch the other displays off as well, turn on **Temporarily turn off other displays**.",
+    "Select **Next**, choose when the rule runs, then select **Add rule**."
+  ],
+  "guide.pro.couch.note": "When the app closes, your usual main display and the other displays come back. If HDRcue or the PC stops unexpectedly, they come back the next time HDRcue starts. If the TV isn't connected, the rule waits for it.",
+  "guide.pro.fullScreen.title": "Full screen only",
+  "guide.pro.fullScreen.steps": [
+    "In a new or existing rule, go on to the **When** step.",
+    "Choose **While the app is full screen**.",
+    "Select **Add rule**, or **Save** for a rule you're editing."
+  ],
+  "guide.pro.fullScreen.note": "Borderless and exclusive full screen both count, a maximized window doesn't. The display goes back when the app leaves full screen, closes, or another app comes to the front.",
+  "guide.pro.follow.title": "HDR follows the app",
+  "guide.pro.follow.steps": [
+    "On **Display settings**, choose **Wherever the app is** at the top instead of **A chosen display**.",
+    "Set **HDR** to **On**. The map doesn't pick a display, since the rule uses whichever one the app's window is on.",
+    "Select **Next**, choose when the rule runs, then select **Add rule** or **Save**."
+  ],
+  "guide.pro.follow.note": "Resolution and fixed refresh rates aren't offered with this choice, since each display has its own. Clicking a display on the map switches back to A chosen display.",
+  "guide.pro.brightness.title": "Brightness and color profile per app",
+  "guide.pro.brightness.steps": [
+    "In a rule, on **Display settings**, click the display and open **More settings**.",
+    "Set **Display brightness** to 30%, 50%, 70% or 100%.",
+    "Pick a profile in **Color profile**. The line under it says whether it changes the HDR or the SDR default, which follows your **HDR** choice.",
+    "Select **Next**, then **Add rule** or **Save**."
+  ],
+  "guide.pro.brightness.note": "Display brightness shows only for displays that answer over DDC/CI, so turn DDC/CI on in the monitor's menu first. Color profile needs Windows 11 and lists the profiles installed in Windows. Both go back when the app closes.",
+  "guide.pro.conditions.title": "More conditions",
+  "guide.pro.conditions.steps": [
+    "In a rule, go on to the **When** step. The conditions are under the three choices.",
+    "Tick the ones you want: **Only when the app window is on** the rule's display, **Only when plugged in**, **Only between** two times, or **Only when this display is connected**.",
+    "For **Only between**, pick the start and end times. For **Only when this display is connected**, pick the display in the list next to it.",
+    "Select **Add rule** or **Save**."
+  ],
+  "guide.pro.conditions.note": "The rule runs only while every ticked condition is true, along with the choice above them. A time range can cross midnight, such as 18:00 to 02:00. The window condition is there only when the rule uses A chosen display.",
+  "guide.pro.games.title": "Set up your games",
+  "guide.pro.games.steps": [
+    "When a bar on the **Rules** page says it found games on this PC, select **Show games**.",
+    "On **Set up games**, tick the games you play in HDR.",
+    "Select **Set up 3 games**. The number is how many you ticked."
+  ],
+  "guide.pro.games.note": "Finds games installed from Steam, Epic and the Xbox app. Each one gets a rule that turns HDR on for the main display while the game is full screen, and you can edit it like any rule. If you chose **Later**, the bar comes back when you install another game.",
   "help.title": "Help",
   "help.items": [
     {
@@ -72,44 +135,53 @@
     {
       "title": "HDR that follows the file",
       "art": "hdr-file",
+      "guide": "pro-hdr-by-file",
       "text": "In mpv and mpv.net, HDR films turn HDR on and everything else stays in SDR."
     },
     {
       "title": "A refresh rate that fits the film",
       "art": "refresh",
+      "guide": "pro-refresh",
       "text": "The display switches to a rate that fits the film's frame rate, such as 144 Hz for a 24 fps film, so pans don't stutter."
     },
     {
       "title": "Couch mode",
       "art": "couch",
+      "guide": "pro-couch",
       "text": "Make a TV the main display and turn the other displays off while an app is open. They come back when it closes."
     },
     {
       "title": "Full screen only",
       "art": "fullscreen",
+      "guide": "pro-full-screen",
       "text": "A rule runs only while the game is full screen, so HDR stays off in its launcher."
     },
     {
       "title": "HDR follows the app",
       "art": "follows",
+      "guide": "pro-follow",
       "text": "Move the app to another display and HDR moves with it."
     },
     {
       "title": "Brightness and color profile per app",
       "art": "brightness",
+      "guide": "pro-brightness",
       "text": "Set the brightness of DDC/CI displays and pick a color profile for each app. Color profiles need Windows 11."
     },
     {
       "title": "More conditions",
       "art": "conditions",
+      "guide": "pro-conditions",
       "text": "Run a rule only while the PC is plugged in, at certain times of day, while a display is connected, or while the window is on a chosen display."
     },
     {
       "title": "Set up your games",
       "art": "games",
+      "guide": "pro-games",
       "text": "Finds the games installed from Steam, Xbox and Epic and sets them up at once."
     }
   ],
+  "pro.howTo": "How to set it up",
   "pro.trial": "Try it free for 14 days: open HDRcue, go to Settings and select See Pro. No card needed. When the trial ends, the app goes back to the free version and your rules stay. If you tried Pro in an earlier version, you get 7 more days once.",
   "pro.free": "Always free: HDR on or off per display for each app, resolution and refresh rate, while open or while in front, putting displays back afterwards and after a crash, the tray panel, an HDR shortcut, silent mode, sound output (experimental) and importing settings from AutoActions.",
   "footer.sponsor": "Sponsor",

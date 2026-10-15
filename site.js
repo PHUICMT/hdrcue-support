@@ -3,10 +3,32 @@
 (function () {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // **Add app** in a text marks a name shown in the app, such as a button or page, in bold.
+  function rich(element, text) {
+    element.replaceChildren(...text.split(/\*\*(.+?)\*\*/).map((part, index) => {
+      if (index % 2 === 0) return document.createTextNode(part);
+      const name = document.createElement('b');
+      name.className = 'ui';
+      name.textContent = part;
+      return name;
+    }));
+  }
+
   function fill(texts) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const text = texts[element.dataset.i18n];
       if (typeof text === 'string') element.textContent = text;
+    });
+    document.querySelectorAll('[data-i18n-rich]').forEach(element => {
+      const text = texts[element.dataset.i18nRich];
+      if (typeof text === 'string') rich(element, text);
+    });
+    document.querySelectorAll('[data-i18n-steps]').forEach(list => {
+      list.replaceChildren(...(texts[list.dataset.i18nSteps] || []).map(item => {
+        const entry = document.createElement('li');
+        rich(entry, item);
+        return entry;
+      }));
     });
     document.querySelectorAll('[data-i18n-list]').forEach(list => {
       list.replaceChildren(...(texts[list.dataset.i18nList] || []).map(item => {
@@ -34,6 +56,18 @@
           card.append(art);
         }
         card.append(title, text);
+        // A link down to how the feature is set up, in the guide.
+        if (item.guide && texts['pro.howTo']) {
+          const link = document.createElement('a');
+          link.className = 'how-link';
+          link.href = `#${item.guide}`;
+          link.textContent = texts['pro.howTo'];
+          const arrow = document.createElement('span');
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.textContent = '→';
+          link.append(arrow);
+          card.append(link);
+        }
         return card;
       }));
     });
@@ -156,6 +190,30 @@
     });
   }
 
+  // A part of the Pro guide reached from a link, such as a card's "How to set it up", lights
+  // its border up once the page has stopped scrolling to it.
+  function flashPart(part) {
+    const section = part.closest('section');
+    if (section) section.classList.add('shown');
+    part.classList.remove('arrived');
+    let flashed = false;
+    const flash = () => {
+      if (flashed) return;
+      flashed = true;
+      part.classList.add('arrived');
+    };
+    addEventListener('scrollend', flash, { once: true });
+    setTimeout(flash, 900);
+  }
+
+  function followGuideLinks() {
+    document.addEventListener('click', event => {
+      const link = event.target.closest('a[href^="#pro-"]');
+      const part = link && document.getElementById(link.hash.slice(1));
+      if (part) flashPart(part);
+    });
+  }
+
   // The guide's pictures of the app's pages, drawn by demo/view.js.
   function drawWindows() {
     if (typeof DemoView === 'undefined') return;
@@ -164,6 +222,7 @@
 
   revealSections();
   followSections();
+  followGuideLinks();
   watchDemo();
   drawWindows();
 
@@ -177,6 +236,7 @@
       // jump is made again now that the page has its full length.
       const linked = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
       if (linked) linked.scrollIntoView({ behavior: 'instant' });
+      if (linked && linked.matches('.pro-setup article')) flashPart(linked);
     })
     .catch(() => {
       // The text already in the page stays when the file cannot load.

@@ -26,6 +26,12 @@ The pictures in the guide are drawn by the same `demo/view.js`, standing still: 
 `settings`) in a shadow root that loads `demo/demo.css`. `view.js` asks for `demo.css` with its
 own `?v=`, so give both the same number when either changes.
 
+The guide ends with how to set up each Pro feature (`guide.pro.*`), one part per Pro card in
+the same order. Each card links to its part through `guide` in `pro.features`, the part's id
+(such as `pro-hdr-by-file`). In these texts, `**Add app**` marks a name shown in the app and
+is set in bold. Their pictures are strips of the app's pages from `demo/view.js` (`strips`),
+cut from an element down to a fixed height so the page keeps its layout while they draw.
+
 Each Pro card on the main page has a small moving picture drawn by `pro-art.js` in inline SVG,
 named by the card's `art` in `i18n/en.json`. `site.css` animates them, only while the card is on
 screen or under the pointer, and shows them standing still on the feature switched on to

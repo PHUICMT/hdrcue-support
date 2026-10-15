@@ -80,6 +80,42 @@ const DemoView = (function () {
     displays: 'Displays',
     displaysLead: "Give each display a name that's easy to tell apart. The app uses these names everywhere. "
       + "Displays that aren't connected stay here, so you can still set up rules for them.",
+    // The Pro options, for the guide's pictures of setting them up.
+    byFile: 'By file',
+    byFileDescription: 'Works with 2 players',
+    seeList: 'See list',
+    followNote: 'Settings apply to the display the app window is on. Move the window and the settings follow.',
+    needsSetupTitle: name => `${name} needs setup first.`,
+    needsSetupText: "Until then, HDR by file won't work.",
+    hdrParts: { on: 'HDR on', off: 'HDR off', file: 'HDR by file' },
+    mainPart: 'Main display',
+    othersPart: 'Others off',
+    matchPart: 'Match the movie',
+    resolution: 'Resolution',
+    refresh: 'Refresh rate',
+    matchPreview: 'On Main display: 24 fps → 144 Hz · 23.976 fps → 119.88 Hz · 25 fps → 100 Hz',
+    brightness: ['Display brightness', "Uses DDC/CI. Turn it on in the monitor's menu first."],
+    colorProfile: ['Color profile', 'Uses profiles installed in Windows. Changes the HDR default.'],
+    sound: ['Sound output', 'Experimental. Windows has no official switch for this, so an update may stop it working.'],
+    sentences: {
+      open: app => `When <b>${app}</b> is open`,
+      front: app => `While using <b>${app}</b>`,
+      full: app => `When <b>${app}</b> is full screen`,
+    },
+    goesBackFrom: {
+      open: app => `Goes back when ${app} closes`,
+      front: app => `Goes back when you switch away from ${app} or close it`,
+      full: app => `Goes back when ${app} leaves full screen or closes`,
+    },
+    appsDisplay: "App's display",
+    onlyWindow: display => `Only when the app window is on ${display}`,
+    onlyPower: ['Only when plugged in', 'For laptops'],
+    onlyTime: ['Only between', 'and'],
+    onlyDisplay: 'Only when this display is connected',
+    gamesFound: count => `Found ${count} games on this PC`,
+    gamesText: 'Set them up at once. HDR comes on only while you play full screen.',
+    showGames: 'Show games',
+    later: 'Later',
   };
 
   // Made-up apps with letter icons in the app's own icon colors. Games are listed apart from
@@ -92,6 +128,8 @@ const DemoView = (function () {
     arena: { name: 'Space Arena', color: '#1f9d7a' },
     cutter: { name: 'Video Cutter', color: '#e34d8c' },
     photo: { name: 'Photo Studio', color: '#d97a1c' },
+    // The player HDR by file and matching the movie work with, for the guide's pictures.
+    mpv: { name: 'mpv', color: '#6b3fa0' },
   };
   const openApps = ['cinema', 'music', 'notes', 'arena', 'cutter', 'racer'];
 
@@ -100,6 +138,10 @@ const DemoView = (function () {
     { id: 'left', name: 'Left display', x: -2560, y: -40, width: 2560, height: 1080, hertz: 144, hdr: false },
     { id: 'main', name: 'Main display', x: 0, y: 0, width: 3440, height: 1440, hertz: 175, hdr: true },
   ];
+
+  // A TV to the right of the main display, for the couch mode picture.
+  const withTv = [...displays,
+    { id: 'tv', name: 'Living room TV', x: 3440, y: 0, width: 3840, height: 2160, hertz: 60, hdr: true }];
 
   const svg = (body, className = 'i', box = 16) =>
     `<svg class="${className}" viewBox="0 0 ${box} ${box}" aria-hidden="true">${body}</svg>`;
@@ -142,6 +184,12 @@ const DemoView = (function () {
     video: svg('<rect x="1.5" y="4" width="9" height="8" rx="1.2"/><path d="M10.5 7.2l4-2.3v6.2l-4-2.3"/>'),
     sliders: svg('<path d="M1.5 4.5h13M1.5 11.5h13"/><circle class="knob" cx="10.5" cy="4.5" r="1.8"/><circle class="knob" cx="5.5" cy="11.5" r="1.8"/>'),
     chevron: svg('<path d="M4 6l4 4 4-4"/>'),
+    warn: svg('<path d="M8 1.8l6.6 11.7H1.4z"/><path d="M8 6.2v3.6M8 11.6v.2"/>'),
+    game: svg('<path d="M4.6 4.5h6.8a3.1 3.1 0 0 1 3 2.4l.6 3.2a1.8 1.8 0 0 1-3.1 1.5L10.4 10H5.6l-1.5 1.6A1.8 1.8 0 0 1 1 10.1l.6-3.2a3.1 3.1 0 0 1 3-2.4z"/><path d="M4.8 6.4v2.2M3.7 7.5h2.2M10.8 7.2v.1M12 8.1v.1"/>'),
+    resolution: svg('<rect x="1.5" y="2.5" width="13" height="11" rx="1"/><path d="M4.5 5.5h2.5M4.5 5.5V8M11.5 10.5H9M11.5 10.5V8"/>'),
+    refresh: svg('<path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9"/><path d="M12.2 1.6v2.8H9.4"/>'),
+    brightness: svg('<circle cx="8" cy="8" r="3"/><path d="M8 5a3 3 0 0 1 0 6z" class="fill"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/>'),
+    sound: svg('<path d="M2 6h2.6L8 3v10L4.6 10H2z"/><path d="M10.6 5.6a3.4 3.4 0 0 1 0 4.8M12.4 3.8a6 6 0 0 1 0 8.4"/>'),
     minimize: svg('<path d="M0.5 5h9"/>', 'i', 10),
     maximize: svg('<rect x="0.5" y="0.5" width="9" height="9" rx="1"/>', 'i', 10),
     close: svg('<path d="M0.5 0.5l9 9M9.5 0.5l-9 9"/>', 'i', 10),
@@ -173,8 +221,8 @@ const DemoView = (function () {
     : '';
 
   // A row of a settings card: icon, title with an optional description, and its control.
-  const optionHtml = (glyph, title, description, control) =>
-    `<div class="opt">${glyph}<div class="label">${title}${description ? `<small>${description}</small>` : ''}</div>${control}</div>`;
+  const optionHtml = (glyph, title, description, control, className = '') =>
+    `<div class="opt ${className}">${glyph}<div class="label">${title}${description ? `<small>${description}</small>` : ''}</div>${control}</div>`;
 
   // A segmented control. Each choice is a label, or [label, the tour's target for it].
   function segHtml(choices, chosen, className = '') {
@@ -205,10 +253,18 @@ const DemoView = (function () {
       <div class="small muted">${line}</div></div><span class="chip ${hdr ? '' : 'mute'}">${hdr ? 'HDR' : 'SDR'}</span></div>`;
     return `<div class="row head"><div class="grow"><h1>${text.rules}</h1><p class="lead">${text.rulesLead}</p></div>
         <button class="btn primary" data-target="add">${icon.plus}${text.addApp}</button></div>
+      ${s.gamesFound ? gamesBarHtml(s.gamesFound) : ''}
       <div class="sect first">${text.rightNow}</div>
       <div class="now">${nowCard('Main display', text.nowBy, true)}${nowCard('Left display', text.nowNone, false)}</div>
       ${ruleGroupHtml('apps', text.apps, s.rules.filter(rule => !isGame(rule.app)))}
       ${ruleGroupHtml('games', text.games, s.rules.filter(rule => isGame(rule.app)))}`;
+  }
+
+  // The bar above Right now that points out games without a rule. Finding games is Pro.
+  function gamesBarHtml(count) {
+    return `<div class="bar info gamesbar">${icon.game}<div class="grow"><b>${text.gamesFound(count)}</b>
+      <div class="small muted">${text.gamesText}</div></div>${proBadge()}
+      <button class="btn small">${text.showGames}</button><button class="btn small ghost">${text.later}</button></div>`;
   }
 
   function ruleGroupHtml(key, heading, rules) {
@@ -270,30 +326,67 @@ const DemoView = (function () {
 
   // The display step as in the app: where the rule applies, the map, then the HDR choice and
   // the couch mode switches in one card, with the rest folded under More settings.
+  // The guide's pictures set more of it: the rule following its app, "By file" for a player,
+  // the couch mode switches, and More settings opened.
   function displayHtml(s) {
     const wizard = s.wizard;
+    const follows = wizard.target === 'app';
     const options = [['keep', text.keep], ['on', text.on], ['off', text.offButton]];
+    if (wizard.player) options.push(['file', `${text.byFile}${proBadge('small')}`]);
     const hdr = segHtml(options.map(([value, label]) => [label, `hdr-${value}`]),
       options.findIndex(([value]) => value === wizard.hdr));
+    const hdrDescription = wizard.hdr === 'file'
+      ? `${text.byFileDescription} · <span class="link">${text.seeList}</span>` : text.hdrDescription;
     const proTitle = title => `<span class="title">${title}${proBadge('small')}</span>`;
-    const more = `<span class="value">${text.keep}${icon.chevron}</span>`;
+    const toggle = on => `<span class="tgl ${on ? 'on' : ''}"></span>`;
+    const target = segHtml([text.targets[0], `${text.targets[1]}${proBadge('small')}`], follows ? 1 : 0, 'target');
+    const note = follows ? `<p class="note follownote">${text.followNote}</p>` : '';
+    const setup = wizard.needsSetup
+      ? `<div class="bar warn setupbar">${icon.warn}<div class="grow"><b>${text.needsSetupTitle(apps[wizard.app].name)}</b>
+        <div class="small muted">${text.needsSetupText}</div></div><button class="btn small">${text.setUp}</button></div>`
+      : '';
     return `<h1>${text.displayTitle(apps[wizard.app].name)}</h1><p class="lead">${text.displayLead}</p>
-      <div>${segHtml([text.targets[0], `${text.targets[1]}${proBadge('small')}`], 0, 'target')}</div>
-      ${mapHtml(wizard)}
-      <div class="card box hdrcard">${optionHtml(icon.sun, 'HDR', text.hdrDescription, hdr)}
-        ${optionHtml(icon.star, proTitle(text.makeMain), text.makeMainDescription, '<span class="tgl"></span>')}
-        ${optionHtml(icon.power, proTitle(text.othersOff), text.othersOffDescription, '<span class="tgl"></span>')}
-        ${optionHtml(icon.sliders, text.more, '', more)}</div>`;
+      <div>${target}</div>
+      ${mapHtml(wizard)}${note}
+      <div class="card box hdrcard">${optionHtml(icon.sun, 'HDR', hdrDescription, hdr, 'hdrrow')}
+        ${optionHtml(icon.star, proTitle(text.makeMain), text.makeMainDescription, toggle(wizard.makesMain), 'mainrow')}
+        ${optionHtml(icon.power, proTitle(text.othersOff), text.othersOffDescription, toggle(wizard.othersOff), 'othersrow')}
+        ${moreHtml(wizard)}</div>${setup}`;
   }
 
-  // Displays drawn to scale where Windows places them, 600 px across like the app.
+  // "More settings", folded unless a picture opens it. Its summary lists what it changes.
+  function moreHtml(wizard) {
+    const more = wizard.more;
+    const parts = more ? [more.refresh, more.brightness, more.profile].filter(Boolean) : [];
+    const head = optionHtml(icon.sliders, text.more, '',
+      `<span class="value">${parts.length ? parts.join(' · ') : text.keep}${icon.chevron}</span>`, `morehead ${more ? 'open' : ''}`);
+    if (!more) return head;
+    const combo = value => `<span class="combo">${value || text.keep}${icon.chevron}</span>`;
+    const proTitle = title => `<span class="title">${title}${proBadge('small')}</span>`;
+    const preview = more.refresh === text.matchPart ? `<div class="opt-sub preview small muted">${text.matchPreview}</div>` : '';
+    return `${head}
+      ${wizard.target === 'app' ? '' : optionHtml(icon.resolution, text.resolution, '', combo(), 'resrow')}
+      <div class="option-group refreshrow">${optionHtml(icon.refresh, text.refresh, '', combo(more.refresh))}${preview}</div>
+      ${optionHtml(icon.brightness, proTitle(text.brightness[0]), text.brightness[1], combo(more.brightness), 'brightrow')}
+      ${optionHtml(icon.palette, proTitle(text.colorProfile[0]), text.colorProfile[1], combo(more.profile), 'profilerow')}
+      ${optionHtml(icon.sound, text.sound[0], text.sound[1], combo(), 'soundrow')}`;
+  }
+
+  // Displays drawn to scale where Windows places them, 600 px across like the app. While the
+  // rule follows its app, no display is picked.
   function mapHtml(wizard) {
-    const left = -2560, right = 3440, top = -40, bottom = 1440, width = 600;
+    const list = wizard.displays || displays;
+    const left = Math.min(...list.map(display => display.x));
+    const right = Math.max(...list.map(display => display.x + display.width));
+    const top = Math.min(...list.map(display => display.y));
+    const bottom = Math.max(...list.map(display => display.y + display.height));
+    const width = 600;
     const scale = width / (right - left);
-    const tiles = displays.map(display => {
-      const selected = display.id === 'main';
+    const chosen = wizard.target === 'app' ? null : wizard.display || 'main';
+    const tiles = list.map(display => {
+      const selected = display.id === chosen;
       const badge = selected && wizard.hdr !== 'keep'
-        ? `<span class="badge" data-key="badge-${wizard.hdr}">HDR ${wizard.hdr}</span>` : '';
+        ? `<span class="badge" data-key="badge-${wizard.hdr}">${text.hdrParts[wizard.hdr]}</span>` : '';
       const place = `left:${(display.x - left) * scale + 3}px;top:${(display.y - top) * scale + 3}px;`
         + `width:${display.width * scale - 6}px;height:${display.height * scale - 6}px`;
       return `<div class="mon ${selected ? 'sel' : ''}" data-key="mon-${display.id}" style="${place}">${badge}
@@ -303,20 +396,45 @@ const DemoView = (function () {
     return `<div class="map" style="width:${width}px;height:${(bottom - top) * scale}px">${tiles}</div>`;
   }
 
+  // The tour keeps the first choice and shows its short summary. The guide's pictures pick a
+  // choice, show the extra conditions under the choices and write the summary as the app does.
   function whenHtml(s) {
-    const name = apps[s.wizard.app].name;
-    return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>
-      ${text.whenChoices.map(whenChoiceHtml).join('')}
-      <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
-        <div class="small muted">${text.goesBack(name)}</div></div>`;
+    const wizard = s.wizard;
+    const name = apps[wizard.app].name;
+    const when = wizard.when || 'open';
+    const choices = text.whenChoices.map((choice, index) => whenChoiceHtml(choice, index, when)).join('');
+    if (!wizard.when) {
+      return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}
+        <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
+          <div class="small muted">${text.goesBack(name)}</div></div>`;
+    }
+    const display = wizard.target === 'app' ? text.appsDisplay : 'Main display';
+    const changes = [text.hdrParts[wizard.hdr || 'on']].map(part => `<span class="k">${part}</span>`).join(', ');
+    return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
+      <div class="card summary"><div class="sentence">${text.sentences[when](name)} → <b>${display}</b>: ${changes}</div>
+        <div class="small muted">${text.goesBackFrom[when](name)}</div></div>`;
+  }
+
+  // The extra conditions, each a check box marked PRO. The first one is there only while the
+  // rule uses a chosen display.
+  function checksHtml(wizard) {
+    const ticked = wizard.checks || {};
+    const check = (on, label, after = '') => `<div class="check ${on ? 'on' : ''}"><span class="tick">${on ? icon.check : ''}</span>`
+      + `<span class="title">${label}${proBadge('small')}</span>${after}</div>`;
+    const time = value => `<span class="time"><span>${value[0]}</span><span>${value[1]}</span></span>`;
+    return `<div class="checks">
+      ${wizard.target === 'app' ? '' : check(ticked.window, text.onlyWindow('Main display'))}
+      ${check(ticked.power, text.onlyPower[0], `<span class="small muted">${text.onlyPower[1]}</span>`)}
+      ${check(ticked.time, text.onlyTime[0], `${time(['18', '00'])}<span class="muted">${text.onlyTime[1]}</span>${time(['02', '00'])}`)}
+      ${check(ticked.display, text.onlyDisplay, `<span class="combo">Main display${icon.chevron}</span>`)}</div>`;
   }
 
   // A choice with its radio, icon, title and description, "Recommended" on the first and the
-  // PRO badge on full screen. The demo keeps the first choice.
-  function whenChoiceHtml(choice, index) {
+  // PRO badge on full screen.
+  function whenChoiceHtml(choice, index, chosen) {
     const badge = choice.id === 'full' ? proBadge() : '';
     const recommended = choice.id === 'open' ? `<span class="pill plain">${text.recommended}</span>` : '';
-    return `<div class="radio ${choice.id === 'open' ? 'on' : ''}" style="--d:${index}"><span class="r"></span>${icon[choice.id]}
+    return `<div class="radio ${choice.id === chosen ? 'on' : ''}" style="--d:${index}"><span class="r"></span>${icon[choice.id]}
         <div class="grow"><div class="title"><b>${choice.title}</b>${badge}</div><div class="small muted">${choice.description}</div></div>
         ${recommended}</div>`;
   }
@@ -422,22 +540,97 @@ const DemoView = (function () {
   /* ---------- still pictures for the guide ---------- */
 
   // One page each, in the state the app's screenshots show: Space Arena picked, then HDR on.
+  const wizardAt = (step, wizard) => ({ ...initialState(), page: 'wizard', wizard: { step, hdr: 'keep', ...wizard } });
   const stills = {
-    choose: () => ({ ...initialState(), page: 'wizard', wizard: { step: 1, app: 'arena', hdr: 'keep' } }),
-    display: () => ({ ...initialState(), page: 'wizard', wizard: { step: 2, app: 'arena', hdr: 'on' } }),
+    choose: () => wizardAt(1, { app: 'arena' }),
+    display: () => wizardAt(2, { app: 'arena', hdr: 'on' }),
     settings: () => ({ ...initialState(), page: 'settings' }),
   };
+
+  // The guide's pictures of setting up Pro: a strip of a page, from the element named by
+  // `from` (less `pad` px above it, 16 unless set) down to `height` px, across the page's
+  // content without the menu. The height is fixed, so the picture takes its place on the page
+  // before it is drawn.
+  const strips = {
+    'hdr-file': {
+      state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, needsSetup: true }),
+      from: '.hdrcard', height: 346,
+    },
+    refresh: {
+      state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, more: { refresh: text.matchPart } }),
+      from: '.morehead', height: 213, pad: 0,
+    },
+    couch: {
+      state: () => wizardAt(2, {
+        app: 'cinema', hdr: 'on', displays: withTv, display: 'tv', makesMain: true, othersOff: true,
+      }),
+      from: '.map', height: 428,
+    },
+    'full-screen': {
+      state: () => wizardAt(3, { app: 'racer', hdr: 'on', when: 'full' }),
+      from: '.radio', height: 242,
+    },
+    follow: {
+      state: () => wizardAt(2, { app: 'racer', hdr: 'on', target: 'app' }),
+      from: '.seg.target', height: 336,
+    },
+    brightness: {
+      state: () => wizardAt(2, { app: 'cinema', hdr: 'on', more: { brightness: '70%', profile: 'Wide Gamut Calibrated' } }),
+      from: '.brightrow', height: 134, pad: 0,
+    },
+    conditions: {
+      state: () => wizardAt(3, { app: 'cinema', hdr: 'on', when: 'open', checks: { time: true, display: true } }),
+      from: '.checks', height: 180, pad: 6,
+    },
+    games: {
+      state: () => ({ ...initialState(), gamesFound: 3 }),
+      from: '.head', height: 172,
+    },
+  };
+
+  // The menu on the left, which the strips leave out (with the content's left border).
+  const menuWidth = 212;
 
   // Draws a still into the element, in a shadow root so the window's styles and the page's
   // styles stay apart. It is laid out at the window's own size and scaled to the element's
   // width, with every animation at its end, and shows once its stylesheet has loaded.
   function draw(host, name) {
+    const strip = strips[name];
+    const state = strip ? strip.state() : stills[name]();
+    const width = strip ? size.width - menuWidth : size.width;
     const shadow = host.shadowRoot || host.attachShadow({ mode: 'open' });
     shadow.innerHTML = `<link rel="stylesheet" href="${styleUrl}">
-      <div class="stage" data-motion="off" style="visibility:hidden"><div class="win">${windowHtml(stills[name]())}</div></div>`;
+      <div class="stage" data-motion="off" style="visibility:hidden"><div class="win">${windowHtml(state)}</div></div>`;
     const stage = shadow.querySelector('.stage');
-    shadow.querySelector('link').addEventListener('load', () => { stage.style.visibility = ''; });
-    const fit = () => { stage.style.transform = `scale(${host.clientWidth / size.width})`; };
+    let loaded = false;
+    let top = null;
+    if (strip) {
+      host.style.aspectRatio = `${width} / ${strip.height}`;
+      host.style.background = '#25282c';
+      // Tall enough that nothing in the strip is cut off by the window's own height.
+      stage.style.height = '1800px';
+    }
+    // Where the strip starts, in the window's own pixels, measured once it is laid out.
+    const measure = scale => {
+      stage.style.transform = `scale(${scale})`;
+      const win = shadow.querySelector('.win').getBoundingClientRect();
+      const from = shadow.querySelector(strip.from).getBoundingClientRect();
+      return Math.max(0, (from.top - win.top) / scale - (strip.pad ?? 16));
+    };
+    const fit = () => {
+      const scale = host.clientWidth / width;
+      if (!strip) {
+        stage.style.transform = `scale(${scale})`;
+        return;
+      }
+      if (top === null && loaded && scale > 0) top = measure(scale);
+      stage.style.transform = `scale(${scale}) translate(${-menuWidth}px, ${-(top || 0)}px)`;
+    };
+    shadow.querySelector('link').addEventListener('load', () => {
+      loaded = true;
+      fit();
+      stage.style.visibility = '';
+    });
     new ResizeObserver(fit).observe(host);
     fit();
   }
