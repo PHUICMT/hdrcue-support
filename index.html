@@ -8,6 +8,7 @@
   <link rel="icon" href="images/icon.png">
   <link rel="canonical" href="https://hdrcue.phu-space.com/">
   <meta name="theme-color" content="#0f1430">
+  <script src="language.js?v=1"></script>
   <!-- The card chat apps and social sites show for a shared link. -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="HDRcue">
@@ -22,10 +23,11 @@
   <!-- The guide used to be on this page. Its old links go to the same part of the guide page. -->
   <script>
     if (/^#(guide|pro-setup|pro-[a-z-]+|getting-started|add-app|rule-order|several-rules|players|backup)$/.test(location.hash)) {
-      location.replace(`guide/${location.hash}`);
+      location.replace(`guide/${location.search}${location.hash}`);
     }
   </script>
-  <link rel="stylesheet" href="site.css?v=22">
+  <link rel="stylesheet" href="fonts.css?v=1">
+  <link rel="stylesheet" href="site.css?v=23">
 </head>
 <body data-root="./" data-page="home">
   <header class="top"></header>
@@ -34,7 +36,7 @@
     <section class="hero">
       <h1 data-i18n="hero.title">HDR when you need it, back to normal when you're done</h1>
       <p data-i18n="hero.text"></p>
-      <p><a class="store-badge" href="https://apps.microsoft.com/detail/9P06PWS591LH"><img src="images/ms-store-badge-light.svg" alt="Get it from the Microsoft Store" width="161" height="44"></a></p>
+      <p><a class="store-badge" href="https://apps.microsoft.com/detail/9P06PWS591LH"><img src="images/ms-store-badge-light.svg" alt="Get it from the Microsoft Store" data-i18n-alt="openApp.store" width="161" height="44"></a></p>
       <p class="hero-note" data-i18n="hero.note">Free for Windows 10 and 11 · Pro upgrade with a 14-day free trial</p>
     </section>
 
@@ -43,7 +45,7 @@
     <section id="tour" class="tour">
       <h2 data-i18n="tour.title">Adding an app, step by step</h2>
       <div class="stage">
-        <iframe class="demo-frame" src="demo/?v=19" title="Demo of adding an app in HDRcue" loading="lazy"></iframe>
+        <iframe class="demo-frame" src="demo/?v=20" title="Demo of adding an app in HDRcue" data-i18n-title="tour.frame" loading="lazy"></iframe>
       </div>
     </section>
 
@@ -78,16 +80,16 @@
       <p data-i18n="pro.text">HDRcue is free. Pro is an optional upgrade you buy once, inside the app, through the Microsoft Store.</p>
       <div class="features" data-i18n-cards="pro.features"></div>
       <p data-i18n="pro.trial"></p>
-      <p><a class="store-badge" href="https://apps.microsoft.com/detail/9P06PWS591LH"><img src="images/ms-store-badge-light.svg" alt="Get it from the Microsoft Store" width="161" height="44"></a></p>
+      <p><a class="store-badge" href="https://apps.microsoft.com/detail/9P06PWS591LH"><img src="images/ms-store-badge-light.svg" alt="Get it from the Microsoft Store" data-i18n-alt="openApp.store" width="161" height="44"></a></p>
       <div class="open-app" data-open-app="hdrcue://pro" hidden></div>
       <p class="free-note" data-i18n="pro.free"></p>
     </section>
   </main>
 
   <footer class="bottom"></footer>
-  <script src="layout.js?v=2"></script>
+  <script src="layout.js?v=3"></script>
   <script src="open-app.js?v=1"></script>
   <script src="pro-art.js?v=2"></script>
-  <script src="site.js?v=20"></script>
+  <script src="site.js?v=21"></script>
 </body>
 </html>

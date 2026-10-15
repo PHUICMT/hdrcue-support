@@ -1,0 +1,21 @@
+/* The font for each language of the site, as --font. Every page loads this, the tour's frame
+   too, and the guide's pictures take --font from the page around them. Latin letters stay in
+   Segoe UI where Windows has it, and each script falls through to a font made for it: Thai to
+   Noto Sans Thai, which language.js loads from Google Fonts only for Thai pages, and Japanese
+   and Chinese to the fonts Windows, macOS and phones already have. Any element can set it with
+   its own lang, as each language's name in the language menus does. */
+:root { --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; }
+
+:lang(th) {
+  --font: "Segoe UI Variable Text", "Segoe UI", "Noto Sans Thai", "Leelawadee UI", Thonburi, sans-serif;
+}
+
+:lang(ja) {
+  --font: "Segoe UI Variable Text", "Segoe UI", "Yu Gothic UI", Meiryo, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+}
+
+:lang(zh-Hans) {
+  --font: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC",
+    "Noto Sans SC", "Noto Sans CJK SC", sans-serif;
+}

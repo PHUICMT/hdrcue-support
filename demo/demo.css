@@ -3,7 +3,8 @@
    app's design, so the demo looks and moves like the real window. The tour uses it as its
    page's stylesheet, and the guide's still pictures inside a shadow root (:host). */
 
-/* inside another page, the window takes none of that page's text styles */
+/* inside another page, the window takes none of that page's text styles, only --font
+   (fonts.css), the font for the page's language; the tour's own page loads fonts.css */
 :host { all: initial; display: block; }
 
 :root, :host {
@@ -27,7 +28,6 @@
   --ok-bg: #393d1b;
   --track: #1c1c1c;
   --plate: #454545;
-  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
   /* Fluent 2 durations and curves, the same ones the app uses */
   --fast: 0.1s;
   --norm: 0.18s;

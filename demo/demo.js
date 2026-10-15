@@ -1,11 +1,12 @@
 // Plays the demo: a pointer moves to each control, clicks it, and the window changes the way
 // the app does, with a caption for each step. It loops, pauses while the page is hidden, and
-// follows {type: 'play'} and {type: 'pause'} messages from the page that embeds it.
+// follows {type: 'play'} and {type: 'pause'} messages from the page that embeds it. It speaks
+// the language of the page around it (language.js), and changes with it where it is.
 (function () {
   const { width, height } = DemoView.size;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Each step: its caption in ../i18n/en.json, the control to click, and where on that
+  // Each step: its caption in the texts (i18n/), the control to click, and where on that
   // control the pointer lands (as a share of its width and height).
   const steps = [
     { caption: 'tour.add', target: 'add', at: [0.55, 0.55] },
@@ -28,7 +29,8 @@
   let pointerAt = { ...restingPoint };
 
   document.documentElement.dataset.motion = reducedMotion ? 'off' : 'on';
-  DemoView.mount(document.getElementById('app-window'));
+  // The texts of the language being shown; the tour reads its captions from here at each step.
+  let texts = {};
 
   /* ---------- fit the 1344 x 850 window into whatever size the frame has ---------- */
 
@@ -137,7 +139,7 @@
 
   /* ---------- captions ---------- */
 
-  function showCaption(index, texts) {
+  function showCaption(index) {
     bubble.querySelector('.bubble-number').textContent = index + 1;
     bubble.querySelector('.bubble-text').textContent = texts[steps[index].caption] || '';
     bubble.classList.remove('show');
@@ -162,11 +164,11 @@
     DemoView.act(step.target);
   }
 
-  async function play(texts) {
+  async function play() {
     for (;;) {
       await sleep(timing.start);
       for (const [index, step] of steps.entries()) {
-        showCaption(index, texts);
+        showCaption(index);
         await sleep(timing.read);
         if (!step.target) {
           await sleep(timing.done);
@@ -187,8 +189,8 @@
   }
 
   // Shows the first step without playing it, for visitors who asked for less motion.
-  function showStill(texts) {
-    showCaption(0, texts);
+  function showStill() {
+    showCaption(0);
     const button = DemoView.target(steps[0].target);
     button.classList.add('is-hover');
     placePointer(pointOn(button, steps[0].at));
@@ -207,24 +209,37 @@
   });
   document.addEventListener('visibilitychange', update);
 
-  placePointer(restingPoint);
+  // The list read out to screen readers, and the caption on screen, in the current language.
+  function showTexts(newTexts) {
+    texts = newTexts;
+    DemoView.setTexts(texts);
+    document.getElementById('steps').replaceChildren(...steps.map(step => {
+      const item = document.createElement('li');
+      item.textContent = texts[step.caption] || '';
+      return item;
+    }));
+    const number = Number(bubble.querySelector('.bubble-number').textContent);
+    if (number) bubble.querySelector('.bubble-text').textContent = texts[steps[number - 1].caption] || '';
+  }
 
-  fetch('../i18n/en.json', { cache: 'no-cache' })
-    .then(response => response.json())
+  SiteLanguage.texts()
     .catch(() => ({}))
-    .then(texts => {
-      const list = document.getElementById('steps');
-      list.replaceChildren(...steps.map(step => {
-        const item = document.createElement('li');
-        item.textContent = texts[step.caption] || '';
-        return item;
-      }));
+    .then(firstTexts => {
+      showTexts(firstTexts);
+      DemoView.mount(document.getElementById('app-window'));
+      placePointer(restingPoint);
       if (reducedMotion) {
-        showStill(texts);
+        showStill();
         return;
       }
       ready = true;
-      play(texts);
+      play();
       update();
     });
+
+  document.addEventListener('site-language-change', () => {
+    SiteLanguage.texts().then(showTexts).catch(() => {
+      // The demo stays in the language it had.
+    });
+  });
 })();

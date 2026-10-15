@@ -43,10 +43,11 @@
     if (link) lightUp(targetOf(link));
   });
 
-  // site.js jumps to the linked part again once the text is in; then it lights up.
+  // site.js jumps to the linked part again once the text is first in; then it lights up. A
+  // change of language later fills the page again without lighting anything.
   document.addEventListener('site-texts-filled', () => {
     if (location.hash.length > 1) lightUp(document.getElementById(location.hash.slice(1)));
-  });
+  }, { once: true });
 
   followReading();
 })();

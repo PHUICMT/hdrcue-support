@@ -12,118 +12,138 @@ const DemoView = (function () {
   const iconUrl = new URL('../images/icon.png', here).href;
   const styleUrl = new URL(`demo.css${new URL(here).search}`, here).href;
 
-  const text = {
-    title: 'HDRcue',
-    addTitle: 'HDRcue · Add app',
-    rules: 'Rules',
-    settings: 'Settings',
-    pause: 'Pause',
-    rulesLead: 'What each display does when an app opens',
-    addApp: 'Add app',
-    rightNow: 'Right now',
-    nowBy: 'HDR on · for Cinema Player',
-    nowNone: 'SDR · no active rule',
-    apps: count => `Apps (${count})`,
-    games: count => `Games (${count})`,
-    when: { open: 'While open', front: 'In front', full: 'Full screen' },
-    pro: 'PRO',
-    active: 'Active',
-    waiting: 'Waiting',
-    waitingFor: display => `Waiting for ${display}`,
-    off: 'Off',
-    // Several rules for one app share a card, with a numbered row for each.
-    ruleCount: count => count === 1 ? '1 rule' : `${count} rules`,
-    orderNote: 'When more than one applies, the higher rule wins. Drag a rule to change the order.',
-    unnamedRule: number => `Rule ${number}`,
-    steps: ['Choose app', 'Display settings', 'When'],
-    chooseLead: 'Easiest way: open the app, then pick it from the first tab.',
-    openNow: 'Open now',
-    allApps: 'All apps',
-    search: 'Search apps and games',
-    browse: 'Browse for .exe…',
-    displayTitle: app => `What should happen when ${app} opens?`,
-    displayLead: 'Pick a display, then choose what changes. Leave the rest as is.',
-    targets: ['A chosen display', 'Wherever the app is'],
-    hdrDescription: 'Brighter, richer color for HDR movies and games',
-    keep: "Don't change",
-    on: 'On',
-    offButton: 'Off',
-    makeMain: 'Temporarily make it the main display',
-    makeMainDescription: 'Pair it with a TV for couch mode',
-    othersOff: 'Temporarily turn off other displays',
-    othersOffDescription: 'They come back when the app closes',
-    more: 'More settings',
-    whenLead: 'When the app closes or the condition ends, the display always goes back.',
-    whenChoices: [
-      { id: 'open', title: 'While the app is open', description: 'Simplest. Changes as soon as the app opens.' },
-      { id: 'front', title: 'While the app is in front', description: 'Goes back when you switch to another app' },
-      { id: 'full', title: 'While the app is full screen', description: 'Good for games and video players' },
-    ],
-    recommended: 'Recommended',
-    ruleName: ['Rule name (optional)', 'For example: Projector'],
-    orderNew: app => `${app} has other rules. When more than one applies, the higher one wins. New rules go to the bottom. `
-      + "To change that, drag the rule cards or use Move up in the rule's menu.",
-    sentence: (app, display) => `When <b>${app}</b> is open → <b>${display}</b>: HDR <span class="keyword">on</span>`,
-    goesBack: app => `Goes back when ${app} closes`,
-    cancel: 'Cancel',
-    back: 'Back',
-    next: 'Next',
-    addRule: 'Add rule',
-    settingsLead: 'The defaults work for most people.',
-    proFree: "You're on the free version",
-    proFreeDescription: 'Pro adds HDR by file, refresh rates that match the movie, couch mode, '
-      + 'setting up your games, brightness, color profiles and more conditions.',
-    seePro: 'See Pro',
-    general: 'General',
-    startup: ['Start with Windows', 'Runs in the background and uses very little CPU or memory.'],
-    tray: ['Show tray icon', 'Click it for HDR switches and pause.'],
-    theme: ['Theme', 'System follows the app mode set in Windows.', ['System', 'Light', 'Dark']],
-    animations: ['Animations', 'System follows the Animation effects setting in Windows.', ['System', 'On', 'Off']],
-    accent: ['Accent color', 'Color of buttons, switches and highlights', ['HDRcue', 'Windows', 'Custom']],
-    language: ['Language', 'English'],
-    players: ['Video players', 'For HDR by file and refresh rates that match the movie', 'See list'],
-    needsSetup: 'Needs setup',
-    setUp: 'Set it up',
-    displays: 'Displays',
-    displaysLead: "Give each display a name that's easy to tell apart. The app uses these names everywhere. "
-      + "Displays that aren't connected stay here, so you can still set up rules for them.",
-    // The Pro options, for the guide's pictures of setting them up.
-    byFile: 'By file',
-    byFileDescription: 'Turns on for HDR files, and for SDR files the player converts to HDR. Works with 4 players',
-    seeList: 'See list',
-    followNote: 'Settings apply to the display the app window is on. Move the window and the settings follow.',
-    needsSetupTitle: name => `${name} needs setup first.`,
-    needsSetupText: "Until then, HDR by file won't work.",
-    hdrParts: { on: 'HDR on', off: 'HDR off', file: 'HDR by file' },
-    mainPart: 'Main display',
-    othersPart: 'Others off',
-    matchPart: 'Match the movie',
-    resolution: 'Resolution',
-    refresh: 'Refresh rate',
-    matchPreview: 'On Main display: 24 fps → 144 Hz · 23.976 fps → 119.88 Hz · 25 fps → 100 Hz',
-    brightness: ['Display brightness', "Uses DDC/CI. Turn it on in the monitor's menu first."],
-    colorProfile: ['Color profile', 'Uses profiles installed in Windows. Changes the HDR default.'],
-    sound: ['Sound output', 'Experimental. Windows has no official switch for this, so an update may stop it working.'],
-    sentences: {
-      open: app => `When <b>${app}</b> is open`,
-      front: app => `While using <b>${app}</b>`,
-      full: app => `When <b>${app}</b> is full screen`,
-    },
-    goesBackFrom: {
-      open: app => `Goes back when ${app} closes`,
-      front: app => `Goes back when you switch away from ${app} or close it`,
-      full: app => `Goes back when ${app} leaves full screen or closes`,
-    },
-    appsDisplay: "App's display",
-    onlyWindow: display => `Only when the app window is on ${display}`,
-    onlyPower: ['Only when plugged in', 'For laptops'],
-    onlyTime: ['Only between', 'and'],
-    onlyDisplay: 'Only when this display is connected',
-    gamesFound: count => `Found ${count} games on this PC`,
-    gamesText: 'Set them up at once. HDR comes on only while you play full screen.',
-    showGames: 'Show games',
-    later: 'Later',
-  };
+  // The window's words, in the page's language, set by setTexts before anything is drawn. The
+  // app's own words are the app.* texts: the app's i18n strings under the same keys, with the
+  // same {placeholders}, so the pictures say exactly what the app says.
+  let text = null;
+
+  function setTexts(texts) {
+    const app = (key, values = {}) => (texts[`app.${key}`] || '')
+      .replace(/\{(\w+)\}/g, (placeholder, name) => (name in values ? values[name] : placeholder));
+    const hdrParts = { on: app('part.hdr.On'), off: app('part.hdr.Off'), file: app('part.hdr.ByFile') };
+    const preview = [[24, 144], [23.976, 119.88], [25, 100]]
+      .map(([fps, rate]) => app('editor.refresh.example', { fps, rate })).join(' · ');
+    text = {
+      title: 'HDRcue',
+      addTitle: `HDRcue · ${app('editor.title.add')}`,
+      rules: app('nav.rules'),
+      settings: app('nav.preferences'),
+      pause: app('nav.pause'),
+      rulesLead: app('rules.lead'),
+      addApp: app('rules.add'),
+      rightNow: app('rules.now'),
+      nowBy: app('now.by', { app: apps.cinema.name }),
+      nowNone: app('now.none'),
+      apps: count => app('rules.group.apps', { count }),
+      games: count => app('rules.group.games', { count }),
+      when: { open: app('rule.when.open'), front: app('rule.when.front'), full: app('rule.when.full') },
+      pro: 'PRO',
+      active: app('status.active'),
+      waiting: app('status.waiting'),
+      waitingFor: display => app('status.waitingFor', { display }),
+      off: app('status.off'),
+      // Several rules for one app share a card, with a numbered row for each.
+      ruleCount: count => app(count === 1 ? 'editor.app.ruleCount.one' : 'editor.app.ruleCount.many', { count }),
+      orderNote: app('rule.order.note'),
+      unnamedRule: number => app('rule.number', { number }),
+      steps: [app('editor.step.app'), app('editor.step.display'), app('editor.step.when')],
+      chooseLead: app('editor.app.lead'),
+      openNow: app('editor.app.tab.running'),
+      allApps: app('editor.app.tab.all'),
+      search: app('editor.app.search'),
+      browse: app('editor.app.browse'),
+      displayTitle: name => app('editor.display.lead', { app: name }),
+      displayLead: app('editor.display.note'),
+      targets: [app('editor.target.chosen'), app('editor.target.application')],
+      hdrDescription: app('editor.hdr.desc'),
+      keepHdr: app('editor.hdr.Unchanged'),
+      keep: app('editor.keep'),
+      on: app('editor.hdr.On'),
+      offButton: app('editor.hdr.Off'),
+      makeMain: app('editor.layout.main'),
+      makeMainDescription: app('editor.layout.main.desc'),
+      othersOff: app('editor.layout.others'),
+      othersOffDescription: app('editor.layout.others.desc'),
+      more: app('editor.more'),
+      whenLead: app('editor.when.lead'),
+      whenChoices: ['open', 'front', 'full'].map(id => ({
+        id, title: app(`editor.when.${id}.title`), description: app(`editor.when.${id}.desc`),
+      })),
+      recommended: app('editor.recommended'),
+      ruleName: [app('editor.name.label'), app('editor.name.placeholder')],
+      orderNew: name => app('editor.order.new', { app: name }),
+      hdrIsOn: `${app('editor.sentence.hdr')} <span class="keyword">${app('editor.sentence.On')}</span>`,
+      cancel: app('editor.cancel'),
+      back: app('editor.back'),
+      next: app('editor.next'),
+      addRule: app('editor.add'),
+      settingsLead: app('preferences.lead'),
+      proFree: app('preferences.pro.free.title'),
+      proFreeDescription: app('preferences.pro.free.desc'),
+      seePro: app('pro.see'),
+      general: app('preferences.general'),
+      startup: [app('preferences.startup'), app('preferences.startup.desc')],
+      tray: [app('preferences.trayIcon'), app('preferences.trayIcon.desc')],
+      theme: [app('preferences.theme'), app('preferences.theme.desc'),
+        ['System', 'Light', 'Dark'].map(choice => app(`preferences.theme.${choice}`))],
+      animations: [app('preferences.animations'), app('preferences.animations.desc'),
+        ['System', 'On', 'Off'].map(choice => app(`preferences.animations.${choice}`))],
+      accent: [app('preferences.accent'), app('preferences.accent.desc'),
+        ['HdrCue', 'Windows', 'Custom'].map(choice => app(`preferences.accent.${choice}`))],
+      language: [app('preferences.language'), app('language.name')],
+      players: [app('players.title'), app('preferences.players.desc'), app('preferences.players.seeList')],
+      needsSetup: app('players.needsSetup'),
+      setUp: app('players.setUp'),
+      displays: app('preferences.displays'),
+      displaysLead: app('preferences.displays.desc'),
+      // The Pro options, for the guide's pictures of setting them up.
+      byFile: app('editor.hdr.ByFile'),
+      byFileDescription: app('editor.hdr.byFileDesc', { count: 4 }),
+      seeList: app('editor.hdr.seePlayers'),
+      followNote: app('editor.target.applicationNote'),
+      needsSetupTitle: name => app('players.need.title', { name }),
+      needsSetupText: app('players.need.text'),
+      hdrParts,
+      matchPart: app('part.match'),
+      resolution: app('editor.resolution'),
+      refresh: app('editor.refresh'),
+      matchPreview: app('editor.refresh.preview', { display: app('display.main'), examples: preview }),
+      percent: percent => app('editor.percent', { percent }),
+      brightness: [app('editor.brightness'), app('editor.brightness.desc')],
+      colorProfile: [app('editor.colorProfile'), app('editor.colorProfile.desc.Advanced')],
+      sound: [app('editor.audio'), app('editor.audio.desc')],
+      sentences: {
+        open: name => app('editor.sentence.open', { app: name }),
+        front: name => app('editor.sentence.front', { app: name }),
+        full: name => app('editor.sentence.full', { app: name }),
+      },
+      goesBackFrom: {
+        open: name => app('editor.sentence.restore', { app: name }),
+        front: name => app('editor.sentence.restoreFront', { app: name }),
+        full: name => app('editor.sentence.restoreFull', { app: name }),
+      },
+      appsDisplay: app('display.application'),
+      onlyWindow: display => app('editor.only.window', { display }),
+      windowOn: display => app('rule.tag.window', { display }),
+      onlyPower: [app('editor.only.power'), app('editor.only.power.desc')],
+      onlyTime: [app('editor.only.time'), app('editor.only.timeAnd')],
+      onlyDisplay: app('editor.only.display'),
+      gamesFound: count => app('games.bar.title.many', { count }),
+      gamesText: app('games.bar.text'),
+      showGames: app('games.bar.button'),
+      later: app('games.bar.later'),
+      // The names of the displays, sound outputs and rules in the pictures, by id.
+      names: {
+        main: app('display.main'),
+        left: app('display.left'),
+        tv: app('display.tv'),
+        projector: app('display.projector'),
+        headphones: texts['demo.sound.headphones'],
+        desk: texts['demo.rule.desk'],
+      },
+    };
+    if (root) render();
+  }
 
   // Made-up apps with letter icons in the app's own icon colors. Games are listed apart from
   // apps, on the rules page and when choosing an app.
@@ -142,13 +162,13 @@ const DemoView = (function () {
 
   // The desk layout of the screenshots: a wide main display and a smaller one to its left.
   const displays = [
-    { id: 'left', name: 'Left display', x: -2560, y: -40, width: 2560, height: 1080, hertz: 144, hdr: false },
-    { id: 'main', name: 'Main display', x: 0, y: 0, width: 3440, height: 1440, hertz: 175, hdr: true },
+    { id: 'left', x: -2560, y: -40, width: 2560, height: 1080, hertz: 144, hdr: false },
+    { id: 'main', x: 0, y: 0, width: 3440, height: 1440, hertz: 175, hdr: true },
   ];
 
   // A TV to the right of the main display, for the couch mode picture.
   const withTv = [...displays,
-    { id: 'tv', name: 'Living room TV', x: 3440, y: 0, width: 3840, height: 2160, hertz: 60, hdr: true }];
+    { id: 'tv', x: 3440, y: 0, width: 3840, height: 2160, hertz: 60, hdr: true }];
 
   const svg = (body, className = 'icon', box = 16) =>
     `<svg class="${className}" viewBox="0 0 ${box} ${box}" aria-hidden="true">${body}</svg>`;
@@ -205,12 +225,14 @@ const DemoView = (function () {
     close: svg('<path d="M0.5 0.5l9 9M9.5 0.5l-9 9"/>', 'icon', 10),
   };
 
+  // A rule's name, display and sound output are ids in text.names, so a picture drawn again in
+  // another language says them in that language.
   const initialState = () => ({
     page: 'rules',
     // Cinema Player has two rules: the higher one for the projector, which isn't connected,
     // and the other for the main display.
     rules: [
-      { app: 'cinema', name: 'Projector', display: 'Projector', when: 'open', hdr: 'on', enabled: true, status: 'away' },
+      { app: 'cinema', name: 'projector', display: 'projector', when: 'open', hdr: 'on', enabled: true, status: 'away' },
       { app: 'cinema', when: 'open', hdr: 'on', enabled: true, status: 'active' },
       { app: 'photo', when: 'front', hdr: 'off', enabled: false, status: 'waiting' },
       { app: 'racer', when: 'full', hdr: 'on', enabled: true, status: 'waiting' },
@@ -218,7 +240,7 @@ const DemoView = (function () {
     wizard: null,
   });
 
-  let state = initialState();
+  let state = null;
   let root = null;
 
   /* ---------- markup ---------- */
@@ -270,7 +292,7 @@ const DemoView = (function () {
         <button class="button primary" data-target="add">${icon.plus}${text.addApp}</button></div>
       ${state.gamesFound ? gamesBarHtml(state.gamesFound) : ''}
       <div class="section-heading first">${text.rightNow}</div>
-      <div class="now">${nowCard('Main display', text.nowBy, true)}${nowCard('Left display', text.nowNone, false)}</div>
+      <div class="now">${nowCard(text.names.main, text.nowBy, true)}${nowCard(text.names.left, text.nowNone, false)}</div>
       ${ruleGroupHtml('apps', text.apps, state.rules.filter(rule => !isGame(rule.app)))}
       ${ruleGroupHtml('games', text.games, state.rules.filter(rule => isGame(rule.app)))}`;
   }
@@ -294,17 +316,17 @@ const DemoView = (function () {
   function pillHtml(rule) {
     if (!rule.enabled) return `<span class="pill"><span class="dot"></span>${text.off}</span>`;
     if (rule.status === 'active') return `<span class="pill ok"><span class="dot"></span>${text.active}</span>`;
-    const label = rule.status === 'away' ? text.waitingFor(rule.display) : text.waiting;
+    const label = rule.status === 'away' ? text.waitingFor(text.names[rule.display]) : text.waiting;
     return `<span class="pill"><span class="dot"></span>${label}</span>`;
   }
 
   // When the rule runs, its display, what it changes and its extra conditions.
   const tagsHtml = rule => `<div class="tag-line"><span class="tag">${icon[rule.when]}${text.when[rule.when]}`
     + `${rule.when === 'full' ? proBadge('small') : ''}</span>`
-    + `<span class="tag">${icon.monitor}${rule.display || 'Main display'}</span>`
+    + `<span class="tag">${icon.monitor}${text.names[rule.display || 'main']}</span>`
     + `<span class="tag change">${text.hdrParts[rule.hdr]}${rule.hdr === 'file' ? proBadge('small') : ''}</span>`
-    + `${rule.sound ? `<span class="tag">${icon.sound}${rule.sound}</span>` : ''}`
-    + `${rule.extra ? `<span class="tag">${rule.extra}${proBadge('small')}</span>` : ''}</div>`;
+    + `${rule.sound ? `<span class="tag">${icon.sound}${text.names[rule.sound]}</span>` : ''}`
+    + `${rule.windowOn ? `<span class="tag">${text.windowOn(text.names[rule.windowOn])}${proBadge('small')}</span>` : ''}</div>`;
 
   const switchesHtml = rule =>
     `${pillHtml(rule)}<span class="toggle ${rule.enabled ? 'on' : ''}"></span><span class="icon-button">${icon.more}</span>`;
@@ -319,7 +341,7 @@ const DemoView = (function () {
   function appCardHtml(appRules, index) {
     const app = appRules[0].app;
     const rows = appRules.map((rule, place) => `<div class="rule-row ${rule.enabled ? '' : 'off'}">${icon.handle}
-        <span class="rule-number">${place + 1}</span><div class="grow"><div class="name-line"><b>${rule.name || text.unnamedRule(place + 1)}</b></div>
+        <span class="rule-number">${place + 1}</span><div class="grow"><div class="name-line"><b>${rule.name ? text.names[rule.name] : text.unnamedRule(place + 1)}</b></div>
         ${tagsHtml(rule)}</div>${switchesHtml(rule)}</div>`).join('');
     return `<div class="card rule app-card" data-key="app-${app}" style="--order:${index}">
       <div class="app-header">${icon.handle}${appIcon(app)}<div class="grow"><b>${apps[app].name}</b>
@@ -374,7 +396,7 @@ const DemoView = (function () {
   function displayHtml(state) {
     const wizard = state.wizard;
     const follows = wizard.target === 'app';
-    const options = [['keep', text.keep], ['on', text.on], ['off', text.offButton]];
+    const options = [['keep', text.keepHdr], ['on', text.on], ['off', text.offButton]];
     if (wizard.player) options.push(['file', `${text.byFile}${proBadge('small')}`]);
     const hdr = segHtml(options.map(([value, label]) => [label, `hdr-${value}`]),
       options.findIndex(([value]) => value === wizard.hdr));
@@ -437,7 +459,7 @@ const DemoView = (function () {
       // and to the left, clear of the chip.
       const shortClass = height < 70 ? 'short' : '';
       return `<div class="monitor-tile ${selected ? 'selected' : ''} ${shortClass}" data-key="monitor-${display.id}" style="${place}">${badge}
-        <b>${display.name}</b><small>${display.width} × ${display.height} · ${display.hertz} Hz</small>
+        <b>${text.names[display.id]}</b><small>${display.width} × ${display.height} · ${display.hertz} Hz</small>
         <span class="chip ${display.hdr ? '' : 'mute'}">${display.hdr ? 'HDR' : 'SDR'}</span></div>`;
     }).join('');
     return `<div class="map" style="width:${width}px;height:${(bottom - top) * scale}px">${tiles}</div>`;
@@ -455,10 +477,10 @@ const DemoView = (function () {
     const naming = `<div class="name-field"><div>${text.ruleName[0]}</div><div class="text-box">${text.ruleName[1]}</div>${order}</div>`;
     if (!wizard.when) {
       return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
-        <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
-          <div class="small muted">${text.goesBack(name)}</div></div>${naming}`;
+        <div class="card summary"><div class="sentence">${text.sentences.open(name)} → <b>${text.names.main}</b>: ${text.hdrIsOn}</div>
+          <div class="small muted">${text.goesBackFrom.open(name)}</div></div>${naming}`;
     }
-    const display = wizard.target === 'app' ? text.appsDisplay : 'Main display';
+    const display = wizard.target === 'app' ? text.appsDisplay : text.names.main;
     const changes = [text.hdrParts[wizard.hdr || 'on']].map(part => `<span class="keyword">${part}</span>`).join(', ');
     return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>${choices}${checksHtml(wizard)}
       <div class="card summary"><div class="sentence">${text.sentences[when](name)} → <b>${display}</b>: ${changes}</div>
@@ -473,10 +495,10 @@ const DemoView = (function () {
       + `<span class="title">${label}${proBadge('small')}</span>${after}</div>`;
     const time = value => `<span class="time"><span>${value[0]}</span><span>${value[1]}</span></span>`;
     return `<div class="checks">
-      ${wizard.target === 'app' ? '' : check(ticked.window, text.onlyWindow('Main display'))}
+      ${wizard.target === 'app' ? '' : check(ticked.window, text.onlyWindow(text.names.main))}
       ${check(ticked.power, text.onlyPower[0], `<span class="small muted">${text.onlyPower[1]}</span>`)}
       ${check(ticked.time, text.onlyTime[0], `${time(['18', '00'])}<span class="muted">${text.onlyTime[1]}</span>${time(['02', '00'])}`)}
-      ${check(ticked.display, text.onlyDisplay, `<span class="combo">Main display${icon.chevron}</span>`)}</div>`;
+      ${check(ticked.display, text.onlyDisplay, `<span class="combo">${text.names.main}${icon.chevron}</span>`)}</div>`;
   }
 
   // A choice with its radio, icon, title and description, "Recommended" on the first and the
@@ -626,7 +648,7 @@ const DemoView = (function () {
       from: '.segmented.target', to: '.hdr-card', height: 560,
     },
     brightness: {
-      state: () => wizardAt(2, { app: 'cinema', hdr: 'on', more: { brightness: '70%', profile: 'Wide Gamut Calibrated' } }),
+      state: () => wizardAt(2, { app: 'cinema', hdr: 'on', more: { brightness: text.percent(70), profile: 'Wide Gamut Calibrated' } }),
       from: '.hdr-card', height: 640,
     },
     conditions: {
@@ -644,10 +666,10 @@ const DemoView = (function () {
         ...initialState(),
         rules: [
           {
-            app: 'mpv', name: 'Projector', display: 'Projector', when: 'open', hdr: 'file', sound: 'Projector',
-            extra: 'Window on Projector', enabled: true, status: 'away',
+            app: 'mpv', name: 'projector', display: 'projector', when: 'open', hdr: 'file', sound: 'projector',
+            windowOn: 'projector', enabled: true, status: 'away',
           },
-          { app: 'mpv', name: 'Desk', when: 'open', hdr: 'file', sound: 'Headphones', enabled: true, status: 'waiting' },
+          { app: 'mpv', name: 'desk', when: 'open', hdr: 'file', sound: 'headphones', enabled: true, status: 'waiting' },
         ],
       }),
       from: '.group', height: 262,
@@ -678,9 +700,15 @@ const DemoView = (function () {
   // padding) and stripPadding on both sides.
   const stripWidth = 1112;
 
+  // Each picture fits itself to its element's width whenever that changes. Drawing the same
+  // element again, in another language, swaps its fitting for the new one.
+  const fits = new WeakMap();
+  const resizeObserver = new ResizeObserver(entries => entries.forEach(entry => fits.get(entry.target)()));
+
   // Draws a still into the element, in a shadow root so the window's styles and the page's
   // styles stay apart. It is laid out at the window's own size and scaled to the element's
-  // width, with every animation at its end, and shows once its stylesheet has loaded.
+  // width, with every animation at its end, and shows once its stylesheet and fonts have
+  // loaded. The promise it returns is kept then, when the picture has its final size.
   function draw(host, name) {
     const strip = strips[name];
     const state = strip ? strip.state() : stills[name]();
@@ -690,7 +718,8 @@ const DemoView = (function () {
     const stage = shadow.querySelector('.stage');
     let box = null;
     if (strip) {
-      host.style.aspectRatio = `${stripWidth} / ${strip.height}`;
+      // A first guess at the shape, until it is measured. Drawn again, it keeps the last shape.
+      if (!host.style.aspectRatio) host.style.aspectRatio = `${stripWidth} / ${strip.height}`;
       host.style.background = '#25282c';
       // Tall enough that nothing in the strip is cut off by the window's own height.
       stage.style.height = '1800px';
@@ -726,24 +755,33 @@ const DemoView = (function () {
       const scale = host.clientWidth / box.width;
       stage.style.transform = `scale(${scale}) translate(${-box.left}px, ${-box.top}px)`;
     };
-    shadow.querySelector('link').addEventListener('load', () => {
-      if (strip) {
-        box = measure();
-        host.style.aspectRatio = `${box.width} / ${box.height}`;
-      }
-      // How wide the picture is at its own size, so a page can tell when it is drawn smaller.
-      host.dataset.naturalWidth = strip ? box.width : size.width;
-      fit();
-      stage.style.visibility = '';
-    });
-    new ResizeObserver(fit).observe(host);
+    const shown = new Promise(resolve => shadow.querySelector('link').addEventListener('load', () => {
+      // Laying the window out starts loading the fonts its words need, such as Thai, and the
+      // strip is measured once they are in.
+      void stage.offsetWidth;
+      document.fonts.ready.then(() => {
+        if (strip) {
+          box = measure();
+          host.style.aspectRatio = `${box.width} / ${box.height}`;
+        }
+        // How wide the picture is at its own size, so a page can tell when it is drawn smaller.
+        host.dataset.naturalWidth = strip ? box.width : size.width;
+        fit();
+        stage.style.visibility = '';
+        resolve();
+      });
+    }));
+    fits.set(host, fit);
+    resizeObserver.observe(host);
     fit();
+    return shown;
   }
 
   return {
     size,
     draw,
-    mount(element) { root = element; render(); },
+    setTexts,
+    mount(element) { root = element; state = initialState(); render(); },
     target(name) { return root.querySelector(`[data-target="${name}"]`); },
     act(name) { actions[name](); render(); },
     // Back to the first screen, built fresh so the rules page animates in as it does on open.

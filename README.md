@@ -20,10 +20,12 @@ Static pages served by GitHub Pages from this branch, with no build step.
 | `index.html` | The home page: what HDRcue does, the tour, how it works, help, feedback and Pro. A short script at the top sends old links to the guide (`#guide`, `#pro-setup`, `#pro-*`) to the same part of `guide/`. |
 | `guide/index.html` | The guide, one part per feature, with its contents beside it on a wide screen and above it on a phone. |
 | `privacy.html` | The privacy policy. |
-| `i18n/en.json` | Every text on the site. |
+| `i18n/` | Every text on the site, one file per language: `en.json`, `th.json`, `zh-Hans.json` and `ja.json`, all with the same keys. |
+| `language.js` | Picks the language, sets `<html lang>`, loads the Thai font when needed, fills the language menus and changes the page's language in place. Every page loads it in `<head>`. |
+| `fonts.css` | The font for each language, as `--font`. |
 | `site.css` | The styles for every page, in sections with a comment each. Shared values are custom properties at the top. |
-| `layout.js` | Draws the header and footer on every page. A page says where the site's root is (`data-root` on `body`) and which page it is (`data-page`). |
-| `site.js` | Fills each page from `i18n/en.json`, draws the guide's pictures and plays the tour while it is on screen. It sends a `site-texts-filled` event when the text is in. |
+| `layout.js` | Draws the header and footer on every page. A page says where the site's root is (`data-root` on `body`) and which page it is (`data-page`). On a phone the menu folds into a button that opens it as a popup. |
+| `site.js` | Fills each page with the texts of its language, draws the guide's pictures and plays the tour while it is on screen. It fills the page again when the language changes, and sends a `site-texts-filled` event each time the text is in. |
 | `guide.js` | On the guide page: marks the part being read in the contents, and lights up a part reached by a link. |
 | `open-app.js` | The "Open in HDRcue" buttons, which open a page of the app through a `hdrcue://` link. They show only on Windows PCs. |
 | `lightbox.js` | Opens a guide picture larger when it is clicked or tapped. |
@@ -32,7 +34,35 @@ Static pages served by GitHub Pages from this branch, with no build step.
 | `images/` | The icon, the Store badge and the picture for shared links. |
 
 In a text, `**Add app**` marks a name shown in the app and is set in bold, and
-`[label](address)` is a link.
+`[label](address)` is a link. An element takes its text from `data-i18n` (plain),
+`data-i18n-rich` (with bold and links), `data-i18n-list` and `data-i18n-steps` (a list), or
+`data-i18n-alt`, `data-i18n-title` and `data-i18n-label` (`aria-label`) for an attribute. Each
+page's title and description come from `meta.<page>.title` and `meta.<page>.description`.
+
+### Languages
+
+The site has the app's four languages: English, Thai, Simplified Chinese and Japanese. A page
+shows the language from `?lang=` in its address (`en`, `th`, `zh-Hans` or `ja`, which the app
+adds to the links it opens, such as `guide/?lang=th#players`), else the one the visitor chose
+before, else the first of the browser's languages the site has, else English. Traditional
+Chinese readers get another language from their browser's list if the site has it, and
+Simplified Chinese otherwise. A language that came with `?lang=` is kept as the visitor's choice,
+so it stays while they move around the site.
+
+The globe button in the header and the row of languages in the footer change the language in
+place: the page keeps the part being read where it was on the screen, the choice is saved in
+the browser, and `?lang=` goes into the address so a shared link opens in the same language.
+Each language has its own address for search engines (`<link rel="alternate" hreflang>`), and
+the address without `?lang=` is the `x-default`.
+
+Every key is in all four files. Names of buttons, pages and options in the guide are written
+exactly as the app shows them in that language. The `app.*` texts are the app's own strings,
+copied from its i18n files under the same keys with the same `{placeholders}`, for the pictures
+of the app. Copy them again when the app's words change. `demo.*` are the names in the pictures
+that the app doesn't have, such as the Desk rule.
+
+Thai uses Noto Sans Thai from Google Fonts, loaded only on a Thai page. Japanese and Chinese use
+the fonts the system has (Yu Gothic UI or Meiryo, and Microsoft YaHei UI on Windows).
 
 ### The guide
 
@@ -49,7 +79,8 @@ part through `guideLink` in `pro.features`.
 ### Pictures and the tour
 
 The tour on the home page and the guide's pictures are drawn by the same `demo/view.js`, so they
-stay sharp at any size. The window is laid out at its own size (1344 x 850) and scaled to fit.
+stay sharp at any size, in the page's language. The tour's frame loads `language.js` too and
+follows the page around it. The window is laid out at its own size (1344 x 850) and scaled to fit.
 The tour clicks through adding an app by itself, with the `tour.*` texts as captions. It loops,
 pauses while it is off screen or the tab is hidden, and shows only the first step to visitors
 who ask for reduced motion.
