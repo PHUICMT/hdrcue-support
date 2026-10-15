@@ -209,7 +209,7 @@
     },
     {
       "question": "How do I uninstall it?",
-      "answer": "Uninstall HDRcue from Start or Settings > Apps. Its settings are removed with it. Backups you turned on stay in the folder you chose, and a small file with the Pro trial dates stays, as the [privacy policy](privacy.html) explains."
+      "answer": "Uninstall HDRcue from Start or Settings > Apps > Installed apps. Its settings are removed with it. Backups you turned on stay in the folder you chose, and a small file with the Pro trial dates stays, as the [privacy policy](privacy.html) explains."
     }
   ],
   "feedback.title": "Feedback",
