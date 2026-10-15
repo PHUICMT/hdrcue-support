@@ -387,9 +387,13 @@ const DemoView = (function () {
       const selected = display.id === chosen;
       const badge = selected && wizard.hdr !== 'keep'
         ? `<span class="badge" data-key="badge-${wizard.hdr}">${text.hdrParts[wizard.hdr]}</span>` : '';
+      const height = display.height * scale - 6;
       const place = `left:${(display.x - left) * scale + 3}px;top:${(display.y - top) * scale + 3}px;`
-        + `width:${display.width * scale - 6}px;height:${display.height * scale - 6}px`;
-      return `<div class="mon ${selected ? 'sel' : ''}" data-key="mon-${display.id}" style="${place}">${badge}
+        + `width:${display.width * scale - 6}px;height:${height}px`;
+      // On a display too short to fit its name below the HDR or SDR chip, the name moves down
+      // and to the left, clear of the chip.
+      const low = height < 70 ? 'low' : '';
+      return `<div class="mon ${selected ? 'sel' : ''} ${low}" data-key="mon-${display.id}" style="${place}">${badge}
         <b>${display.name}</b><small>${display.width} × ${display.height} · ${display.hertz} Hz</small>
         <span class="chip ${display.hdr ? '' : 'mute'}">${display.hdr ? 'HDR' : 'SDR'}</span></div>`;
     }).join('');
