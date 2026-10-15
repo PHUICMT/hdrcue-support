@@ -551,49 +551,65 @@ const DemoView = (function () {
     settings: () => ({ ...initialState(), page: 'settings' }),
   };
 
-  // The guide's pictures of setting up Pro: a strip of a page, from the element named by
-  // `from` (less `pad` px above it, 16 unless set) down to `height` px, across the page's
-  // content without the menu. The height is fixed, so the picture takes its place on the page
-  // before it is drawn.
+  // The guide's pictures of setting up Pro: a strip of a page, from the top of the element
+  // named by `from` to the bottom of the last element named by `to` (or `from`), across the
+  // page's content column, with stripPadding all round. `height` is about how tall the strip
+  // comes out, so the picture takes its place on the page before it is measured.
   const strips = {
     'hdr-file': {
       state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, needsSetup: true }),
-      from: '.hdrcard', height: 346,
+      from: '.hdrcard', to: '.setupbar', height: 390,
     },
     refresh: {
       state: () => wizardAt(2, { app: 'mpv', hdr: 'file', player: true, more: { refresh: text.matchPart } }),
-      from: '.morehead', height: 213, pad: 0,
+      from: '.hdrcard', height: 640,
     },
     couch: {
       state: () => wizardAt(2, {
         app: 'cinema', hdr: 'on', displays: withTv, display: 'tv', makesMain: true, othersOff: true,
       }),
-      from: '.map', height: 428,
+      from: '.map', to: '.hdrcard', height: 520,
     },
     'full-screen': {
       state: () => wizardAt(3, { app: 'racer', hdr: 'on', when: 'full' }),
-      from: '.radio', height: 242,
+      from: '.radio', height: 260,
     },
     follow: {
       state: () => wizardAt(2, { app: 'racer', hdr: 'on', target: 'app' }),
-      from: '.seg.target', height: 336,
+      from: '.seg.target', to: '.hdrcard', height: 560,
     },
     brightness: {
       state: () => wizardAt(2, { app: 'cinema', hdr: 'on', more: { brightness: '70%', profile: 'Wide Gamut Calibrated' } }),
-      from: '.brightrow', height: 134, pad: 0,
+      from: '.hdrcard', height: 640,
     },
     conditions: {
       state: () => wizardAt(3, { app: 'cinema', hdr: 'on', when: 'open', checks: { time: true, display: true } }),
-      from: '.checks', height: 180, pad: 6,
+      from: '.checks', height: 220,
     },
     games: {
       state: () => ({ ...initialState(), gamesFound: 3 }),
-      from: '.head', height: 172,
+      from: '.head', to: '.gamesbar', height: 200,
     },
   };
 
-  // The menu on the left, which the strips leave out (with the content's left border).
-  const menuWidth = 212;
+  // Hides every element before `first` and after `last`, up to the page's content.
+  function hideOutside(first, last) {
+    const hide = element => { element.style.visibility = 'hidden'; };
+    for (let node = first; !node.classList.contains('wc'); node = node.parentElement) {
+      for (let before = node.previousElementSibling; before; before = before.previousElementSibling) hide(before);
+    }
+    for (let node = last; !node.classList.contains('wc'); node = node.parentElement) {
+      for (let after = node.nextElementSibling; after; after = after.nextElementSibling) hide(after);
+    }
+  }
+
+  // The space around a strip's content, in the window's own pixels: about the gap the app
+  // keeps around its cards. Scaled down with the picture, it is smaller on a phone.
+  const stripPadding = 24;
+
+  // How wide a strip is: the content column (the window less its menu and the content's own
+  // padding) and stripPadding on both sides.
+  const stripWidth = 1112;
 
   // Draws a still into the element, in a shadow root so the window's styles and the page's
   // styles stay apart. It is laid out at the window's own size and scaled to the element's
@@ -601,37 +617,55 @@ const DemoView = (function () {
   function draw(host, name) {
     const strip = strips[name];
     const state = strip ? strip.state() : stills[name]();
-    const width = strip ? size.width - menuWidth : size.width;
     const shadow = host.shadowRoot || host.attachShadow({ mode: 'open' });
     shadow.innerHTML = `<link rel="stylesheet" href="${styleUrl}">
       <div class="stage" data-motion="off" style="visibility:hidden"><div class="win">${windowHtml(state)}</div></div>`;
     const stage = shadow.querySelector('.stage');
-    let loaded = false;
-    let top = null;
+    let box = null;
     if (strip) {
-      host.style.aspectRatio = `${width} / ${strip.height}`;
+      host.style.aspectRatio = `${stripWidth} / ${strip.height}`;
       host.style.background = '#25282c';
       // Tall enough that nothing in the strip is cut off by the window's own height.
       stage.style.height = '1800px';
     }
-    // Where the strip starts, in the window's own pixels, measured once it is laid out.
-    const measure = scale => {
-      stage.style.transform = `scale(${scale})`;
-      const win = shadow.querySelector('.win').getBoundingClientRect();
-      const from = shadow.querySelector(strip.from).getBoundingClientRect();
-      return Math.max(0, (from.top - win.top) / scale - (strip.pad ?? 16));
+    // The strip's box in the window's own pixels, measured once it is laid out. A picture
+    // can be drawn while the page scales it, as the lightbox does while it grows, so what the
+    // screen shows is divided by how much the window is scaled.
+    // What sits above `from` or below `to` is hidden, so nothing peeks into the padding.
+    const measure = () => {
+      stage.style.transform = 'none';
+      const first = shadow.querySelector(strip.from);
+      const last = [...shadow.querySelectorAll(strip.to || strip.from)].pop();
+      hideOutside(first, last);
+      const appWindow = shadow.querySelector('.win');
+      const windowBox = appWindow.getBoundingClientRect();
+      const scaleX = windowBox.width / appWindow.offsetWidth;
+      const scaleY = windowBox.height / appWindow.offsetHeight;
+      const content = shadow.querySelector('.wc');
+      const contentBox = content.getBoundingClientRect();
+      const contentStyle = getComputedStyle(content);
+      const left = (contentBox.left - windowBox.left) / scaleX + parseFloat(contentStyle.paddingLeft) - stripPadding;
+      const right = (contentBox.right - windowBox.left) / scaleX - parseFloat(contentStyle.paddingRight) + stripPadding;
+      const top = (first.getBoundingClientRect().top - windowBox.top) / scaleY - stripPadding;
+      const bottom = (last.getBoundingClientRect().bottom - windowBox.top) / scaleY + stripPadding;
+      return { left, top, width: right - left, height: bottom - top };
     };
     const fit = () => {
-      const scale = host.clientWidth / width;
       if (!strip) {
-        stage.style.transform = `scale(${scale})`;
+        stage.style.transform = `scale(${host.clientWidth / size.width})`;
         return;
       }
-      if (top === null && loaded && scale > 0) top = measure(scale);
-      stage.style.transform = `scale(${scale}) translate(${-menuWidth}px, ${-(top || 0)}px)`;
+      if (!box) return;
+      const scale = host.clientWidth / box.width;
+      stage.style.transform = `scale(${scale}) translate(${-box.left}px, ${-box.top}px)`;
     };
     shadow.querySelector('link').addEventListener('load', () => {
-      loaded = true;
+      if (strip) {
+        box = measure();
+        host.style.aspectRatio = `${box.width} / ${box.height}`;
+      }
+      // How wide the picture is at its own size, so a page can tell when it is drawn smaller.
+      host.dataset.naturalWidth = strip ? box.width : size.width;
       fit();
       stage.style.visibility = '';
     });
