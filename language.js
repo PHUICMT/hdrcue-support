@@ -171,16 +171,54 @@ const SiteLanguage = (function () {
 
   const announce = () => document.dispatchEvent(new CustomEvent('site-language-change', { detail: { language: current } }));
 
+  // The texts of a language, from i18n/, asked for once per language. no-cache asks the
+  // server whether the file changed, so new text shows at once.
+  function textsOf(code = current) {
+    if (!textsByCode.has(code)) {
+      const request = fetch(new URL(`i18n/${code}.json`, siteRoot), { cache: 'no-cache' })
+        .then(response => {
+          if (!response.ok) throw new Error(`i18n/${code}.json: ${response.status}`);
+          return response.json();
+        })
+        .catch(error => {
+          textsByCode.delete(code);
+          throw error;
+        });
+      textsByCode.set(code, request);
+    }
+    return textsByCode.get(code);
+  }
+
   /* ---------- start ---------- */
+
+  // The pages are written in English, so another language would show English for a moment
+  // before its text arrives. The page stays hidden until then, its text is asked for right
+  // away instead of after the page loads, and it shows after a few seconds at the latest.
+  const longestHold = 3000;
+
+  function holdUntilTextsShow() {
+    if (current === fallback) return;
+    const root = document.documentElement;
+    const style = document.createElement('style');
+    style.textContent = 'html.texts-pending body { visibility: hidden; }';
+    document.head.append(style);
+    root.classList.add('texts-pending');
+    const show = () => root.classList.remove('texts-pending');
+    document.addEventListener('site-texts-filled', show, { once: true });
+    setTimeout(show, longestHold);
+    textsOf().catch(show);
+  }
 
   if (around) {
     apply(codeFor(around.document.documentElement.lang) || fallback);
+    holdUntilTextsShow();
     around.document.addEventListener('site-language-change', event => {
       apply(event.detail.language);
       announce();
     });
   } else {
     apply(fromAddress || readSaved() || fromBrowser());
+    holdUntilTextsShow();
     // A language that came with a link stays while the visitor moves around the site.
     if (fromAddress) save(fromAddress);
     linkAlternates();
@@ -189,22 +227,6 @@ const SiteLanguage = (function () {
 
   return {
     get current() { return current; },
-    // The texts of a language, from i18n/, asked for once per language. no-cache asks the
-    // server whether the file changed, so new text shows at once.
-    texts(code = current) {
-      if (!textsByCode.has(code)) {
-        const request = fetch(new URL(`i18n/${code}.json`, siteRoot), { cache: 'no-cache' })
-          .then(response => {
-            if (!response.ok) throw new Error(`i18n/${code}.json: ${response.status}`);
-            return response.json();
-          })
-          .catch(error => {
-            textsByCode.delete(code);
-            throw error;
-          });
-        textsByCode.set(code, request);
-      }
-      return textsByCode.get(code);
-    },
+    texts: textsOf,
   };
 })();
