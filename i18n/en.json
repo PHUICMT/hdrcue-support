@@ -213,5 +213,5 @@
   "lightbox.enlarge": "Enlarge picture: {title}",
   "lightbox.close": "Close",
   "footer.tagline": "HDR for the apps you choose",
-  "footer.copyright": "© 2026 PHUICMT"
+  "footer.copyright": "© {year} PHUICMT"
 }

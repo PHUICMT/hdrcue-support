@@ -14,10 +14,13 @@
     }));
   }
 
+  // {year} in a text becomes this year, so the copyright line never goes stale.
+  const withYear = text => text.replaceAll('{year}', String(new Date().getFullYear()));
+
   function fill(texts) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const text = texts[element.dataset.i18n];
-      if (typeof text === 'string') element.textContent = text;
+      if (typeof text === 'string') element.textContent = withYear(text);
     });
     document.querySelectorAll('[data-i18n-rich]').forEach(element => {
       const text = texts[element.dataset.i18nRich];
