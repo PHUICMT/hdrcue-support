@@ -161,7 +161,7 @@ h2 { font-size: 28px; margin: 0 0 20px; }
 h3 { font-size: 18px; margin: 0 0 8px; }
 
 /* The demo of adding an app. Its frame keeps the window's own shape at any width. */
-.tour { padding-top: 32px; }
+.tour { padding-top: 16px; }
 .tour h2 { text-align: center; }
 
 .stage {
@@ -367,6 +367,8 @@ html { scrollbar-width: thin; scrollbar-color: rgba(96, 205, 255, 0.45) var(--pa
 }
 
 .store-badge img { display: block; height: 52px; width: auto; }
+
+.hero .hero-note { margin-top: -6px; font-size: 14px; }
 
 .store-badge:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
 
