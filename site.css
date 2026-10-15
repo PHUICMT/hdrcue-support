@@ -250,38 +250,37 @@ details.opening summary::after { transform: rotate(180deg); }
 .answer { overflow: hidden; }
 .answer > p { padding-top: 8px; }
 
-.feedback p, .sponsor p { color: var(--text-muted); }
+.feedback p { color: var(--text-muted); }
 
-/* Sponsor buttons with an icon. ".button" sets inline-block, so these need the extra class to
-   win and line the icon up with the text. */
-.button.icon-button { display: inline-flex; align-items: center; gap: 10px; }
-.icon-button svg { flex: none; width: 18px; height: 18px; }
+/* HDRcue Pro: what it adds as small cards, then how to try and buy it. */
+.pro > p { max-width: 760px; color: var(--text-muted); }
+.pro .free-note { margin-top: 24px; font-size: 14px; }
+.pro .anchor { display: block; scroll-margin-top: 104px; }
 
-/* GitHub's pink heart, which beats on hover. */
-.heart { fill: #db61a2; }
-.sponsor-button:hover { border-color: rgba(219, 97, 162, 0.6); }
-.sponsor-button:hover .heart { animation: heartbeat 0.9s ease-in-out infinite; }
-
-/* A Ko-fi style cup whose steam rises on hover. */
-.cup { fill: #ff5e5b; stroke: #ff5e5b; stroke-width: 1.6; stroke-linecap: round; }
-.cup .cup-handle, .cup .steam { fill: none; }
-.cup .cup-heart { fill: #fff; stroke: none; }
-.cup .steam { opacity: 0.5; }
-.kofi-button:hover { border-color: rgba(255, 94, 91, 0.6); }
-.kofi-button:hover .steam { animation: steam 1.2s ease-in-out infinite; }
-
-@keyframes steam {
-  0% { opacity: 0; transform: translateY(2px); }
-  50% { opacity: 0.9; }
-  100% { opacity: 0; transform: translateY(-2px); }
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
 }
 
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.25); }
-  30% { transform: scale(1); }
-  45% { transform: scale(1.18); }
+.features article {
+  padding: 16px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease);
 }
+
+.features article:hover {
+  border-color: var(--stroke-hover);
+  background: var(--card-hover);
+  transform: translateY(-3px);
+}
+
+.features h3 { font-size: 16px; margin-bottom: 6px; }
+.features p { margin: 0; font-size: 14px; color: var(--text-muted); }
+
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 
 .button {

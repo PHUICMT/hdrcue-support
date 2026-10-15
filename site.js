@@ -14,6 +14,17 @@
         return entry;
       }));
     });
+    document.querySelectorAll('[data-i18n-cards]').forEach(holder => {
+      holder.replaceChildren(...(texts[holder.dataset.i18nCards] || []).map(item => {
+        const card = document.createElement('article');
+        const title = document.createElement('h3');
+        const text = document.createElement('p');
+        title.textContent = item.title;
+        text.textContent = item.text;
+        card.append(title, text);
+        return card;
+      }));
+    });
     document.querySelectorAll('[data-i18n-questions]').forEach(holder => {
       holder.replaceChildren(...(texts[holder.dataset.i18nQuestions] || []).map(item => {
         const details = document.createElement('details');
@@ -132,7 +143,13 @@
   // no-cache asks the server whether the file changed, so new text shows at once.
   fetch('i18n/en.json', { cache: 'no-cache' })
     .then(response => response.json())
-    .then(fill)
+    .then(texts => {
+      fill(texts);
+      // The text above a linked section was not there when the browser jumped to it, so the
+      // jump is made again now that the page has its full length.
+      const linked = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
+      if (linked) linked.scrollIntoView({ behavior: 'instant' });
+    })
     .catch(() => {
       // The text already in the page stays when the file cannot load.
     });

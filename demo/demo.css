@@ -286,7 +286,6 @@ b { font-weight: 600; }
 }
 
 .line1 { display: flex; align-items: baseline; gap: 8px; }
-.line1 .trigger { color: var(--text-2); }
 .line2 { display: flex; gap: 4px; margin-top: 6px; }
 
 .tag {
@@ -303,6 +302,21 @@ b { font-weight: 600; }
 }
 
 .tag .i { width: 12px; height: 12px; }
+
+/* the PRO label on Pro options: white on a violet to blue gradient, as in the app */
+.probadge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #7a5cff, #0a84ff);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.06em;
+}
+
+.probadge.small { padding: 0 4px 1px; border-radius: 3px; font-size: 8.5px; line-height: 12px; }
 .tag.change { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
 
 /* add app steps */
@@ -326,6 +340,7 @@ b { font-weight: 600; }
 .steps .line { width: 34px; height: 1px; }
 
 .tabsrow { align-items: flex-end; }
+.stepbody .sect.first { margin-top: 10px; }
 
 .tabs {
   flex: 1;
@@ -475,6 +490,7 @@ b { font-weight: 600; }
 .radio.on .r { border: 6px solid var(--accent); background: var(--on-accent); }
 .radio > .i { width: 20px; height: 20px; color: var(--text-2); stroke-width: 1; }
 .radio .small { margin-top: 1px; }
+.radio .title { display: flex; align-items: center; gap: 6px; }
 
 .summary { margin-top: 20px; padding: 15px 18px; }
 .sentence { font-size: 17px; line-height: 1.6; }
@@ -494,7 +510,7 @@ b { font-weight: 600; }
 .now .card { animation: listIn var(--slow) var(--decel) backwards; }
 .now .card + .card { animation-delay: 40ms; }
 .tile { animation: tileIn var(--norm) var(--decel) backwards; animation-delay: calc(var(--d, 0) * 18ms); }
-.radio { animation: listIn var(--slow) var(--decel) backwards; }
+.radio { animation: listIn var(--slow) var(--decel) backwards; animation-delay: calc(var(--d, 0) * 40ms); }
 .mon .badge, .steps .n .i { animation: popIn var(--norm) var(--spring) backwards; }
 .fadein { animation: fadeIn var(--norm) var(--decel) backwards; }
 

@@ -14,7 +14,9 @@ const DemoView = (function () {
     nowBy: 'HDR on · for Cinema Player',
     nowNone: 'SDR · no active rule',
     apps: count => `Apps (${count})`,
-    whenOpen: 'when open',
+    games: count => `Games (${count})`,
+    when: { open: 'While open', front: 'In front', full: 'Full screen' },
+    pro: 'PRO',
     active: 'Active',
     waiting: 'Waiting',
     off: 'Off',
@@ -22,7 +24,7 @@ const DemoView = (function () {
     chooseLead: 'Easiest way: open the app, then pick it from the first tab.',
     openNow: 'Open now',
     allApps: 'All apps',
-    search: 'Search apps',
+    search: 'Search apps and games',
     hasRule: 'Has a rule',
     browse: 'Browse for .exe…',
     displayTitle: app => `What should happen when ${app} opens?`,
@@ -32,8 +34,11 @@ const DemoView = (function () {
     on: 'On',
     offButton: 'Off',
     whenLead: 'When the app closes or the condition ends, the display always goes back.',
-    whileOpen: 'While the app is open',
-    whileOpenDescription: 'Simplest. Changes as soon as the app opens.',
+    whenChoices: [
+      { id: 'open', title: 'While the app is open', description: 'Simplest. Changes as soon as the app opens.' },
+      { id: 'front', title: 'While the app is in front', description: 'Goes back when you switch to another app' },
+      { id: 'full', title: 'While the app is full screen', description: 'Good for games and video players' },
+    ],
     recommended: 'Recommended',
     sentence: (app, display) => `When <b>${app}</b> is open → <b>${display}</b>: HDR <span class="k">on</span>`,
     goesBack: app => `Goes back when ${app} closes`,
@@ -43,17 +48,18 @@ const DemoView = (function () {
     addRule: 'Add rule',
   };
 
-  // Made-up apps with letter icons in the app's own icon colors.
+  // Made-up apps with letter icons in the app's own icon colors. Games are listed apart from
+  // apps, on the rules page and when choosing an app.
   const apps = {
     cinema: { name: 'Cinema Player', color: '#0a84ff' },
     music: { name: 'Music Box', color: '#e34d8c' },
-    racer: { name: 'Night Racer', color: '#5b6b7f' },
+    racer: { name: 'Night Racer', color: '#5b6b7f', game: true },
     notes: { name: 'Notes', color: '#5b6b7f' },
     arena: { name: 'Space Arena', color: '#1f9d7a' },
     cutter: { name: 'Video Cutter', color: '#e34d8c' },
     photo: { name: 'Photo Studio', color: '#d97a1c' },
   };
-  const openApps = ['cinema', 'music', 'racer', 'notes', 'arena', 'cutter'];
+  const openApps = ['cinema', 'music', 'notes', 'arena', 'cutter', 'racer'];
 
   // The desk layout of the screenshots: a wide main display and a smaller one to its left.
   const displays = [
@@ -88,7 +94,11 @@ const DemoView = (function () {
     folder: svg('<path d="M1.5 4a1 1 0 0 1 1-1h3.4l1.6 1.6h6a1 1 0 0 1 1 1v6.9a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1z"/><path d="M1.5 6.2h13"/>'),
     check: svg('<path d="M3 8.6l3.1 3.1L13 4.7"/>'),
     sun: svg('<circle cx="8" cy="8" r="2.7"/><path d="M8 1.6v1.3M8 13.1v1.3M1.6 8h1.3M13.1 8h1.3M3.5 3.5l.9.9M11.6 11.6l.9.9M3.5 12.5l.9-.9M11.6 4.4l.9-.9"/>'),
-    windows: svg('<rect x="1.5" y="5.5" width="9" height="9" rx="1.2"/><path d="M5.5 5.5V2.7a1.2 1.2 0 0 1 1.2-1.2h6.6a1.2 1.2 0 0 1 1.2 1.2v6.6a1.2 1.2 0 0 1-1.2 1.2h-2.8"/>'),
+    // The "when" choices: two windows for while open, a window brought out for in front, and
+    // arrows to the corners for full screen.
+    open: svg('<rect x="1.5" y="5.5" width="9" height="9" rx="1.2"/><path d="M5.5 5.5V2.7a1.2 1.2 0 0 1 1.2-1.2h6.6a1.2 1.2 0 0 1 1.2 1.2v6.6a1.2 1.2 0 0 1-1.2 1.2h-2.8"/>'),
+    front: svg('<path d="M13.5 9.5v3.8a1.2 1.2 0 0 1-1.2 1.2H2.7a1.2 1.2 0 0 1-1.2-1.2V3.7a1.2 1.2 0 0 1 1.2-1.2h3.8"/><path d="M9.5 1.5h5v5M14.5 1.5L8 8"/>'),
+    full: svg('<path d="M9.5 1.5h5v5M14.5 1.5l-5 5M6.5 14.5h-5v-5M1.5 14.5l5-5"/>'),
     minimize: svg('<path d="M0.5 5h9"/>', 'i', 10),
     maximize: svg('<rect x="0.5" y="0.5" width="9" height="9" rx="1"/>', 'i', 10),
     close: svg('<path d="M0.5 0.5l9 9M9.5 0.5l-9 9"/>', 'i', 10),
@@ -97,9 +107,9 @@ const DemoView = (function () {
   const initialState = () => ({
     page: 'rules',
     rules: [
-      { app: 'cinema', hdr: 'on', enabled: true, status: 'active' },
-      { app: 'racer', hdr: 'on', enabled: true, status: 'waiting' },
-      { app: 'photo', hdr: 'off', enabled: false, status: 'waiting' },
+      { app: 'cinema', when: 'open', hdr: 'on', enabled: true, status: 'active' },
+      { app: 'photo', when: 'front', hdr: 'off', enabled: false, status: 'waiting' },
+      { app: 'racer', when: 'full', hdr: 'on', enabled: true, status: 'waiting' },
     ],
     wizard: null,
   });
@@ -110,6 +120,14 @@ const DemoView = (function () {
   /* ---------- markup ---------- */
 
   const appIcon = id => `<span class="appic" style="background:${apps[id].color}">${apps[id].name[0]}</span>`;
+  // Shown on Pro options until Pro is bought, so also during the trial the demo shows.
+  const proBadge = (size = '') => `<span class="probadge ${size}">${text.pro}</span>`;
+  const isGame = id => !!apps[id].game;
+
+  // "Apps (2)" or "Games (1)" and what is under it; nothing for an empty group.
+  const groupHtml = (key, heading, count, body, first = false) => count
+    ? `<div class="group" data-key="group-${key}"><div class="sect ${first ? 'first' : ''}">${heading(count)}</div>${body}</div>`
+    : '';
 
   function windowHtml() {
     const wizard = state.page === 'wizard';
@@ -131,8 +149,12 @@ const DemoView = (function () {
         <button class="btn primary" data-target="add">${icon.plus}${text.addApp}</button></div>
       <div class="sect first">${text.rightNow}</div>
       <div class="now">${nowCard('Main display', text.nowBy, true)}${nowCard('Left display', text.nowNone, false)}</div>
-      <div class="sect">${text.apps(state.rules.length)}</div>
-      <div class="list">${state.rules.map(ruleHtml).join('')}</div>`;
+      ${ruleGroupHtml('apps', text.apps, state.rules.filter(rule => !isGame(rule.app)))}
+      ${ruleGroupHtml('games', text.games, state.rules.filter(rule => isGame(rule.app)))}`;
+  }
+
+  function ruleGroupHtml(key, heading, rules) {
+    return groupHtml(key, heading, rules.length, `<div class="list">${rules.map(ruleHtml).join('')}</div>`);
   }
 
   function ruleHtml(rule, index) {
@@ -142,8 +164,9 @@ const DemoView = (function () {
         ? `<span class="pill ok"><span class="dot"></span>${text.active}</span>`
         : `<span class="pill"><span class="dot"></span>${text.waiting}</span>`;
     return `<div class="card rule ${rule.enabled ? '' : 'off'}" data-key="rule-${rule.app}" style="--d:${index}">${appIcon(rule.app)}
-      <div class="grow"><div class="line1"><b>${apps[rule.app].name}</b><span class="trigger">${text.whenOpen}</span></div>
-        <div class="line2"><span class="tag">${icon.monitor}Main display</span><span class="tag change">HDR ${rule.hdr}</span></div></div>
+      <div class="grow"><div class="line1"><b>${apps[rule.app].name}</b></div>
+        <div class="line2"><span class="tag">${icon[rule.when]}${text.when[rule.when]}${rule.when === 'full' ? proBadge('small') : ''}</span>
+          <span class="tag">${icon.monitor}Main display</span><span class="tag change">HDR ${rule.hdr}</span></div></div>
       ${pill}<span class="tgl ${rule.enabled ? 'on' : ''}"></span><span class="iconbtn">${icon.more}</span></div>`;
   }
 
@@ -177,8 +200,14 @@ const DemoView = (function () {
     return `<h1>${text.steps[0]}</h1><p class="lead">${text.chooseLead}</p>
       <div class="row tabsrow"><div class="tabs"><a class="on">${text.openNow}</a><a>${text.allApps}</a></div>
         <div class="search">${icon.search}<span>${text.search}</span></div></div>
-      <div class="grid">${openApps.map(tile).join('')}</div>
+      ${tileGroupHtml('apps', text.apps, openApps.filter(id => !isGame(id)), tile, 0, true)}
+      ${tileGroupHtml('games', text.games, openApps.filter(isGame), tile, openApps.filter(id => !isGame(id)).length)}
       <button class="btn ghost browse">${icon.folder}${text.browse}</button>`;
+  }
+
+  function tileGroupHtml(key, heading, ids, tile, firstIndex, first = false) {
+    const tiles = ids.map((id, index) => tile(id, firstIndex + index)).join('');
+    return groupHtml(key, heading, ids.length, `<div class="grid">${tiles}</div>`, first);
   }
 
   function displayHtml() {
@@ -213,11 +242,19 @@ const DemoView = (function () {
   function whenHtml() {
     const name = apps[state.wizard.app].name;
     return `<h1>${text.steps[2]}</h1><p class="lead">${text.whenLead}</p>
-      <div class="radio on"><span class="r"></span>${icon.windows}
-        <div class="grow"><b>${text.whileOpen}</b><div class="small muted">${text.whileOpenDescription}</div></div>
-        <span class="pill plain">${text.recommended}</span></div>
+      ${text.whenChoices.map(whenChoiceHtml).join('')}
       <div class="card summary"><div class="sentence">${text.sentence(name, 'Main display')}</div>
         <div class="small muted">${text.goesBack(name)}</div></div>`;
+  }
+
+  // A choice with its radio, icon, title and description, "Recommended" on the first and the
+  // PRO badge on full screen. The demo keeps the first choice.
+  function whenChoiceHtml(choice, index) {
+    const badge = choice.id === 'full' ? proBadge() : '';
+    const recommended = choice.id === 'open' ? `<span class="pill plain">${text.recommended}</span>` : '';
+    return `<div class="radio ${choice.id === 'open' ? 'on' : ''}" style="--d:${index}"><span class="r"></span>${icon[choice.id]}
+        <div class="grow"><div class="title"><b>${choice.title}</b>${badge}</div><div class="small muted">${choice.description}</div></div>
+        ${recommended}</div>`;
   }
 
   /* ---------- patcher ---------- */
@@ -289,7 +326,7 @@ const DemoView = (function () {
     next() { state.wizard.step++; },
     'hdr-on'() { state.wizard.hdr = 'on'; },
     save() {
-      state.rules.push({ app: state.wizard.app, hdr: state.wizard.hdr, enabled: true, status: 'waiting' });
+      state.rules.push({ app: state.wizard.app, when: 'open', hdr: state.wizard.hdr, enabled: true, status: 'waiting' });
       state.page = 'rules';
       state.wizard = null;
     },

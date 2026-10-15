@@ -4,10 +4,11 @@
   "nav.guide": "Guide",
   "nav.help": "Help",
   "nav.feedback": "Feedback",
+  "nav.pro": "Pro",
   "nav.privacy": "Privacy",
   "hero.title": "HDR when you need it, back to normal when you're done",
   "hero.text": "HDRcue switches HDR on or off for the apps you choose. Open your movie player and the display turns HDR on. Close it and the display goes back to how it was.",
-  "hero.note": "Free for Windows 10 and 11",
+  "hero.note": "Free for Windows 10 and 11 · Pro upgrade with a 14-day free trial",
   "steps.title": "How it works",
   "steps.1.title": "Pick an app",
   "steps.1.text": "Choose from the apps you have open, or browse for any .exe file.",
@@ -17,12 +18,13 @@
   "steps.3.text": "HDRcue changes the display when the app opens and puts it back when it closes.",
   "guide.title": "Guide",
   "guide.rules.title": "The rules page",
-  "guide.rules.text": "Right now shows what each display is doing. Below it, each app you set up has a card with its status, a switch to turn the rule off, and a menu to edit or delete it.",
+  "guide.rules.text": "Right now shows what each display is doing. Below it, your rules are listed under Apps and Games. Each card shows when the rule runs, the display and what changes, with its status, a switch to turn the rule off, and a menu to edit or delete it.",
   "guide.rules.status": [
     "Active: the app is open and its rule is in effect.",
     "Waiting: the rule is ready and the app is not open.",
     "Off: you switched the rule off. It stays saved.",
     "Paused: every rule is paused from the tray or the window.",
+    "Needs Pro: the rule uses an option marked PRO and Pro isn't on. It stays saved and runs again once Pro is on.",
     "Display not connected: the rule starts working again once that display is back."
   ],
   "guide.add.title": "Adding an app",
@@ -32,7 +34,7 @@
   "guide.restore.title": "Putting displays back",
   "guide.restore.text": "HDRcue remembers how each display was before it changed it. When the app closes, the display goes back to that, so HDR you turned on yourself stays on. If the PC restarts or HDRcue closes unexpectedly, the displays are put back the next time it starts.",
   "guide.settings.title": "Settings",
-  "guide.settings.text": "Start with Windows, animations, accent color and language. You can also restore every display from here.",
+  "guide.settings.text": "Start with Windows, animations, accent color and language. You can also restore every display from here, and select See Pro to try or buy Pro.",
   "help.title": "Help",
   "help.items": [
     {
@@ -52,6 +54,10 @@
       "answer": "Another program may be switching HDR for the same app. Close it, or turn off its rule for that app."
     },
     {
+      "question": "How do I try Pro?",
+      "answer": "Open HDRcue, go to Settings and select See Pro, then Try free for 14 days. The trial can be used once and the days count from when you start it. Afterwards the app goes back to the free version and your rules stay saved."
+    },
+    {
       "question": "Uninstalling",
       "answer": "Uninstall HDRcue from Start or Settings > Apps. Its settings are removed with it."
     }
@@ -60,13 +66,47 @@
   "feedback.text": "Found a problem or have an idea? Open an issue on GitHub. English or Thai are both fine.",
   "feedback.bug": "Report a problem",
   "feedback.idea": "Suggest an idea",
-  "sponsor.title": "Support HDRcue",
-  "sponsor.text": "HDRcue is free to use. If it's useful to you, a sponsorship or a coffee helps keep updates coming.",
-  "sponsor.github": "Sponsor on GitHub",
-  "sponsor.kofi": "Buy me a coffee on Ko-fi",
+  "pro.title": "HDRcue Pro",
+  "pro.text": "HDRcue is free. Pro is an optional upgrade you buy once, inside the app, through the Microsoft Store. There's no subscription.",
+  "pro.features": [
+    {
+      "title": "HDR that follows the file",
+      "text": "In mpv and mpv.net, HDR films turn HDR on and everything else stays in SDR."
+    },
+    {
+      "title": "A refresh rate that fits the film",
+      "text": "The display switches to a rate that fits the film's frame rate, such as 144 Hz for a 24 fps film, so pans don't stutter."
+    },
+    {
+      "title": "Couch mode",
+      "text": "Make a TV the main display and turn the other displays off while an app is open. They come back when it closes."
+    },
+    {
+      "title": "Full screen only",
+      "text": "A rule runs only while the game is full screen, so HDR stays off in its launcher."
+    },
+    {
+      "title": "HDR follows the app",
+      "text": "Move the app to another display and HDR moves with it."
+    },
+    {
+      "title": "Brightness and color profile per app",
+      "text": "Set the brightness of DDC/CI displays and pick a color profile for each app. Color profiles need Windows 11."
+    },
+    {
+      "title": "More conditions",
+      "text": "Run a rule only while the PC is plugged in, at certain times of day, while a display is connected, or while the window is on a chosen display."
+    },
+    {
+      "title": "Set up your games",
+      "text": "Finds the games installed from Steam, Xbox and Epic and sets them up at once."
+    }
+  ],
+  "pro.trial": "Try it free for 14 days: open HDRcue, go to Settings and select See Pro. No card needed. When the trial ends, the app goes back to the free version and your rules stay. If you tried Pro in an earlier version, you get 7 more days once.",
+  "pro.free": "Always free: HDR on or off per display for each app, resolution and refresh rate, while open or while in front, putting displays back afterwards and after a crash, the tray panel, an HDR shortcut, silent mode, sound output (experimental) and importing settings from AutoActions.",
   "footer.sponsor": "Sponsor",
   "privacy.title": "Privacy policy",
-  "privacy.updated": "Last updated: 14 October 2026",
+  "privacy.updated": "Last updated: 15 October 2026",
   "privacy.intro": "HDRcue works entirely on your PC.",
   "privacy.reads.title": "What HDRcue reads",
   "privacy.reads": [
@@ -77,14 +117,14 @@
     "Sound outputs, display brightness and color profiles, and whether the PC is plugged in, for the rules that use them."
   ],
   "privacy.stores.title": "What HDRcue stores",
-  "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, and a small log of errors, in HDRcue's own folder on your PC. Uninstalling the app removes them.",
+  "privacy.stores": "Your rules and settings, the display state it needs to put your displays back, when you started the Pro trial, and a small log of errors. These are files in HDRcue's own folder on your PC, plus one value in the Windows registry for your user account that keeps a second copy of the trial dates. When HDRcue is installed from the Microsoft Store, that value is in the app's own private part of the registry. Uninstalling the app removes all of them.",
   "privacy.sends.title": "What HDRcue sends",
-  "privacy.sends": "Nothing to us or anyone else. HDRcue has no telemetry and no account. The only connection it makes is to the Microsoft Store, to check whether you own HDRcue Pro and to buy it; Microsoft handles that under the Microsoft Privacy Statement.",
+  "privacy.sends": "Nothing to us or anyone else. HDRcue has no telemetry and no account. The only connection it makes is to the Microsoft Store, to check whether you own HDRcue Pro and to buy it. Microsoft handles that under the Microsoft Privacy Statement.",
   "privacy.contact.title": "Contact",
   "privacy.contact": "For questions about this policy, open an issue on GitHub.",
   "tour.title": "Adding an app, step by step",
   "tour.add": "Select Add app.",
-  "tour.pick": "Open now lists the apps that are running. Pick Space Arena.",
+  "tour.pick": "Open now lists the apps and games that are running. Pick Space Arena.",
   "tour.next": "Select Next.",
   "tour.hdr": "The main display is already picked. Set HDR to On.",
   "tour.save": "Check the summary, then select Add rule.",
