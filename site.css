@@ -359,3 +359,17 @@ html { scrollbar-width: thin; scrollbar-color: rgba(96, 205, 255, 0.45) var(--pa
     transition-duration: 0.01ms !important;
   }
 }
+
+.store-badge {
+  display: inline-block;
+  border-radius: 6px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.store-badge img { display: block; height: 52px; width: auto; }
+
+.store-badge:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+
+.store-badge:active { transform: translateY(0) scale(0.98); }
+
+.store-badge:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
